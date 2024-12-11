@@ -1,0 +1,143 @@
+#backDropNav{
+    position: fixed;
+    inset: 0;
+    background-color: $dark;
+    opacity: 0;
+    z-index: 10;
+    display: none;
+    transition: opacity 300ms ease-out;
+    &.show{
+        opacity: 0.6;
+    }
+    @include media-breakpoint-up(lg) {
+        display: none ;
+    }
+}
+
+aside#navBar{
+    background-color: $dark;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top:0;
+    left: 0;
+    z-index: 20;
+    width: $main-nav-bar-width;
+    height: 100vh;
+    transform: translateX(-100%);
+    overflow-y: auto;
+    flex-shrink: 0;
+    transition: transform 300ms ease-out;
+    &.show{
+        transform: translateX(0);
+    }
+    @include media-breakpoint-up(lg) {
+        transform: none;
+    }
+    .aside-header{
+        a{
+            color: $white;
+            text-decoration: none;
+            flex-shrink: 0;
+            height: $mobile-top-bar-height;
+            display: flex;
+            align-items: center;
+
+            >svg{
+                height: 55px;
+                width: auto;
+            }
+        }
+    }
+    nav{
+        flex-grow: 1;
+        >ul{
+            >li{
+                background-color: rgba($white,0);
+                border-radius: .375rem;
+
+                >a, >button {
+                    display: flex;
+                    align-items: center;
+                    font-weight: $font-weight-medium;
+                    color: $white;
+                    opacity: .5;
+                    width: 100%;
+                    padding: .5rem;
+                    text-decoration: none;
+                    svg{
+                        width: $main-nav-icon-size;
+                        height: $main-nav-icon-size;
+                        &.icon-menu{
+                            margin-right: $main-nav-icon-margin;
+                        }
+                        &.carret{
+                            width: 12px;
+                            height: 12px;
+                        }
+                    }
+                }
+                ul{
+                    padding-left:  $main-nav-icon-size + $main-nav-icon-margin;
+                    font-size: .8125rem;
+
+                    >li{
+                        background-color: rgba($white,0);
+                        border-radius: .375rem;
+                        >a{
+                            color: $white;
+                            opacity: .7;
+                            text-decoration: none;
+                            width: 100%;
+                            padding: .5rem;
+                            display: flex;
+                            align-items: center;
+                            font-weight: $font-weight-normal;
+                            &:hover{
+                                opacity: 1;
+                            }
+                        }
+                        &:hover, &.active{
+                            background-color: rgba($white,0.08);
+                            >a{
+                                opacity: 1;
+                            }
+                        }
+                        &:not(:last-child){
+                            margin-bottom: 1px;
+                        }
+                    }
+                }
+                &:not(:last-child){
+                    margin-bottom: 1px;
+                }
+                &.active{
+                    background-color:  rgba($white,0.08);
+                    >a{
+                        opacity: 1;
+                    }
+                }
+                &:hover{
+                    background-color:  rgba($white,0.08);
+                    >a{
+                        opacity: 1;
+                    }
+                }
+                &:has(ul){
+                    &:hover{
+                        background-color: rgba($white,0);
+                        >button{
+                            opacity: 1;
+                        }
+                    }
+                    &.active{
+                        background-color: rgba($white,0);
+                        >button{
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

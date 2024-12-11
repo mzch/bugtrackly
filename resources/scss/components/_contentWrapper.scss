@@ -1,0 +1,17 @@
+#content-wrapper{
+    background-color: $white;
+    overflow-y: scroll;
+    height: calc(100vh - $mobile-top-bar-height);
+    flex-grow: 1;
+    color: $dark;
+    transition: margin 300ms ease;
+    @include media-breakpoint-up(lg) {
+        height: 100vh;
+        margin-left: $main-nav-bar-width;
+        border-top-left-radius: .75rem;
+        border-bottom-left-radius: .75rem;
+    }
+    header{
+        width: 100%;
+    }
+}
