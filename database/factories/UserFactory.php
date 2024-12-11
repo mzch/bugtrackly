@@ -23,9 +23,23 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $randomNumber = fake()->numberBetween(1, 100);
+        if ($randomNumber <= 5) {
+            $role_id = 1;  // 5% chance d'être admin
+        }  else{
+            $role_id = 2;  // 95% de chance d'être apporteur d'affaire externe
+        }
+        $firstName = fake()->firstName();
+        $lastName = fake()->lastName();
+
+        // Générer un email unique en ajoutant un numéro aléatoire
+        $email = Str::slug($firstName) . '.' . Str::slug($lastName) . '@' . fake()->safeEmailDomain();
+        echo $email.PHP_EOL;
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'role_id' => $role_id,
+            'email' => $email,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
