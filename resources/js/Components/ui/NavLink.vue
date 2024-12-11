@@ -22,7 +22,7 @@ const iconComponent = computed(() => (props.icon ? Heroicons[props.icon] : null)
         <component
             v-if="iconComponent"
             :is="iconComponent"
-            class="icon-menu"
+            class="icon-menu size-1"
         />
         <slot />
     </Link>

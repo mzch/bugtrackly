@@ -41,7 +41,7 @@ trait HasProfilePhoto
     {
         // Créez l'URL du Gravatar
         $email = $this->getAttribute('email');
-        $size = 80;
+        $size = 120;
         $gravatarUrl = 'https://www.gravatar.com/avatar/' . hash("sha256", strtolower(trim($email))) . '?d=404' . "&s=" . $size;;
         $headers = @get_headers($gravatarUrl);
         if ($headers && strpos($headers[0], '200')) {

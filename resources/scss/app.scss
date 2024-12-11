@@ -43,8 +43,15 @@
 
 // 8. Add additional custom code here
 @import "body";
+@import "sizes";
 @import "components/mobileTopBar";
 @import "components/guestWrapper";
 @import "components/mainWrapper";
+@import "components/userAvatar";
+@import "components/userMenu";
 @import "components/navigationSideBar";
 @import "components/contentWrapper";
+div.phpdebugbar{
+    left: auto;
+    right: 0;
+}

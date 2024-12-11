@@ -4,7 +4,7 @@
         <component
             v-if="iconComponent"
             :is="iconComponent"
-            class="icon-menu"
+            class="icon-menu size-1"
         />
         <slot/>
         <component v-if="!opened" :is="chevronDownComponent" class="carret ms-auto"/>

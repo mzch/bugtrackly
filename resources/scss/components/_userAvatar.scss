@@ -1,0 +1,26 @@
+.user-avatar{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    //width: 2rem;
+    //height: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    overflow: hidden;
+    font-weight: $font-weight-semibold;
+    font-size: .6875rem;
+    border: 1px solid $gray;
+    letter-spacing:.5px;
+    &.user-avatar-initials{
+        background: $gray;
+        color: $white;
+    }
+    &.size-3{
+        //width: 3.75rem;
+        //height: 3.75rem;
+        font-size: 1.4375rem;
+    }
+    &.active{
+        border-color: $success;
+    }
+}

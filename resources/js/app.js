@@ -7,9 +7,11 @@ import './bootstrap';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
+import { router } from '@inertiajs/vue3'
+
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import store from './store/index.js';
-
+import {useStore} from 'vuex'
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -30,3 +32,9 @@ createInertiaApp({
         color: '#4B5563',
     },
 });
+
+
+router.on('before', (event) => {
+    console.log(`About to make a visit to ${event.detail.visit.url}`)
+    store.commit('navigation/closeMobileNav');
+})
