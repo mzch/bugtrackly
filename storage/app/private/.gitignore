@@ -1,2 +1,4 @@
 *
+!roles-permissions/
+!roles-permissions/*
 !.gitignore

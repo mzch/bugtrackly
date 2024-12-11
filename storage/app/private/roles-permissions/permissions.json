@@ -1,0 +1,19 @@
+{
+    "permissions" : [
+        {
+            "id" : 1,
+            "name" : "Gérer les utilisateurs",
+            "internal_name" : "manage-users"
+        },
+        {
+            "id" : 2,
+            "name" : "Gérer les projets",
+            "internal_name" : "manages-projets"
+        },
+        {
+            "id" : 3,
+            "name" : "Signaler un bogue",
+            "internal_name" : "report-bug"
+        }
+    ]
+}
