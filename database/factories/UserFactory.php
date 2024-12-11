@@ -34,7 +34,6 @@ class UserFactory extends Factory
 
         // Générer un email unique en ajoutant un numéro aléatoire
         $email = Str::slug($firstName) . '.' . Str::slug($lastName) . '@' . fake()->safeEmailDomain();
-        echo $email.PHP_EOL;
         return [
             'first_name' => $firstName,
             'last_name' => $lastName,

@@ -9,7 +9,7 @@ abstract class Controller
 {
     //
     private array $breadcrumb = [];
-    
+
     protected function addBreadcrumb( $name, $url){
         $this->breadcrumb[] = ['name' => $name, 'url' => $url];
         //dd($this->breadcrumbs);

@@ -3,6 +3,7 @@
     <template #header>Tableau de bord</template>
 <!--    <template #headerActions>Actions</template>-->
       <Card class="mb-4">
+          <pre>{{user}}</pre>
           <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium autem debitis iure libero nesciunt,
               obcaecati
               pariatur quia tenetur! Accusantium aperiam cum dicta odio reprehenderit! Ab enim excepturi ipsam obcaecati
@@ -33,5 +34,6 @@
 <script setup>
 import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
 import Card from "@/Components/ui/Card.vue";
-
+import {usePage} from "@inertiajs/vue3";
+const user = usePage().props.auth?.user;
 </script>
