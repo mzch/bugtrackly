@@ -8,7 +8,7 @@
         {
             "id" : 2,
             "name" : "Gérer les projets",
-            "internal_name" : "manages-projets"
+            "internal_name" : "manage-projects"
         },
         {
             "id" : 3,

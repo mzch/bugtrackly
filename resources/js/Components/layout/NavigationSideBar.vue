@@ -41,7 +41,7 @@
                     </TransitionExpand>
 
                 </li>
-                <li :class="{'active' : page.component.startsWith('Settings') || currentSubNavViewed==='settings'}">
+                <li v-if="hasRole('admin')" :class="{'active' : page.component.startsWith('Settings') || currentSubNavViewed==='settings'}">
                     <NavLinkBtn icon="Cog6ToothIcon"
                                 @click.prevent="toogleSubMenu('settings')"
                                 :opened="currentSubNavViewed==='settings'">
@@ -51,10 +51,10 @@
                                       :no-duration-on-mounted="page.component.startsWith('Settings')|| currentSubNavViewed==='settings'">
                         <div v-show="currentSubNavViewed==='settings'">
                             <ul class="list-unstyled mb-0 pb-2">
-                                <li :class="{'active' : page.component.startsWith('Settings/Users') }">
+                                <li v-if="hasPermission('manage-users')" :class="{'active' : page.component.startsWith('Settings/Users') }">
                                     <SubNavLink :href="route('users')">Utilisateurs</SubNavLink>
                                 </li>
-                                <li :class="{'active' : page.component.startsWith('Settings/Projects') }">
+                                <li v-if="hasPermission('manage-projects')" :class="{'active' : page.component.startsWith('Settings/Projects') }">
                                     <SubNavLink :href="route('settings-project')">Gestions des projets</SubNavLink>
                                 </li>
                             </ul>
@@ -85,6 +85,7 @@ import NavLinkBtn from "@/Components/ui/NavLinkBtn.vue";
 import {Link, usePage} from '@inertiajs/vue3';
 import ApplicationLogoHrWhite from "@/Components/ui/ApplicationLogoHrWhite.vue";
 import UserMenu from "@/Components/ui/user/UserMenu.vue";
+import {hasPermission, hasRole} from "@/Services/current_user.js";
 
 const showMobileNav = computed(() => store.getters['navigation/isMobileNavigationShowed'])
 const asideClass = computed(() => showMobileNav.value ? 'show' : '')
@@ -95,6 +96,7 @@ const backDropNav = ref(null);
 let intervalId = null;
 
 const currentSubNavViewed = computed(() => store.getters['navigation/currentSubNavViewed']);
+
 
 const toogleSubMenu = (submenu) => {
     if (currentSubNavViewed.value === submenu) {

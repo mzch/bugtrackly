@@ -2,11 +2,11 @@
     <div v-show="showUserMenu">
         <div id="user-menu">
             <div class="header d-flex align-items-center">
-                <Avatar class="active size-2 me-2 flex-shrink-0" :user="$page.props.auth.user"/>
+                <Avatar class="active size-2 me-2 flex-shrink-0" :user="current_user"/>
                 <div class="identity text-secondary lh-sm">
-                    <span class="name text-white">{{ $page.props.auth.user.full_name }}</span>
+                    <span class="name text-white">{{ current_user.full_name }}</span>
                     <br class="visually-hidden">
-                    <small class="email">{{ $page.props.auth.user.email }}</small>
+                    <small class="email">{{ current_user.email }}</small>
                 </div>
             </div>
             <ul class="list-unstyled">
@@ -27,7 +27,7 @@
 
     <div class="d-flex justify-content-between align-items-center" ref="root">
         <button class="btn btn-link p-0" @click="showUserMenu = !showUserMenu">
-            <Avatar class="size-2" :user="$page.props.auth.user"/>
+            <Avatar class="size-2" :user="current_user"/>
         </button>
         <Link as="button" method="post" class="btn btn-link text-gray px-0" :href="route('logout')">
             <ArrowRightStartOnRectangleIcon style="width: 1.125rem; height: 1.125rem;"/>
@@ -39,10 +39,12 @@
 import {ArrowRightStartOnRectangleIcon} from "@heroicons/vue/24/outline/index.js";
 import NavLink from "@/Components/ui/NavLink.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
-import {Link} from "@inertiajs/vue3";
+import {Link, usePage} from "@inertiajs/vue3";
+
 import {onMounted, onUnmounted, ref} from "vue";
 const root = ref(null)
 const showUserMenu = ref(false);
+const current_user = usePage().props.auth.user;
 const closeUserDropDown = (e) => {
     if (! root.value.contains(e.target)) {
         showUserMenu.value = false

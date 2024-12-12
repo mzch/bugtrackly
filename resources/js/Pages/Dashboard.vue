@@ -3,10 +3,10 @@
     <template #header>Tableau de bord</template>
 <!--    <template #headerActions>Actions</template>-->
       <Card class="mb-4">
-          
-          <Avatar class="size-2" :user="user"/>
+
+          <Avatar class="size-2" :user="current_user"/>
           <br>
-          <Avatar class="size-3" :user="user"/>
+          <Avatar class="size-3" :user="current_user"/>
           <br>
           <Avatar class="size-2" :user="{profile_photo_url:null, initiales:'LG'}"/>
           <br>
@@ -41,8 +41,7 @@
 <script setup>
 import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
 import Card from "@/Components/ui/Card.vue";
-import {usePage} from "@inertiajs/vue3";
 import Avatar from "@/Components/ui/user/avatar.vue";
-import {ArrowRightStartOnRectangleIcon} from "@heroicons/vue/24/outline/index.js";
-const user = usePage().props.auth?.user;
+import {usePage} from "@inertiajs/vue3";
+const current_user = usePage().props.auth.user;
 </script>
