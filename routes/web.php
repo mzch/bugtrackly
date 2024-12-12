@@ -1,20 +1,24 @@
 <?php
 
+use App\Http\Controllers\Admin\ProjectsController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProjectsController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/settings/users', function () {
-    return Inertia::render('Settings/Users');
-})->middleware(['auth', 'verified'])->name('users');
-Route::get('/settings/projects', function () {
-    return Inertia::render('Settings/Projects');
-})->middleware(['auth', 'verified'])->name('settings-project');
+Route::prefix('settings')
+    ->name('settings.')
+    ->group(function () {
+        Route::get('/', [SettingsController::class, 'index'])->name('index');
+        Route::get('users', [UsersController::class, 'index'])->name('users.index');
+        Route::get('projects', [ProjectsController::class, 'index'])->name('projects.index');
+    });
+
+
 
 
 

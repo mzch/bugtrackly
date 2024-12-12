@@ -35,6 +35,5 @@ createInertiaApp({
 
 
 router.on('before', (event) => {
-    console.log(`About to make a visit to ${event.detail.visit.url}`)
     store.commit('navigation/closeMobileNav');
 })

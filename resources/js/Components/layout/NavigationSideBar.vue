@@ -52,10 +52,10 @@
                         <div v-show="currentSubNavViewed==='settings'">
                             <ul class="list-unstyled mb-0 pb-2">
                                 <li v-if="hasPermission('manage-users')" :class="{'active' : page.component.startsWith('Settings/Users') }">
-                                    <SubNavLink :href="route('users')">Utilisateurs</SubNavLink>
+                                    <SubNavLink :href="route('settings.users.index')">Utilisateurs</SubNavLink>
                                 </li>
                                 <li v-if="hasPermission('manage-projects')" :class="{'active' : page.component.startsWith('Settings/Projects') }">
-                                    <SubNavLink :href="route('settings-project')">Gestions des projets</SubNavLink>
+                                    <SubNavLink :href="route('settings.projects.index')">Gestions des projets</SubNavLink>
                                 </li>
                             </ul>
                         </div>
