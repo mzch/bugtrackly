@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Settings;
 
-use App\Http\Controllers\Controller;
-
+use Illuminate\Http\Request;
 class ProjectsController extends SettingsController
 {
     public function __construct(){
@@ -11,7 +10,8 @@ class ProjectsController extends SettingsController
         $this->addBreadcrumb('Gestion des projets', route('settings.projects.index'));
     }
 
-    public function index(){
+    public function index(Request $request): \Inertia\Response
+    {
         return $this->render('Settings/Projects/ProjectsIndex', []);
     }
 

@@ -11,7 +11,6 @@
                     <slot name="header">&lt;template #header&gt;</slot>
                 </h1>
                 <Breadcrumb/>
-
             </div>
             <template v-if="$slots.headerActions">
                 <slot name="headerActions"/>

@@ -17,6 +17,7 @@ $colors: ();
 $grays: ();
 $white:#FFFFFF;
 $primary: #1b84ff;
+$purple:#7339ea;
 $danger: #f82859;
 $success: #17c653;
 $secondary: #78829d;
@@ -31,6 +32,7 @@ $theme-colors: (
     "danger": $danger,
     "dark": $dark,
     "gray": $gray,
+    "purple": $purple,
     "light": $light,
 );
 $headings-color: $dark;
@@ -38,6 +40,10 @@ $btn-color: #FFFFFF;
 $btn-font-size: .8125rem;
 $btn-font-weight: 500;
 $min-contrast-ratio: 2;
+
+// Links
+$link-decoration: none ;
+$link-hover-decoration: underline ;
 
 //form
 $input-box-shadow: none;
@@ -58,9 +64,12 @@ $card-box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, .03);
 $card-border-color: #f1f1f4;
 $card-cap-bg:$white;
 $card-border-radius: .75rem;
-$card-cap-padding-y:1.5rem;
+$card-cap-padding-y:1.2rem;
 $card-cap-padding-x:1.2rem;
 $card-spacer-x:1.5rem;
+
+//table
+$table-border-color:#f1f1f4;
 // Brand
 $brand-logo-width: 2rem;
 $brand-logo-height: 2rem;

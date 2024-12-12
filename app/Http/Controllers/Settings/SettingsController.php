@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Response;
 
 class SettingsController extends Controller
 {
@@ -11,7 +12,7 @@ class SettingsController extends Controller
         $this->addBreadcrumb('Paramètres', route('settings.index'));
     }
 
-    public function index()
+    public function index(Request $request): Response
     {
         return $this->render('Settings/SettingsIndex', []);
     }

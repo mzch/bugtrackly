@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Admin\ProjectsController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Settings\ProjectsController;
+use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Settings\UsersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -12,9 +12,21 @@ Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'ver
 
 Route::prefix('settings')
     ->name('settings.')
+    ->middleware(['auth', 'verified', 'can:access-settings'])
     ->group(function () {
         Route::get('/', [SettingsController::class, 'index'])->name('index');
-        Route::get('users', [UsersController::class, 'index'])->name('users.index');
+        Route::prefix('users')
+            ->name('users.')
+            ->middleware(['can:manage-users'])
+            ->group(function () {
+                Route::get('/', [UsersController::class, 'index'])->name('index');
+                Route::get('create', [UsersController::class, 'create'])->name('create');
+                Route::get('/show/{user}', [UsersController::class, 'show'])->name('show')->where('user', '[0-9]+');
+                Route::post('/show/{user}', [UsersController::class, 'update'])->name('update')->where('user', '[0-9]+');
+                Route::delete('/{user}', [UsersController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
+                Route::get('switch-user/{newUser}', [UsersController::class, 'switchUser'])->name('switch_user')->withoutMiddleware('auth:sanctum');
+                Route::get('back-to-admin-user', [UsersController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['auth:sanctum', 'can:manage-users']);
+            });
         Route::get('projects', [ProjectsController::class, 'index'])->name('projects.index');
     });
 

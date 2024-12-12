@@ -40,7 +40,6 @@ trait HasRoleAndPersmissionTrait
      */
     public function hasPermissionTo($permission): bool
     {
-        $role = $this->getRoleAttribute();
-        return in_array($permission, $role['permissions']);
+        return in_array($permission, $this->role['permissions']);
     }
 }

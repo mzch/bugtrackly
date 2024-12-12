@@ -1,19 +1,23 @@
 // 18px
 .size-1{
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1.125rem !important;
+    height: 1.125rem !important;
 }
 
 // 32
 .size-2{
-    width: 2rem;
-    height: 2rem;
+    width: 2rem !important;
+    height: 2rem !important;
+}
+.size-3{
+    width: 2.5rem !important;
+    height: 2.5rem !important;
 }
 
 //60
-.size-3{
-    width: 3.75rem;
-    height: 3.75rem;
+.size-4{
+    width: 3.75rem !important;
+    height: 3.75rem !important;
 }
 
 .txt_16{

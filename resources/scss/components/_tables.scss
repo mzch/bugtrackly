@@ -1,0 +1,40 @@
+.card{
+    >.card-body.p-0{
+        >table.table-bordered{
+            thead{
+                background: red;
+                >tr:first-child{
+                    border-top-width: 0;
+                }
+            }
+            tbody{
+                >tr:last-child{
+                    border-bottom-width: 0;
+                }
+            }
+            > :not(caption) > * > *{
+                padding-left: $card-cap-padding-y;
+                padding-right: $card-cap-padding-y;
+            }
+        }
+    }
+}
+
+.table {
+
+    tr{
+        .row-actions{
+            visibility: hidden;
+            display: flex;
+            align-items: center;
+            *{
+                font-size: .75rem !important;
+            }
+        }
+        &:hover{
+            .row-actions{
+                visibility: visible;
+            }
+        }
+    }
+}
