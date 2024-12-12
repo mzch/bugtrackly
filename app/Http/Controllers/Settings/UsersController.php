@@ -19,8 +19,13 @@ class UsersController extends SettingsController
 
     public function index(Request $request): Response
     {
+        $request->validate([
+            'direction' => 'in:asc,desc',
+            'field'     => 'in:first_name,last_name,email,role_id',
+        ]);
+
         $data = [
-            'users'   => $this->usersRepository->getAll($request),
+            'users'   => $this->usersRepository->getAll($request, 3),
             'filters' => $request->all(['search', 'field', 'direction']),
             //'roles'   => $this->rolesPermissionsRepository->getAllRolesWithPermissions(),
         ];

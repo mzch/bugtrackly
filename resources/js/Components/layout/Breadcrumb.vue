@@ -8,7 +8,7 @@
                 :aria-current="index === breadcrumb.length - 1 ? 'page' : null">
 
                 <template v-if="index !== breadcrumb.length - 1">
-                    <Link :href="breadcrump_part.url" >{{breadcrump_part.name}}</Link>
+                    <Link class="text-secondary" :href="breadcrump_part.url" >{{breadcrump_part.name}}</Link>
                 </template>
                 <template v-else>
                     {{ breadcrump_part.name }}

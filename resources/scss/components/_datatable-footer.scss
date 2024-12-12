@@ -1,0 +1,7 @@
+.footer-datatable{
+    //font-size: 12px;
+    font-size: $font-size-base;
+    &.footer-datatable-sm{
+        font-size: $font-size-sm;
+    }
+}
