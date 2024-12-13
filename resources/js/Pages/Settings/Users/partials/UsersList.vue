@@ -46,7 +46,7 @@
                                     </button>
                                     <span class="mx-1">|</span>
                                     <button class="btn btn-sm btn-sm border-0 p-0 btn-link"
-                                            @click="emit('connectAs', user)" type="button">
+                                            @click="store.commit('usersManagement/setUserToConnectAs', user)" type="button">
                                         Se connecter comme
                                     </button>
                                 </template>
@@ -81,7 +81,6 @@ import {pickBy, throttle} from "lodash";
 import {useStore} from "vuex";
 const store = useStore();
 
-const emit = defineEmits(['connectAs']);
 
 const allUsers = computed(()=>usePage().props.users);
 

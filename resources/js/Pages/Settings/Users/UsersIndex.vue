@@ -9,6 +9,7 @@
         </template>
         <UsersList/>
         <UserDeleteModal/>
+        <UserConnectAsModal/>
     </NewAuthenticatedLayout>
 
 </template>
@@ -18,4 +19,5 @@ import {Link} from '@inertiajs/vue3';
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import UsersList from "@/Pages/Settings/Users/partials/UsersList.vue";
 import UserDeleteModal from "@/Pages/Settings/Users/partials/UserDeleteModal.vue";
+import UserConnectAsModal from "@/Pages/Settings/Users/partials/UserConnectAsModal.vue";
 </script>

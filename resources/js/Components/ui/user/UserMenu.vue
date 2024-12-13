@@ -16,6 +16,13 @@
                         Mon profil
                     </NavLink>
                 </li>
+                <template v-if="$page.props.admin_user_id">
+                    <li>
+                    <NavLink icon="ArrowUturnLeftIcon" :href="route('settings.users.back_to_admin_user')">
+                        Retour Admin
+                    </NavLink>
+                    </li>
+                </template>
             </ul>
             <ul class="list-unstyled">
                 <li>

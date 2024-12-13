@@ -1,5 +1,4 @@
 <template>
-    <pre>userToDelete:{{itemToDelete}}</pre>
     <Modal id="suppress_modal" :show="showSuppressModal" @close="closeSupressModal">
         <template #title>
             <strong>Suppression d'un utilisateur</strong>
@@ -8,7 +7,7 @@
             <form @submit.prevent="submitDeleteHandler">
                 <div class="modal-body">
                     <p class="mb-0">
-                        Voulez vous vraiment supprimer l'utilisateur <strong v-if="itemToDelete">{{ userToDelete.full_name }}</strong> ?
+                        Voulez vous vraiment supprimer l'utilisateur <strong v-if="userToDelete">{{ userToDelete.full_name }}</strong> ?
                     </p>
                 </div>
                 <div class="modal-footer">

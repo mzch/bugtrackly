@@ -24,8 +24,8 @@ Route::prefix('settings')
                 Route::get('/show/{user}', [UsersController::class, 'show'])->name('show')->where('user', '[0-9]+');
                 Route::post('/show/{user}', [UsersController::class, 'update'])->name('update')->where('user', '[0-9]+');
                 Route::delete('/{user}', [UsersController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
-                Route::get('switch-user/{newUser}', [UsersController::class, 'switchUser'])->name('switch_user')->withoutMiddleware('auth:sanctum');
-                Route::get('back-to-admin-user', [UsersController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['auth:sanctum', 'can:manage-users']);
+                Route::get('switch-user/{newUser}', [UsersController::class, 'switchUser'])->name('switch_user');
+                Route::get('back-to-admin-user', [UsersController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
             });
         Route::get('projects', [ProjectsController::class, 'index'])->name('projects.index');
     });
