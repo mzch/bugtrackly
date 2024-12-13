@@ -10,10 +10,8 @@ abstract class Controller
     //
     private array $breadcrumb = [];
 
-
     protected function addBreadcrumb( $name, $url){
         $this->breadcrumb[] = ['name' => $name, 'url' => $url];
-        //dd($this->breadcrumbs);
     }
 
     /**
@@ -23,6 +21,7 @@ abstract class Controller
      */
     protected function render($component, array $component_data = []): Response
     {
+        array_unshift($this->breadcrumb, ['name' => 'Accueil', 'url' => route('dashboard')]);
         $additionalData = [
             'breadcrumb' => $this->breadcrumb,
         ];
