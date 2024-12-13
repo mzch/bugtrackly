@@ -38,3 +38,10 @@
         }
     }
 }
+.table-hover > tbody > tr > * {
+    //background-color: green;
+    transition: background 300ms ease-out;
+}
+.table-hover > tbody > tr:hover > *{
+    background-color: $light;
+}

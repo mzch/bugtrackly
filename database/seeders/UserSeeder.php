@@ -16,13 +16,7 @@ class UserSeeder extends Seeder
     {
 
 
-        User::factory()->create([
-            'first_name' => 'Aurélien',
-            'last_name' => 'Chappard',
-            'role_id' => 1,
-            'email' => 'a@a.com',
-            'password' =>  Hash::make('a'),
-        ]);
+
         User::factory(9)->create();
     }
 }

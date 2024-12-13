@@ -77,6 +77,8 @@ $card-spacer-x:1.5rem;
 
 //table
 $table-border-color:#f1f1f4;
+//$table-bg:blue;
+$table-hover-bg:none;
 // Brand
 $brand-logo-width: 2rem;
 $brand-logo-height: 2rem;
@@ -87,3 +89,14 @@ $mobile-top-bar-height: 3.75rem;
 $main-nav-bar-width: 270px;
 $main-nav-icon-size: 1.125rem;
 $main-nav-icon-margin: .5rem;
+
+// Modals
+$modal-content-border-width: 0 !default;
+$modal-header-border-width: 1px !default;
+$modal-footer-border-width: 1px !default;
+$modal-content-color:$dark;
+$modal-xl: 1140px !default;
+$modal-lg: 900px !default;
+$modal-md: 600px !default;
+$modal-sm: 400px !default;
+$modal-transition: transform .25s ease-out !default;

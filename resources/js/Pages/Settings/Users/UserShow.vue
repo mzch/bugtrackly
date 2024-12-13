@@ -7,7 +7,7 @@
                 Retour aux utilisateurs
             </Link>
         </template>
-        <Card>Vue du user</Card>
+        <Card><pre>{{ user }}</pre></Card>
     </NewAuthenticatedLayout>
 </template>
 <script setup>
@@ -15,4 +15,11 @@ import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
 import {Link} from '@inertiajs/vue3';
 import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
+
+const props = defineProps({
+    user:{
+        type:Object,
+        required:true,
+    }
+})
 </script>
