@@ -23,9 +23,9 @@
             <table class="table table-bordered mb-0 caption-top" v-if="allUsers.data.length">
                 <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
+                    <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
+                    <th :class="sortingClass('email', params)" @click="sort('email')">Email</th>
+                    <th :class="sortingClass('role', params)" @click="sort('role')">Rôle</th>
 
                 </tr>
                 </thead>
@@ -41,7 +41,7 @@
                                     <Link class="fw-bold" :href="route('settings.users.show', user.id)">
                                         {{ user.full_name }}
                                     </Link>
-                                    <small class="ms-1 fw-normal text-body text-decoration-none" v-if="user.id === $page.props.auth.user.id">(moi)</small>
+                                    <small class="ms-1 fw-normal text-secondary text-decoration-none" v-if="user.id === $page.props.auth.user.id">(moi)</small>
                                 </div>
                                 <div class="row-actions">
                                     <Link :href="route('settings.users.show', user.id)">Modifier</Link>
@@ -86,7 +86,9 @@ import BadgeRole from "@/Components/ui/user/BadgeRole.vue";
 import {computed, ref, watch} from "vue";
 import {pickBy, throttle} from "lodash";
 import Pagination from "@/Components/ui/Pagination.vue";
+import {sortingClass} from "@/Services/datatable.js";
 
+const emit = defineEmits(['editItem', 'deleteItem', 'connectAs']);
 const allUsers = computed(()=>usePage().props.users);
 
 /**
@@ -106,6 +108,17 @@ const params = ref({
     field: filters.value.field,
     direction: filters.value.direction
 });
+
+
+/**
+ * Sort handler on columns header
+ * @param field
+ */
+const sort = (field) => {
+    emit('editItem', null);
+    params.value.field = field
+    params.value.direction = params.value.direction === 'asc' ? 'desc' : 'asc';
+}
 
 /**
  * Watcher for params

@@ -42,11 +42,11 @@ class UserRepository implements UserRepositoryInterface
     {
         if ($request->has(['field', 'direction'])) {
             switch ($request->field) {
-                case "lastname" :
-                    $sortField = 'lastname';
+                case "name" :
+                    $sortField = 'first_name';
                     break;
-                case "firstname" :
-                    $sortField = 'firstname';
+                case "role" :
+                    $sortField = 'role_id';
                     break;
                 default :
                     $sortField = $request->field;

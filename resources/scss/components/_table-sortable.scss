@@ -1,0 +1,33 @@
+table{
+    thead{
+        th.sorting{
+            cursor: pointer;
+            position: relative;
+            padding-right: 1.4rem;
+            &:before,&:after{
+                position: absolute;
+                bottom: 50%;
+                transform: translateY(50%);
+                display: block;
+                opacity: 0.3;
+                font-size: .75rem;
+                right: 1.2em;
+                content: "↑";
+            }
+            &:after{
+                right: 0.4em;
+                content: "↓";
+            }
+            &.sorting_desc{
+                &:after{
+                    opacity: 1;
+                }
+            }
+            &.sorting_asc{
+                &:before{
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

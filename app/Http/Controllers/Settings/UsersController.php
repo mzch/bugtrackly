@@ -21,7 +21,7 @@ class UsersController extends SettingsController
     {
         $request->validate([
             'direction' => 'in:asc,desc',
-            'field'     => 'in:first_name,last_name,email,role_id',
+            'field'     => 'in:name,email,role',
         ]);
 
         $data = [
