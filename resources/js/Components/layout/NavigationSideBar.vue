@@ -85,7 +85,8 @@ import NavLinkBtn from "@/Components/ui/NavLinkBtn.vue";
 import {Link, usePage} from '@inertiajs/vue3';
 import ApplicationLogoHrWhite from "@/Components/ui/ApplicationLogoHrWhite.vue";
 import UserMenu from "@/Components/ui/user/UserMenu.vue";
-import {hasPermission, hasRole} from "@/Services/current_user.js";
+import {hasPermission, hasRole} from "@/Helpers/users.js";
+
 
 const showMobileNav = computed(() => store.getters['navigation/isMobileNavigationShowed'])
 const asideClass = computed(() => showMobileNav.value ? 'show' : '')

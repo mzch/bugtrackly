@@ -12,7 +12,7 @@ class RolesPermissionsRepository implements RolesPersmissionsRepositoryInterface
 
     public function getAllRolesWithPermissions(): Collection
     {
-        $dataRoles = $this->getRolesCollection();
+        $dataRoles = $this->getAllRoles();
         if(count($dataRoles) > 0){
             $dataPermissions= $this->getPermissionsCollection();
             $dataRoles = $dataRoles->map(function ($role) use ($dataPermissions) {
@@ -45,7 +45,7 @@ class RolesPermissionsRepository implements RolesPersmissionsRepositoryInterface
      */
     public function getRoleByIdWithPermissions($roleId): array|null
     {
-        $role = $this->getRolesCollection()->where('id', $roleId)->first();
+        $role = $this->getAllRoles()->where('id', $roleId)->first();
         if($role){
             $dataPermissions= $this->getPermissionsCollection();
             $role_permissions = $role['permissions'] ?? [];
@@ -63,7 +63,7 @@ class RolesPermissionsRepository implements RolesPersmissionsRepositoryInterface
 
 
 
-    private function getRolesCollection()
+    public function getAllRoles(): Collection
     {
         $jsonRoleContent = Storage::get($this->rolesFilePath);
         $dataRoles = json_decode($jsonRoleContent, true);

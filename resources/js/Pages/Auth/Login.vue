@@ -3,7 +3,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/ui/form/InputError.vue';
 import InputLabel from '@/Components/ui/form/InputLabel.vue';
 import PrimaryButton from '@/Components/ui/form/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import TextInput from '@/Components/ui/form/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import FormCheck from "@/Components/ui/form/FormCheck.vue";
 import FormField from "@/Components/ui/form/FormField.vue";
@@ -38,32 +38,33 @@ const submit = () => {
         <AlertSuccess :dismissible="true" v-if="status">{{status}}</AlertSuccess>
 
         <form @submit.prevent="submit" class="text-dark text-lg">
-            <FormField>
-                <InputLabel class="visually-hidden" for="email" value="Email" />
+            <FormField class="form-floating">
                 <TextInput
                     id="email"
                     type="email"
                     placeholder="Adresse email"
                     v-model="form.email"
+                    required
                     autofocus
                     autocomplete="username"
                     :class="{'is-invalid' :form.errors.email}"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputLabel for="email" value="Identifiant ou adresse e-mail" />
+                <InputError :message="form.errors.email" />
             </FormField>
-            <FormField>
-                <InputLabel class="visually-hidden" for="password" value="Password" />
+            <FormField class="form-floating">
                 <TextInput
                     id="password"
                     type="password"
                     class="mt-1 block w-full"
                     placeholder="Mot de passe"
                     v-model="form.password"
+                    required
                     autocomplete="current-password"
                     :class="{'is-invalid' :form.errors.password}"
                 />
-
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputLabel for="password" value="Mot de passe" />
+                <InputError :message="form.errors.password" />
             </FormField>
             <FormField>
                 <FormCheck id="loginRemeberMe" label="Se souvenir de moi" v-model:checked="form.remember"/>

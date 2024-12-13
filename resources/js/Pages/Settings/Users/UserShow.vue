@@ -7,14 +7,17 @@
                 Retour aux utilisateurs
             </Link>
         </template>
-        <Card><pre>{{ user }}</pre></Card>
+        <Card card-title="Identité de l'utilisateur">
+
+        </Card>
     </NewAuthenticatedLayout>
 </template>
 <script setup>
 import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
-import {Link} from '@inertiajs/vue3';
+import {Link, useForm} from '@inertiajs/vue3';
 import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
+import {generatePassword} from "@/Helpers/users.js";
 
 const props = defineProps({
     user:{
@@ -22,4 +25,12 @@ const props = defineProps({
         required:true,
     }
 })
+const form = useForm({
+    first_name: null,
+    last_name: null,
+    email: null,
+    role_id: "",
+    password: generatePassword(),
+    photo:null,
+});
 </script>

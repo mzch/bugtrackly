@@ -69,12 +69,12 @@
 <script setup>
 
 import Card from "@/Components/ui/Card.vue";
-import TextInput from "@/Components/TextInput.vue";
+import TextInput from "@/Components/ui/form/TextInput.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import {computed, ref, watch} from "vue";
 import {Link, router, usePage} from "@inertiajs/vue3";
 import Pagination from "@/Components/ui/Pagination.vue";
-import {sortingClass} from "@/Services/datatable.js";
+import {sortingClass} from "@/Helpers/datatable.js";
 import BadgeRole from "@/Components/ui/user/BadgeRole.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {pickBy, throttle} from "lodash";

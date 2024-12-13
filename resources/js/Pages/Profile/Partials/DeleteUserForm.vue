@@ -4,7 +4,7 @@ import InputError from '@/Components/ui/form/InputError.vue';
 import InputLabel from '@/Components/ui/form/InputLabel.vue';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import TextInput from '@/Components/ui/form/TextInput.vue';
 import {useForm, usePage} from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 
@@ -87,7 +87,7 @@ const closeModal = () => {
                         @keyup.enter="deleteUser"
                     />
 
-                    <InputError :message="form.errors.password" class="mt-2" />
+                    <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="mt-6 flex justify-end">

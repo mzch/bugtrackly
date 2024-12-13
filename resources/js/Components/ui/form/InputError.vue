@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="invalid-feedback" v-show="message">
+    <div class="invalid-feedback mt-2" v-show="message">
         {{ message }}
     </div>
 </template>

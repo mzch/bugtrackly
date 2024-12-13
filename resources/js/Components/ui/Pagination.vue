@@ -1,7 +1,7 @@
 <script setup>
 import {Link} from "@inertiajs/vue3";
 import {computed} from "vue";
-import {formatNumber} from "@/Services/number.js";
+import {formatNumber} from "@/Helpers/number.js";
 
 
 const emit = defineEmits(['paginate']);

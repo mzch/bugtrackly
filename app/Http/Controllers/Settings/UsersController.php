@@ -45,7 +45,10 @@ class UsersController extends SettingsController
     public function create(): Response
     {
         $this->addBreadcrumb('Création', route('settings.users.create'));
-        return $this->render('Settings/Users/UserCreate', []);
+        $data = [
+            'roles' => $this->rolesPermissionsRepository->getAllRoles(),
+        ];
+        return $this->render('Settings/Users/UserCreate', $data);
     }
 
     /**

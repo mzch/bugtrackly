@@ -3,7 +3,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/ui/form/InputError.vue';
 import InputLabel from '@/Components/ui/form/InputLabel.vue';
 import PrimaryButton from '@/Components/ui/form/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import TextInput from '@/Components/ui/form/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import FormField from "@/Components/ui/form/FormField.vue";
 import FormEnd from "@/Components/ui/form/FormEnd.vue";
@@ -49,7 +49,7 @@ const submit = () => {
                     autofocus
                     autocomplete="username"
                 />
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError  :message="form.errors.email" />
             </FormField>
 
             <FormEnd>
