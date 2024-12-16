@@ -1,6 +1,7 @@
 <template>
     <div class="form-check">
         <input class="form-check-input"
+               :class="{'is-invalid':isInvalid}"
                type="checkbox"
                :value="value"
                :id="id"
@@ -9,11 +10,13 @@
             <template v-if="label">{{ label }}</template>
             <slot v-else />
         </label>
+        <InputError :message="isInvalid"/>
     </div>
 </template>
 
 <script setup>
-import {computed} from "vue";
+import {computed, onMounted, ref} from "vue";
+import InputError from "@/Components/ui/form/InputError.vue";
 
 const emit = defineEmits(['update:checked']);
 
@@ -33,6 +36,10 @@ const props = defineProps({
     value: {
         default: null,
     },
+    isInvalid: {
+        type:String,
+        default: "",
+    },
 });
 
 const proxyChecked = computed({
@@ -44,6 +51,8 @@ const proxyChecked = computed({
         emit('update:checked', val);
     },
 });
+
+
 
 </script>
 

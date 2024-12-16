@@ -20,6 +20,7 @@ Route::prefix('settings')
             ->middleware(['can:manage-users'])
             ->group(function () {
                 Route::get('/', [UsersController::class, 'index'])->name('index');
+                Route::post('/', [UsersController::class, 'store'])->name('store');
                 Route::get('create', [UsersController::class, 'create'])->name('create');
                 Route::get('/show/{user}', [UsersController::class, 'show'])->name('show')->where('user', '[0-9]+');
                 Route::post('/show/{user}', [UsersController::class, 'update'])->name('update')->where('user', '[0-9]+');

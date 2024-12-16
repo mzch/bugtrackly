@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Requests\Settings\Users\BackToUserAdminRequest;
+use App\Http\Requests\Settings\Users\CreateUserRequest;
 use App\Http\Requests\Settings\Users\DeleteUserRequest;
 use App\Http\Requests\Settings\Users\SwitchUserRequest;
 use App\Models\User;
+use App\Notifications\Users\UserCreatedNotification;
 use App\Repositories\RolesPersmissions\RolesPersmissionsRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 
 class UsersController extends SettingsController
@@ -49,6 +52,31 @@ class UsersController extends SettingsController
             'roles' => $this->rolesPermissionsRepository->getAllRoles(),
         ];
         return $this->render('Settings/Users/UserCreate', $data);
+    }
+
+    /**
+     * Enregistre un nouvel utilisateur
+     * @param CreateUserRequest $request
+     * @return RedirectResponse
+     */
+    public function store(CreateUserRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+        $user = User::create([
+            'first_name' => $validated['first_name'],
+            'last_name'  => $validated['last_name'],
+            'email'      => $validated['email'],
+            'role_id'    => $validated['role_id'],
+            'password'   => Hash::make($validated['password']),
+        ]);
+
+        // Notifier l'utilisateur
+        if($validated['send_password']) {
+            $user->notify(new UserCreatedNotification($validated['password']));
+        }
+
+        return to_route('settings.users.index');
+
     }
 
     /**

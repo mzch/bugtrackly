@@ -10,13 +10,14 @@
                 </div>
             </div>
         </div>
-        <div class="card-body" :class="{'p-0': removeBodyPadding}">
-            <slot/>
-        </div>
-        <div class="card-footer text-secondary" v-if="$slots.cardFooter">
-            <slot name="cardFooter"/>
-        </div>
-
+        <form @submit.prevent="submitHandlerFnCallback">
+            <div class="card-body" :class="{'p-0': removeBodyPadding}">
+                <slot/>
+            </div>
+            <div class="card-footer text-secondary" v-if="$slots.cardFooter">
+                <slot name="cardFooter"/>
+            </div>
+        </form>
     </div>
 </template>
 
@@ -29,6 +30,10 @@
         removeBodyPadding:{
             type:Boolean,
             default:false,
+        },
+        submitHandlerFnCallback:{
+            type:Function,
+            required:true,
         }
     })
 </script>

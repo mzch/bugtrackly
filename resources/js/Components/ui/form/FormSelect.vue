@@ -32,7 +32,7 @@ const props = defineProps({
     }
 })
 const model = defineModel({
-    type: [String, null],
+    type: [String,Number, null],
     required: true,
 });
 const select = ref(null);
