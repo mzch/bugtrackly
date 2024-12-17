@@ -24,40 +24,7 @@
             </template>
             <div class="row gx-5">
                 <div class="col-lg-6 col-xxl-8">
-                    <Card card-title="Identité de l'utilisateur" class="mb-5">
-                        <FormField class="form-floating">
-                            <TextInput v-model.trim="form.first_name"
-                                       type="text"
-                                       placeholder="Prénom"
-                                       id="first_name"
-                                       :class="{'is-invalid':form.errors.first_name}"
-                                       autofocus
-                                       required
-                            />
-                            <InputLabel for="first_name" value="Prénom" required/>
-                            <InputError :message="form.errors.first_name"/>
-                        </FormField>
-                        <FormField class="form-floating">
-                            <TextInput v-model.trim="form.last_name"
-                                       type="text"
-                                       placeholder="Nom"
-                                       id="last_name"
-                                       required
-                                       :class="{'is-invalid':form.errors.last_name}"/>
-                            <InputLabel for="last_name" value="Nom" required/>
-                            <InputError :message="form.errors.last_name"/>
-                        </FormField>
-                        <FormField class="form-floating">
-                            <TextInput v-model.trim="form.email"
-                                       type="email"
-                                       placeholder="Adresse email"
-                                       id="email"
-                                       required
-                                       :class="{'is-invalid':form.errors.email}"/>
-                            <InputLabel for="email" value="Email" required/>
-                            <InputError :message="form.errors.email"/>
-                        </FormField>
-                    </Card>
+                    <UserIdentity :form="form"/>
                     <Card card-title="Sécurité">
                         <FormField class="form-floating">
                             <TextInput v-model="form.password"
@@ -78,19 +45,8 @@
                     </Card>
                 </div>
                 <div class="col-lg-6 col-xxl-4">
-                    <Card card-title="Rôle" class="mb-5">
-                        <FormField class="form-floating">
-                            <FormSelect id="user-role"
-                                        :display-select-label-option="false"
-                                        :options="roles_options"
-                                        v-model.number="form.role_id"/>
-                            <InputLabel for="user-role" value="Sélectionnez un rôle" required/>
-                            <InputError :message="form.errors.role_id"/>
-                        </FormField>
-                    </Card>
-                    <Card card-title="Photo de profil">
-                        <AvatarUploader :form="form" :user="fakeUser"/>
-                    </Card>
+                    <UserAvatar :form="form" :user="fakeUser"  class="mb-5"/>
+                    <UserRole :form="form"/>
                 </div>
             </div>
         </FormCard>
@@ -107,12 +63,13 @@ import {generateInitials, generatePassword} from "@/Helpers/users.js";
 import InputError from "@/Components/ui/form/InputError.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import FormCheck from "@/Components/ui/form/FormCheck.vue";
-import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import {computed} from "vue";
 import FormField from "@/Components/ui/form/FormField.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import FormCard from "@/Components/ui/FormCard.vue";
-import AvatarUploader from "@/Components/ui/user/AvatarUploader.vue";
+import UserIdentity from "@/Pages/Settings/Users/partials/form/UserIdentity.vue";
+import UserRole from "@/Pages/Settings/Users/partials/form/UserRole.vue";
+import UserAvatar from "@/Pages/Settings/Users/partials/form/UserAvatar.vue";
 
 const props = defineProps({
     roles: {
@@ -120,11 +77,10 @@ const props = defineProps({
         required: true,
     }
 })
-const roles_options = computed(() => props.roles.map(r => ({id: r.id, label: r.name})));
 const dynamic_page_title = computed(() => {
     const start = 'Création d\'un utilisateur',
-    firstname = form.first_name ? form.first_name.toString().trim() : '',
-    lastname = form.last_name ? form.last_name.toString().trim() : '';
+        firstname = form.first_name ? form.first_name.toString().trim() : '',
+        lastname = form.last_name ? form.last_name.toString().trim() : '';
     return (firstname === "" && lastname === "")
         ? start
         : `${start} : <span class="text-secondary">${firstname} ${lastname}</span>`
@@ -144,13 +100,12 @@ const form = useForm({
 const fakeUser = computed(() => {
     const firstname = form.first_name ? form.first_name.toString().trim() : '',
         lastname = form.last_name ? form.last_name.toString().trim() : '';
-    return{
+    return {
         initiales: generateInitials(`${firstname} ${lastname}`),
-        email:form.email
+        email: form.email
     }
 });
 const generateNewPassword = () => form.password = generatePassword();
-
 
 
 const createUserFormHandler = () => {

@@ -95,6 +95,7 @@ class UsersController extends SettingsController
         $this->addBreadcrumb('Édition', route('settings.users.create'));
         $data = [
             'user' => $user,
+            'roles' => $this->rolesPermissionsRepository->getAllRoles(),
         ];
         return $this->render('Settings/Users/UserShow', $data);
     }

@@ -1,28 +1,30 @@
 <template>
-    <p class="text-center">
-        <AvatarGravatar class="size-5" :user="user" :preview-upload-image="dataPhotoPreview"/>
-    </p>
-    <InputError :message="form.errors.photo" class="text-center mb-2" :class="{'d-block':form.errors.photo}"/>
-    <input
-        id="photo"
-        ref="photoInput"
-        type="file"
-        class="d-none"
-        accept="image/png, image/jpeg"
-        @change="updatePhotoPreview"/>
-    <div class="d-flex justify-content-center">
-        <button type="button"
-                class="btn btn-outline-primary btn-with-icon btn-sm"
-                @click.prevent="selectNewPhotoHandler">
-            <CameraIcon class="size-1 me-1"/>Importer une photo
-        </button>
-        <button type="button"
-                class="btn btn-outline-danger btn-with-icon btn-sm ms-2"
-                :class="{'d-none': dataPhotoPreview===null}"
-                @click.prevent="removePreviewPhotoHandler">
-            <TrashIcon class="size-1 me-1"/>Supprimer
-        </button>
-    </div>
+    <Card card-title="Photo de profil">
+        <p class="text-center">
+            <AvatarGravatar class="size-5" :user="user" :preview-upload-image="dataPhotoPreview"/>
+        </p>
+        <InputError :message="form.errors.photo" class="text-center mb-2" :class="{'d-block':form.errors.photo}"/>
+        <input
+            id="photo"
+            ref="photoInput"
+            type="file"
+            class="d-none"
+            accept="image/png, image/jpeg"
+            @change="updatePhotoPreview"/>
+        <div class="d-flex justify-content-center">
+            <button type="button"
+                    class="btn btn-outline-primary btn-with-icon btn-sm"
+                    @click.prevent="selectNewPhotoHandler">
+                <CameraIcon class="size-1 me-1"/>Importer une photo
+            </button>
+            <button type="button"
+                    class="btn btn-outline-danger btn-with-icon btn-sm ms-2"
+                    :class="{'d-none': dataPhotoPreview===null}"
+                    @click.prevent="removePreviewPhotoHandler">
+                <TrashIcon class="size-1 me-1"/>Supprimer
+            </button>
+        </div>
+    </Card>
 </template>
 
 <script setup>
@@ -30,6 +32,7 @@ import AvatarGravatar from "@/Components/ui/user/AvatarGravatar.vue";
 import InputError from "@/Components/ui/form/InputError.vue";
 import {ref} from "vue";
 import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import Card from "@/Components/ui/Card.vue";
 
 const props = defineProps({
     form:{
