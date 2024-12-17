@@ -24,7 +24,7 @@ class CreateUserRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string','lowercase', 'email', 'max:255', 'unique:users'],
             'role_id' => ['required', 'int'],
             'password' => ['required', 'string', 'min:8'],
             'send_password' => ['boolean'],

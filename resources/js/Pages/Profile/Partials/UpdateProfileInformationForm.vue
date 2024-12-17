@@ -4,6 +4,8 @@ import InputLabel from '@/Components/ui/form/InputLabel.vue';
 import PrimaryButton from '@/Components/ui/form/PrimaryButton.vue';
 import TextInput from '@/Components/ui/form/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
+import FormField from "@/Components/ui/form/FormField.vue";
+import {computed, nextTick} from "vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -14,61 +16,73 @@ defineProps({
     },
 });
 
-const user = usePage().props.auth.user;
+const user = computed(() => usePage().props.auth.user)
 
 const form = useForm({
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
+    first_name: user.value.first_name,
+    last_name: user.value.last_name,
+    email: user.value.email,
 });
+
+const submitFormHandler = () => {
+    form.patch(route('profile.update'), {
+        onSuccess: () => {
+            nextTick(()=>form.reset())
+
+        },
+    })
+}
 </script>
 
 <template>
-    <section>
-        <header>
-            <h2 class="text-lg font-medium text-gray-900">
-                Profile Information
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
-            </p>
-        </header>
-
+        <p class="text-secondary">
+            Mettez à jour les informations de profil et l'adresse électronique de votre compte.
+        </p>
         <form
-            @submit.prevent="form.patch(route('profile.update'))"
+            @submit.prevent="submitFormHandler"
             class="mt-6 space-y-6"
         >
-            <div>
-                <InputLabel for="name" value="Name" />
-
+            <FormField class="form-floating">
                 <TextInput
-                    id="name"
+                    id="first_name"
                     type="text"
-                    class="mt-1 block w-full"
+                    placeholder="Votre prénom"
                     v-model="form.first_name"
                     required
                     autofocus
                     autocomplete="name"
-                />
-
+                    :class="{'is-invalid' :form.errors.first_name}"/>
+                <InputLabel for="first_name" value="Votre prénom" />
                 <InputError :message="form.errors.first_name" />
-            </div>
+            </FormField>
 
-            <div>
-                <InputLabel for="email" value="Email" />
+            <FormField class="form-floating">
+                <TextInput
+                    id="last_name"
+                    type="text"
+                    placeholder="Votre nom"
+                    v-model="form.last_name"
+                    required
+                    autofocus
+                    autocomplete="name"
+                    :class="{'is-invalid' :form.errors.last_name}"/>
+                <InputLabel for="name" value="Votre nom" />
+                <InputError :message="form.errors.last_name" />
+            </FormField>
 
+            <FormField class="form-floating">
                 <TextInput
                     id="email"
                     type="email"
+                    placeholder="Votre adresse email"
                     class="mt-1 block w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"
-                />
-
+                    :class="{'is-invalid' :form.errors.email}"/>
+                <InputLabel for="email" value="Votre adresse email" />
                 <InputError :message="form.errors.email" />
-            </div>
+            </FormField>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 text-sm text-gray-800">
@@ -91,23 +105,22 @@ const form = useForm({
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Enregistrer</PrimaryButton>
+            <div class="d-flex align-items-center justify-content-between">
+                <PrimaryButton :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
 
                 <Transition
-                    enter-active-class="transition ease-in-out"
+                    enter-active-class="transition-opacity"
                     enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
+                    leave-active-class="transition-opacity"
                     leave-to-class="opacity-0"
                 >
                     <p
                         v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
+                        class="mb-0 text-success fw-bold"
                     >
-                        Enregistré
+                        Informations enregistrées !
                     </p>
                 </Transition>
             </div>
         </form>
-    </section>
 </template>
