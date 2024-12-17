@@ -67,4 +67,18 @@ class User extends Authenticatable
             'password'          => 'hashed',
         ];
     }
+
+    /**
+     * Bootstrap the model and its traits.
+     *
+     * @return void
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::deleting(function (User $user) {
+            $user->deleteProfilePhoto();
+        });
+
+    }
 }

@@ -62,6 +62,7 @@ class UsersController extends SettingsController
     public function store(CreateUserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
         $user = User::create([
             'first_name' => $validated['first_name'],
             'last_name'  => $validated['last_name'],
@@ -69,6 +70,10 @@ class UsersController extends SettingsController
             'role_id'    => $validated['role_id'],
             'password'   => Hash::make($validated['password']),
         ]);
+
+        if($photo = $request->validated("photo")){
+            $user->updateProfilePhoto($photo);
+        }
 
         // Notifier l'utilisateur
         if($validated['send_password']) {

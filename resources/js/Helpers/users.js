@@ -1,4 +1,6 @@
 import {usePage} from "@inertiajs/vue3";
+import {chain, upperFirst, slice} from "lodash";
+import sha256 from "crypto-js/sha256.js";
 
 /**
  * Check current user role
@@ -27,4 +29,37 @@ const generatePassword = (length = 12) => {
     }
     return password;
 }
-export {generatePassword, hasRole, hasPermission}
+
+const generateInitials = (name) =>{
+    const res = chain(name)
+        .split(' ') // Divise par espaces pour obtenir un tableau de mots
+        .map(part => upperFirst(part[0])) // Prend la première lettre de chaque mot et la met en majuscule
+        .join('') // Combine toutes les lettres en une seule chaîne
+        .value() // Retourne la valeur finale sous forme de chaîne;
+        .slice(0, 3) // Coupe la chaîne pour garder les 3 premiers caractères
+    return res;
+}
+
+const getGravatarUrl = (email) => {
+    if(!validateEmail(email)){
+        return false;
+    }
+    const hashedEmail = sha256( email.trim() );
+    return `https://www.gravatar.com/avatar/${hashedEmail}?d=404&s=256`;
+}
+
+const gravatarExists = async (gravatarUrl) => {
+    try {
+        const response = await fetch(gravatarUrl, { method: 'HEAD' }); // Envoie une requête HEAD
+        return response.ok; // true si l'image existe (code 200)
+    } catch (error) {
+        // console.error('Erreur lors de la requête Gravatar:', error);
+        return false;
+    }
+};
+
+const validateEmail = (str) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(str);
+}
+export {generatePassword,getGravatarUrl,gravatarExists, generateInitials, hasRole, hasPermission, validateEmail}

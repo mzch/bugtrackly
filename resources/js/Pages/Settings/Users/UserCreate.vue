@@ -8,12 +8,11 @@
             </Link>
         </template>
         <FormCard :submit-handler-fn-callback="createUserFormHandler">
-            <pre>{{ form }}</pre>
             <template #cardFooter>
                 <div class="d-flex justify-content-end">
                     <Link :href="route('settings.users.index')" class="btn btn-light btn-with-icon me-2">
                         <XCircleIcon class="size-1 me-1 "/>
-                        Retour light
+                        Retour
                     </Link>
                     <PrimaryButton type="submit"
                                    class="btn-with-icon"
@@ -33,6 +32,7 @@
                                        id="first_name"
                                        :class="{'is-invalid':form.errors.first_name}"
                                        autofocus
+                                       required
                             />
                             <InputLabel for="first_name" value="Prénom" required/>
                             <InputError :message="form.errors.first_name"/>
@@ -42,6 +42,7 @@
                                        type="text"
                                        placeholder="Nom"
                                        id="last_name"
+                                       required
                                        :class="{'is-invalid':form.errors.last_name}"/>
                             <InputLabel for="last_name" value="Nom" required/>
                             <InputError :message="form.errors.last_name"/>
@@ -51,6 +52,7 @@
                                        type="email"
                                        placeholder="Adresse email"
                                        id="email"
+                                       required
                                        :class="{'is-invalid':form.errors.email}"/>
                             <InputLabel for="email" value="Email" required/>
                             <InputError :message="form.errors.email"/>
@@ -87,7 +89,7 @@
                         </FormField>
                     </Card>
                     <Card card-title="Photo de profil">
-                        <p>Photo</p>
+                        <AvatarUploader :form="form" :user="fakeUser"/>
                     </Card>
                 </div>
             </div>
@@ -101,7 +103,7 @@ import {Link, useForm} from '@inertiajs/vue3';
 import {ArrowLeftIcon, XCircleIcon, ArchiveBoxArrowDownIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
-import {generatePassword} from "@/Helpers/users.js";
+import {generateInitials, generatePassword} from "@/Helpers/users.js";
 import InputError from "@/Components/ui/form/InputError.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import FormCheck from "@/Components/ui/form/FormCheck.vue";
@@ -110,6 +112,7 @@ import {computed} from "vue";
 import FormField from "@/Components/ui/form/FormField.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import FormCard from "@/Components/ui/FormCard.vue";
+import AvatarUploader from "@/Components/ui/user/AvatarUploader.vue";
 
 const props = defineProps({
     roles: {
@@ -119,25 +122,36 @@ const props = defineProps({
 })
 const roles_options = computed(() => props.roles.map(r => ({id: r.id, label: r.name})));
 const dynamic_page_title = computed(() => {
-    const start = 'Création d\'un utilisateur';
-    return (form.first_name === "" && form.last_name === "")
+    const start = 'Création d\'un utilisateur',
+    firstname = form.first_name ? form.first_name.toString().trim() : '',
+    lastname = form.last_name ? form.last_name.toString().trim() : '';
+    return (firstname === "" && lastname === "")
         ? start
-        : `${start} : <span class="text-secondary">${form.first_name} ${form.last_name}</span>`
+        : `${start} : <span class="text-secondary">${firstname} ${lastname}</span>`
 })
 
 const submitButtonDisabled = computed(() => form.processing || !form.isDirty);
 
 const form = useForm({
-    first_name: "",
-    last_name: "",
-    email: "",
+    first_name: null,
+    last_name: null,
+    email: null,
     role_id: 2,
     password: generatePassword(),
     send_password: true,
     photo: null,
 });
-
+const fakeUser = computed(() => {
+    const firstname = form.first_name ? form.first_name.toString().trim() : '',
+        lastname = form.last_name ? form.last_name.toString().trim() : '';
+    return{
+        initiales: generateInitials(`${firstname} ${lastname}`),
+        email:form.email
+    }
+});
 const generateNewPassword = () => form.password = generatePassword();
+
+
 
 const createUserFormHandler = () => {
     form.post(route('settings.users.store'), {

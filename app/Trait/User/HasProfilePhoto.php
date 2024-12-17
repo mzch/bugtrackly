@@ -3,10 +3,54 @@
 namespace App\Trait\User;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 trait HasProfilePhoto
 {
+
+    /**
+     * Update the user's profile photo.
+     *
+     * @param UploadedFile $photo
+     * @param false|string $storagePath
+     * @return void
+     */
+    public function updateProfilePhoto(UploadedFile $photo, false|string $storagePath = false)
+    {
+        if(!$storagePath){
+            $storagePath = config('avatar.storage_path');
+        }
+        tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
+            $this->forceFill([
+                'profile_photo_path' => $photo->storePublicly(
+                    $storagePath, ['disk' => $this->profilePhotoDisk()]
+                ),
+            ])->save();
+
+            if ($previous) {
+                Storage::disk($this->profilePhotoDisk())->delete($previous);
+            }
+        });
+    }
+
+    /**
+     * Delete the user's profile photo.
+     *
+     * @return void
+     */
+    public function deleteProfilePhoto()
+    {
+        if (is_null($this->profile_photo_path)) {
+            return;
+        }
+
+        Storage::disk($this->profilePhotoDisk())->delete($this->profile_photo_path);
+
+        $this->forceFill([
+            'profile_photo_path' => null,
+        ])->save();
+    }
     /**
      * Get the URL to the user's profile photo.
      *

@@ -11,20 +11,24 @@
     font-size: .6875rem;
     letter-spacing:.5px;
     &.user-avatar-initials{
-        background: $gray;
+        background: $dark;
         color: $white;
     }
     &.size-3{
-        //width: 3.75rem;
-        //height: 3.75rem;
         font-size: 1rem;
     }
     &.size-4{
-        //width: 3.75rem;
-        //height: 3.75rem;
         font-size: 1.4375rem;
+    }
+    &.size-5{
+        font-size: 2.375rem;
     }
     &.active{
         border-color: $success;
+    }
+    span{
+        background-size: cover;
+        object-fit: cover;
+        background-position: center center;
     }
 }
