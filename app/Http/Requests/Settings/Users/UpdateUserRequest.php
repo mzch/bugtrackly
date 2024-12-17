@@ -28,6 +28,7 @@ class UpdateUserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->route('user'))],
             'role_id' => ['required', 'int'],
             'password' => ['nullable', 'string', 'min:8'],
+            'send_new_password' => ['boolean'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
             'delete_old_photo' => ['required', 'boolean'],
         ];
@@ -52,6 +53,7 @@ class UpdateUserRequest extends FormRequest
     {
         $this->merge([
             'delete_old_photo' => filter_var($this->delete_old_photo, FILTER_VALIDATE_BOOLEAN),
+            'send_new_password' => filter_var($this->send_new_password, FILTER_VALIDATE_BOOLEAN),
         ]);
     }
 }

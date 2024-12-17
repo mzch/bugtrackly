@@ -22,17 +22,47 @@
                     </PrimaryButton>
                 </div>
             </template>
-<!--            <div class="row">
-                <div class="col-4"><pre>form:{{form}}</pre></div>
-                <div class="col-4"><pre>user:{{user}}</pre></div>
-                <div class="col-4"><pre>fakeUser:{{fakeUser}}</pre></div>
-            </div>-->
-
             <div class="row gx-5">
                 <div class="col-lg-6 col-xxl-8">
                     <UserIdentity :form="form"/>
                     <Card card-title="Sécurité">
+                        <button type="button"
+                                class="btn"
+                                :class="{'btn-secondary': !showNewPassWordForm, 'btn-outline-secondary':showNewPassWordForm}"
+                                @click="generateNewPassword">
+                            <span v-if="showNewPassWordForm">Re-générer un nouveau mot de passe</span>
+                            <span v-else>Générer un nouveau mot de passe</span>
 
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary ms-2"
+                                v-if="showNewPassWordForm"
+                                @click="form.password = null">
+                            Annuler
+                        </button>
+                        <TransitionExpand>
+                            <div v-if="showNewPassWordForm" class="pt-2">
+                                <FormField :no-margin-bottom="true" class="form-floating">
+                                    <TextInput
+                                        id="password"
+                                        placeholder="Nouveau mot de passe"
+                                        v-model="form.password"
+                                        type="text"
+                                        minlength="8"
+                                        :class="{'is-invalid':form.errors.password}"
+                                    />
+                                    <InputLabel for="password" value="Nouveau mot de passe" />
+                                    <InputError :message="form.errors.password" />
+                                </FormField>
+                                <div class="form-text">Laissez ce champ vide pour ne pas modifier le mot de passe de l'utilisateur</div>
+                                <FormCheck id="sendPassword"
+                                           class="mt-3"
+                                           label="Envoyer un e-mail à la personne à propos de son changement de mot de passe."
+                                           :is-invalid="form.errors.send_new_password"
+                                           v-model:checked="form.send_new_password"/>
+
+                            </div>
+                        </TransitionExpand>
                     </Card>
                 </div>
                 <div class="col-lg-6 col-xxl-4">
@@ -55,7 +85,13 @@ import UserIdentity from "@/Pages/Settings/Users/partials/form/UserIdentity.vue"
 import UserRole from "@/Pages/Settings/Users/partials/form/UserRole.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import UserAvatar from "@/Pages/Settings/Users/partials/form/UserAvatar.vue";
-import {generateInitials} from "@/Helpers/users.js";
+import {generateInitials, generatePassword} from "@/Helpers/users.js";
+import TransitionExpand from "@/Components/transitions/TransitionExpand.vue";
+import FormField from "@/Components/ui/form/FormField.vue";
+import TextInput from "@/Components/ui/form/TextInput.vue";
+import InputLabel from "@/Components/ui/form/InputLabel.vue";
+import InputError from "@/Components/ui/form/InputError.vue";
+import FormCheck from "@/Components/ui/form/FormCheck.vue";
 
 const props = defineProps({
     user:{
@@ -68,10 +104,15 @@ const form = useForm({
     last_name: props.user.last_name,
     email: props.user.email,
     role_id: props.user.role.id,
+    password:null,
+    send_new_password:true,
     photo:null,
     delete_old_photo:false,
 });
-
+const generateNewPassword = () => form.password = generatePassword();
+const showNewPassWordForm = computed(() => {
+    return form.password !== null && form.password !== '';
+})
 
 const dynamic_page_title = computed(() => {
     const start = 'Édition d\'un utilisateur',

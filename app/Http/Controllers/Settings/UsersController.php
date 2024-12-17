@@ -9,6 +9,7 @@ use App\Http\Requests\Settings\Users\SwitchUserRequest;
 use App\Http\Requests\Settings\Users\UpdateUserRequest;
 use App\Models\User;
 use App\Notifications\Users\UserCreatedNotification;
+use App\Notifications\Users\UserPasswordChangedNotification;
 use App\Repositories\RolesPersmissions\RolesPersmissionsRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
@@ -103,7 +104,6 @@ class UsersController extends SettingsController
 
     public function update(UpdateUserRequest $request, User $user):RedirectResponse
     {
-        //dd($request->validated());
         $validated = $request->validated();
         $dataUpdate = [
             'first_name' => $validated['first_name'],
@@ -113,6 +113,10 @@ class UsersController extends SettingsController
         ];
         if( $request->has('password') && $validated['password']!==null ) {
             $dataUpdate['password'] = Hash::make($validated['password']);
+            if($validated['send_new_password']) {
+                $user->notify(new UserPasswordChangedNotification($validated['password']));
+            }
+
         }
         $user->update($dataUpdate);
 

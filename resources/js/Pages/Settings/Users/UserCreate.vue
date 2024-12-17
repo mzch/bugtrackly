@@ -38,7 +38,7 @@
                         <button class="btn btn-secondary mb-2" @click="generateNewPassword">Générer un autre mot de
                             passe
                         </button>
-                        <FormCheck id="loginRemeberMe"
+                        <FormCheck id="sendPassword"
                                    label="Envoyer un e-mail à la personne à propos de son nouveau compte."
                                    :is-invalid="form.errors.send_password"
                                    v-model:checked="form.send_password"/>
