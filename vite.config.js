@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import path from 'path'
 
 export default defineConfig({
+    envPrefix: "BUGTRACKLY_",
     plugins: [
         laravel({
             input: 'resources/js/app.js',
@@ -24,3 +25,4 @@ export default defineConfig({
         }
     }
 });
+

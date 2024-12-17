@@ -1,5 +1,6 @@
 <template>
     <Card card-title="Photo de profil">
+        <p class="form-text text-center">Personnalisez l'image de profil de cet utilisateur</p>
         <p class="text-center">
             <AvatarGravatar class="size-5" :user="user" :preview-upload-image="dataPhotoPreview"/>
         </p>
@@ -19,7 +20,7 @@
             </button>
             <button type="button"
                     class="btn btn-outline-danger btn-with-icon btn-sm ms-2"
-                    :class="{'d-none': dataPhotoPreview===null}"
+                    v-if="viewDeleteButton"
                     @click.prevent="removePreviewPhotoHandler">
                 <TrashIcon class="size-1 me-1"/>Supprimer
             </button>
@@ -30,7 +31,7 @@
 <script setup>
 import AvatarGravatar from "@/Components/ui/user/AvatarGravatar.vue";
 import InputError from "@/Components/ui/form/InputError.vue";
-import {ref} from "vue";
+import {computed, ref} from "vue";
 import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
 
@@ -46,6 +47,16 @@ const props = defineProps({
 })
 const photoInput = ref(null);
 const dataPhotoPreview = ref(null);
+const appDomain = window.location.origin;
+
+const viewPreviewPhoto = computed(()=>dataPhotoPreview.value !== null)
+const hasLocalPhoto = computed(() => props.user.profile_photo_url && props.user.profile_photo_url.startsWith(appDomain))
+/**
+ * On cache le bouto de suppression d'avatar que s'il y a une preview ou que si
+ * user.profile_photo_url commence par le domaine de l'app
+ * @type {ComputedRef<boolean>}
+ */
+const viewDeleteButton = computed(() => (viewPreviewPhoto.value || hasLocalPhoto.value ));
 
 /**
  * Handler sur le clic du bouton d'importation d'avatar'
@@ -77,10 +88,16 @@ const updatePhotoPreview = () => {
  * @returns {*}
  */
 const removePreviewPhotoHandler = () => {
-    props.form.reset("photo")
-    props.form.clearErrors("photo")
-    dataPhotoPreview.value = null;
-    clearPhotoFileInput();
+    // un préview d'upload est affiché
+    if(props.form.photo){
+        props.form.reset("photo")
+        props.form.clearErrors("photo")
+        dataPhotoPreview.value = null;
+        clearPhotoFileInput();
+    }else{
+        props.form.delete_old_photo = true;
+    }
+
 }
 
 const clearPhotoFileInput = () => {

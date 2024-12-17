@@ -6,6 +6,7 @@ use App\Http\Requests\Settings\Users\BackToUserAdminRequest;
 use App\Http\Requests\Settings\Users\CreateUserRequest;
 use App\Http\Requests\Settings\Users\DeleteUserRequest;
 use App\Http\Requests\Settings\Users\SwitchUserRequest;
+use App\Http\Requests\Settings\Users\UpdateUserRequest;
 use App\Models\User;
 use App\Notifications\Users\UserCreatedNotification;
 use App\Repositories\RolesPersmissions\RolesPersmissionsRepositoryInterface;
@@ -98,6 +99,32 @@ class UsersController extends SettingsController
             'roles' => $this->rolesPermissionsRepository->getAllRoles(),
         ];
         return $this->render('Settings/Users/UserShow', $data);
+    }
+
+    public function update(UpdateUserRequest $request, User $user):RedirectResponse
+    {
+        //dd($request->validated());
+        $validated = $request->validated();
+        $dataUpdate = [
+            'first_name' => $validated['first_name'],
+            'last_name'  => $validated['last_name'],
+            'email'      => $validated['email'],
+            'role_id'    => $validated['role_id'],
+        ];
+        if( $request->has('password') && $validated['password']!==null ) {
+            $dataUpdate['password'] = Hash::make($validated['password']);
+        }
+        $user->update($dataUpdate);
+
+        if($request->validated("photo")){
+            $user->updateProfilePhoto($request->validated("photo"));
+        }
+        if($request->validated("delete_old_photo")){
+            $user->deleteProfilePhoto();
+        }
+
+
+        return to_route('settings.users.index');
     }
 
     /**

@@ -1,6 +1,6 @@
 <template>
     <div class="user-avatar" :class="{'user-avatar-initials': !user.profile_photo_url}">
-        <img v-if="user.profile_photo_url" :src="user.profile_photo_url" class="img-fluid"/>
+        <img v-if="user.profile_photo_url" :src="user.profile_photo_url" />
         <span v-else
             class="initiales">
             {{ user.initiales }}

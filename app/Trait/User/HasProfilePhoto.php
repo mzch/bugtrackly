@@ -19,7 +19,7 @@ trait HasProfilePhoto
     public function updateProfilePhoto(UploadedFile $photo, false|string $storagePath = false)
     {
         if(!$storagePath){
-            $storagePath = config('avatar.storage_path');
+            $storagePath = config('bugtrackly.storage_path');
         }
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -70,11 +70,10 @@ trait HasProfilePhoto
      */
     private function defaultProfilePhotoUrl(): ?string
     {
-        $default_avatar_url = $this->getDefaultProfilePhotoUrl();
-        if (config('avatar.use_gravatar_service') && $gravatar_url = $this->get_gravatar_url()) {
+        if (config('bugtrackly.use_gravatar_service') && $gravatar_url = $this->get_gravatar_url()) {
             return $gravatar_url;
         }
-        return $default_avatar_url;
+        return null;
     }
 
     /**
@@ -95,18 +94,8 @@ trait HasProfilePhoto
         }
     }
 
-    protected function getDefaultProfilePhotoUrl(): ?string
-    {
-        $defaultPath = config('avatar.default_avatar_path');
-        $storagePath = config('avatar.storage_path');
-        if (is_null($defaultPath)) {
-            return null;
-        }
-        return Storage::disk($this->profilePhotoDisk())->url($storagePath . '/' . $defaultPath);
-    }
-
     protected function profilePhotoDisk()
     {
-        return config('avatar.profile_photo_disk', 'public');
+        return config('bugtrackly.profile_photo_disk', 'public');
     }
 }

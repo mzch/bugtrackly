@@ -6,7 +6,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'storage_path'         => env('USER_AVATAR_STORAGE_PATH', 'profile-photos'),
+    'storage_path'         => env('BUGTRACKLY_USER_AVATAR_STORAGE_PATH', 'profile-photos'),
 
     /*
     |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'profile_photo_disk'   => env('USER_AVATAR_STORAGE_DISK', 'public'),
+    'profile_photo_disk'   => env('BUGTRACKLY_USER_AVATAR_STORAGE_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -22,13 +22,8 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'use_gravatar_service' => env('USER_AVATAR_USE_GRAVATAR', false),
+    'use_gravatar_service' => env('BUGTRACKLY_USER_AVATAR_USE_GRAVATAR', false),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default avatar path
-    |--------------------------------------------------------------------------
-    |
-    */
-    'default_avatar_path'  => env('USER_AVATAR_DEFAULT_PATH', 'default.png'),
+    'use_initiales_as_avatar' => env('BUGTRACKLY_USER_AVATAR_INITIALS', false),
+
 ];
