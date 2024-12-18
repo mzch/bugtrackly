@@ -96,6 +96,7 @@ const removePreviewPhotoHandler = () => {
         clearPhotoFileInput();
     }else{
         props.form.delete_old_photo = true;
+        dataPhotoPreview.value = null;
     }
 }
 

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\Profile\UpdateAvatarRequest;
+use App\Http\Requests\Profile\UpdateInfosRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(UpdateInfosRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
 
@@ -36,6 +37,19 @@ class ProfileController extends Controller
         }
 
         $request->user()->save();
+
+        return Redirect::route('profile.edit');
+    }
+
+    public function update_avatar(UpdateAvatarRequest $request): RedirectResponse
+    {
+
+        if($request->validated("photo")){
+            $request->user()->updateProfilePhoto($request->validated("photo"));
+        }
+        if($request->validated("delete_old_photo")){
+            $request->user()->deleteProfilePhoto();
+        }
 
         return Redirect::route('profile.edit');
     }

@@ -1,9 +1,8 @@
 <template>
-    <FormCard card-title="Ma photo de profil" :submit-handler-fn-callback="submithandler">
+    <FormCard card-title="Photo de profil" :submit-handler-fn-callback="submithandler">
         <p class="form-text text-center">Personnalisez votre image de profil</p>
-        <pre>{{form}}</pre>
         <p class="text-center">
-            <AvatarGravatar class="size-5" :user="user" :preview-upload-image="dataPhotoPreview"/>
+            <AvatarGravatar class="size-5" :user="fakeUser" :preview-upload-image="dataPhotoPreview"/>
         </p>
         <InputError :message="form.errors.photo" class="text-center mb-2" :class="{'d-block':form.errors.photo}"/>
         <input
@@ -24,14 +23,23 @@
             </DangerButton>
         </div>
         <template #cardFooter>
-            <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+            <div class="d-flex align-items-center justify-content-between">
+                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+                <Transition
+                    enter-active-class="transition-opacity ease-in-out"
+                    enter-from-class="opacity-0"
+                    leave-active-class="transition-opacity ease-in-out"
+                    leave-to-class="opacity-0">
+                    <p v-if="form.recentlySuccessful" class="mb-0 text-success fw-bold">
+                        Enregisté !
+                    </p>
+                </Transition>
+            </div>
         </template>
     </FormCard>
 </template>
 
 <script setup>
-
-import Card from "@/Components/ui/Card.vue";
 import AvatarGravatar from "@/Components/ui/user/AvatarGravatar.vue";
 import {computed, ref} from "vue";
 import {useForm, usePage} from "@inertiajs/vue3";
@@ -40,6 +48,7 @@ import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import FormCard from "@/Components/ui/FormCard.vue";
+import {generateInitials} from "@/Helpers/users.js";
 
 const user = computed(() => usePage().props.auth.user);
 const photoInput = ref(null);
@@ -48,6 +57,17 @@ const form = useForm({
     photo: null,
     delete_old_photo:false,
 })
+
+const fakeUser = computed(() => {
+    const firstname = user.value.first_name ? user.value.first_name.toString().trim() : '',
+        lastname = user.value.last_name ? user.value.last_name.toString().trim() : '',
+        email = user.value.email ? user.value.email.toString().trim() : '';
+    return {
+        initiales: generateInitials(`${firstname} ${lastname}`),
+        email: email,
+        profile_photo_url: !form.delete_old_photo ? user.value.profile_photo_url: null
+    }
+});
 
 const appDomain = window.location.origin;
 
@@ -61,7 +81,15 @@ const hasLocalPhoto = computed(() => user.value.profile_photo_url && user.value.
 const viewDeleteButton = computed(() => (viewPreviewPhoto.value || hasLocalPhoto.value ));
 
 const submithandler = () => {
-    console.log("submit");
+    form.post(route('profile.update_avatar'), {
+        forceFormData:true,
+        onSuccess: () => {
+            form.reset()
+        },
+        onError:() => {
+
+        }
+    })
 }
 /**
  * Mise à jour de la prévisualisation de la photo
@@ -95,6 +123,7 @@ const removePreviewPhotoHandler = () => {
         clearPhotoFileInput();
     }else{
         form.delete_old_photo = true;
+        dataPhotoPreview.value = null;
     }
 }
 

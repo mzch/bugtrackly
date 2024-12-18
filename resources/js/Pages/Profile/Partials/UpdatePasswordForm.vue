@@ -1,5 +1,5 @@
 <template>
-    <FormCard card-title="Mettre à jour votre mot de passe" :submit-handler-fn-callback="updatePassword">
+    <FormCard card-title="Mot de passe" :submit-handler-fn-callback="updatePassword">
         <p class="text-secondary">
             Veillez à ce que votre compte utilise un mot de passe long et aléatoire pour rester
             sécurisé.
