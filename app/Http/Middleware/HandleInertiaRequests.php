@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'app_url' => config('app.url'),
             'admin_user_id' => function () use ($request) {
                 if($request->session()->get('admin_user_id')){
                     return User::find($request->session()->get('admin_user_id'));

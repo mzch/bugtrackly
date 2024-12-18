@@ -11,27 +11,13 @@ class Project extends Model
     use HasFactory;
 
     /**
-     * Indique que la clé primaire n'est pas auto-incrémentée.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-
-    /**
-     * Indique que la clé primaire est de type string.
-     *
-     * @var string
-     */
-    protected $keyType = 'string';
-
-
-    /**
      * Les attributs qui peuvent être assignés en masse.
      *
      * @var array
      */
     protected $fillable = [
         'name',
+        'slug',
         'short_desc',
     ];
 
@@ -40,18 +26,18 @@ class Project extends Model
         parent::boot();
 
         static::creating(function ($project) {
-            if (empty($project->id)) {
+            if (empty($project->slug)) {
                 $originalSlug = \Str::slug($project->name);
                 $slug = $originalSlug;
                 $counter = 2;
 
                 // Vérifie si le slug existe déjà
-                while (self::where('id', $slug)->exists()) {
+                while (self::where('slug', $slug)->exists()) {
                     $slug = $originalSlug . '-' . $counter;
                     $counter++;
                 }
 
-                $project->id = $slug;
+                $project->slug = $slug;
             }
         });
     }

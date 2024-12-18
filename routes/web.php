@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\Settings\ProjectController;
-use App\Http\Controllers\Settings\ProjectsController;
-use App\Http\Controllers\Settings\SettingsController;
-use App\Http\Controllers\Settings\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController as FrontProjectController;
+use App\Http\Controllers\Settings\ProjectController;
+use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Settings\UserController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -37,16 +36,18 @@ Route::prefix('settings')
                 Route::get('/', [ProjectController::class, 'index'])->name('index');
                 Route::get('create', [ProjectController::class, 'create'])->name('create');
                 Route::get('/show/{project}', [ProjectController::class, 'show'])->name('show');
+                Route::post('/show/{project}/validate_new_slug', [ProjectController::class, 'validate_slug'])->name('validate_slug');
             });
 
     });
 
 
-
-
-
-Route::get('/projects/sop', [ProjectsController::class, 'soprotocol'])->middleware(['auth', 'verified'])->name('projects-sop');
-Route::get('/projects/lauraco', [ProjectsController::class, 'lauraco'])->middleware(['auth', 'verified'])->name('projects-loraco');
+Route::prefix('projets')
+    ->name('projects.')
+    ->group(function () {
+        Route::get('/', [FrontProjectController::class, 'index'])->name('index');
+        Route::get('/{project}', [FrontProjectController::class, 'show'])->name('show');
+    });
 
 
 Route::middleware('auth')->group(function () {

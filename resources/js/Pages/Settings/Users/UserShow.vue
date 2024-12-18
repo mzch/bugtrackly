@@ -11,13 +11,11 @@
             <template #cardFooter>
                 <div class="d-flex justify-content-end">
                     <Link :href="route('settings.users.index')" class="btn btn-light btn-with-icon me-2">
-                        <XCircleIcon class="size-1 me-1 "/>
                         Retour
                     </Link>
                     <PrimaryButton type="submit"
                                    class="btn-with-icon"
                                    :disabled="submitButtonDisabled">
-                        <ArchiveBoxArrowDownIcon class="size-1 me-1"/>
                         Enregistrer
                     </PrimaryButton>
                 </div>

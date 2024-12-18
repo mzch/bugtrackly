@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Repositories\Projects\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Response;
+use function MongoDB\BSON\toJSON;
 
 class ProjectController extends SettingsController
 {
@@ -41,6 +42,7 @@ class ProjectController extends SettingsController
      */
     public function create()
     {
+        $this->addBreadcrumb('Création', route('settings.projects.create'));
         return $this->render('Settings/Projects/ProjectCreate');
     }
 
@@ -57,18 +59,12 @@ class ProjectController extends SettingsController
      */
     public function show(Project $project)
     {
+        $this->addBreadcrumb('Édition', route('settings.projects.create'));
         $data =[
-            'project' => $project
+            'project' => $project,
+
         ];
         return $this->render('Settings/Projects/ProjectShow', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Project $project)
-    {
-        //
     }
 
     /**
@@ -85,5 +81,24 @@ class ProjectController extends SettingsController
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function validate_slug(Request $request, Project $project)
+    {
+        $validated  = $request->validate([
+            'slug' => 'nullable|string',
+        ]);
+        if($validated['slug'] === null){
+            $validated['slug']= \Str::slug($project->name);
+        }
+        $originalSlug = \Str::slug($validated['slug']);
+        $slug = $originalSlug;
+        $counter = 2;
+        // Vérifie si le slug existe déjà pour un autre projet
+        while (Project::where('slug', $slug)->where('id', '!=', $project->id)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+        return response()->json(["safeSlug" => $slug]);
     }
 }
