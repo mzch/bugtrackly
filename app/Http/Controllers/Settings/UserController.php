@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 
-class UsersController extends SettingsController
+class UserController extends SettingsController
 {
     public function __construct(
         protected RolesPersmissionsRepositoryInterface $rolesPermissionsRepository,
@@ -45,7 +45,7 @@ class UsersController extends SettingsController
             'users'   => $this->usersRepository->getAll($request),
             'filters' => $request->all(['search', 'field', 'direction']),
         ];
-        return $this->render('Settings/Users/UsersIndex', $data);
+        return $this->render('Settings/Users/UserIndex', $data);
     }
 
     public function create(): Response

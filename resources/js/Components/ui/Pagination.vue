@@ -9,6 +9,14 @@ const props = defineProps({
     items: {
         type: Object,
         required: true
+    },
+    itemSingularName:{
+        type:String,
+        required:true
+    },
+    itemPluralName:{
+        type:String,
+        required:true
     }
 });
 const links = computed(() => props.items.links)
@@ -26,7 +34,9 @@ const removePageOneParam = (url) => {
 <template>
     <div class="d-flex align-items-center justify-content-between footer-datatable footer-datatable-sm">
         <div class="text-secondary">
-            Affichage de {{$page.props.users.from}} à {{$page.props.users.to}} sur {{$page.props.users.total}} utilisateurs
+            Affichage de {{items.from}} à {{items.to}} sur {{items.total}}
+            <template v-if="items.total > 1">{{itemPluralName}}</template>
+            <template v-else>{{itemSingularName}}</template>
         </div>
         <nav v-if="showingPagination">
             <ul class="pagination pagination-sm mb-0">

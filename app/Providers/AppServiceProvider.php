@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Projects\ProjectRepository;
+use App\Repositories\Projects\ProjectRepositoryInterface;
 use App\Repositories\RolesPersmissions\RolesPermissionsRepository;
 use App\Repositories\RolesPersmissions\RolesPersmissionsRepositoryInterface;
 use App\Repositories\Users\UserRepository;
@@ -18,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind(RolesPersmissionsRepositoryInterface::class, RolesPermissionsRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
     }
 
     /**

@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Settings\ProjectController;
 use App\Http\Controllers\Settings\ProjectsController;
 use App\Http\Controllers\Settings\SettingsController;
-use App\Http\Controllers\Settings\UsersController;
+use App\Http\Controllers\Settings\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,16 +20,25 @@ Route::prefix('settings')
             ->name('users.')
             ->middleware(['can:manage-users'])
             ->group(function () {
-                Route::get('/', [UsersController::class, 'index'])->name('index');
-                Route::post('/', [UsersController::class, 'store'])->name('store');
-                Route::get('create', [UsersController::class, 'create'])->name('create');
-                Route::get('/show/{user}', [UsersController::class, 'show'])->name('show')->where('user', '[0-9]+');
-                Route::post('/show/{user}', [UsersController::class, 'update'])->name('update')->where('user', '[0-9]+');
-                Route::delete('/{user}', [UsersController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
-                Route::get('switch-user/{newUser}', [UsersController::class, 'switchUser'])->name('switch_user');
-                Route::get('back-to-admin-user', [UsersController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
+                Route::get('/', [UserController::class, 'index'])->name('index');
+                Route::post('/', [UserController::class, 'store'])->name('store');
+                Route::get('create', [UserController::class, 'create'])->name('create');
+                Route::get('/show/{user}', [UserController::class, 'show'])->name('show')->where('user', '[0-9]+');
+                Route::post('/show/{user}', [UserController::class, 'update'])->name('update')->where('user', '[0-9]+');
+                Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
+                Route::get('switch-user/{newUser}', [UserController::class, 'switchUser'])->name('switch_user');
+                Route::get('back-to-admin-user', [UserController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
             });
-        Route::get('projects', [ProjectsController::class, 'index'])->name('projects.index');
+
+        Route::prefix('projects')
+            ->name('projects.')
+            ->middleware(['can:manage-projects'])
+            ->group(function () {
+                Route::get('/', [ProjectController::class, 'index'])->name('index');
+                Route::get('create', [ProjectController::class, 'create'])->name('create');
+                Route::get('/show/{project}', [ProjectController::class, 'show'])->name('show');
+            });
+
     });
 
 

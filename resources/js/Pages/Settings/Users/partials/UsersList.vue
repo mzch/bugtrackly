@@ -10,7 +10,7 @@
             </div>
         </template>
         <template #cardFooter>
-            <Pagination :items="allUsers"/>
+            <Pagination :items="allUsers" item-singular-name="utilisateur" item-plural-name="utilisateurs"/>
         </template>
         <table class="table table-bordered table-hover mb-0 caption-top" v-if="allUsers.data.length">
             <thead>
@@ -25,7 +25,7 @@
             <tr v-for="user in allUsers.data" :key="user.id">
                 <td class="fw-medium">
                     <div class="d-flex align-items-center">
-                        <Link :href="route('settings.users.index', user.id)">
+                        <Link :href="route('settings.users.show', user.id)">
                             <Avatar class="size-3 me-2" :user="user"/>
                         </Link>
                         <div>
@@ -100,7 +100,6 @@ const params = ref({
     direction: filters.value.direction
 });
 
-const is_search = computed( () => filters.value.search !== null)
 const no_result = computed( () => filters.value.search !== null ? "Aucun utilisateur trouvé" : "Aucun utilisateur enregistré")
 
 
@@ -112,6 +111,7 @@ const sort = (field) => {
     params.value.field = field
     params.value.direction = params.value.direction === 'asc' ? 'desc' : 'asc';
 }
+
 /**
  * Watcher for params
  * Make an Inertia request with cleaned params
