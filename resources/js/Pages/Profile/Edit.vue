@@ -1,33 +1,22 @@
-
-
 <template>
     <AuthenticatedLayout page-title="Mon profil">
         <Card>
             <div class="row gx-5 mb-5">
                 <div class="col-lg-6 col-xxl-8">
-                    <Card card-title="Informations sur le profil" class="mb-5">
-                        <UpdateProfileInformationForm
-                            :must-verify-email="mustVerifyEmail"
-                            :status="status"
-                        />
-                    </Card>
-                    <Card card-title="Mettre à jour votre mot de passe">
-                        <UpdatePasswordForm/>
-                    </Card>
+                    <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status"/>
                 </div>
                 <div class="col-lg-6 col-xxl-4">
-                    avatar
+                    <UpdateAvatarForm/>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <Card card-title="Suppression de mon compte">
-                        <DeleteUserForm/>
-                    </Card>
+                    <UpdatePasswordForm class="mb-5"/>
+                    <DeleteUserForm/>
                 </div>
             </div>
         </Card>
-    <template #header>Mon profil</template>
+        <template #header>Mon profil</template>
 
 
     </AuthenticatedLayout>
@@ -39,6 +28,7 @@ import UpdateProfileInformationForm from './Partials/UpdateProfileInformationFor
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Card from "@/Components/ui/Card.vue";
+import UpdateAvatarForm from "@/Pages/Profile/Partials/UpdateAvatarForm.vue";
 
 defineProps({
     mustVerifyEmail: {

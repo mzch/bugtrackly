@@ -6,6 +6,8 @@ import TextInput from '@/Components/ui/form/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import FormField from "@/Components/ui/form/FormField.vue";
 import {computed, nextTick} from "vue";
+import Card from "@/Components/ui/Card.vue";
+import FormCard from "@/Components/ui/FormCard.vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -35,13 +37,10 @@ const submitFormHandler = () => {
 </script>
 
 <template>
+    <FormCard :submit-handler-fn-callback="submitFormHandler" card-title="Informations sur le profil">
         <p class="text-secondary">
             Mettez à jour les informations de profil et l'adresse électronique de votre compte.
         </p>
-        <form
-            @submit.prevent="submitFormHandler"
-            class="mt-6 space-y-6"
-        >
             <FormField class="form-floating">
                 <TextInput
                     id="first_name"
@@ -70,7 +69,7 @@ const submitFormHandler = () => {
                 <InputError :message="form.errors.last_name" />
             </FormField>
 
-            <FormField class="form-floating">
+            <FormField no-margin-bottom class="form-floating">
                 <TextInput
                     id="email"
                     type="email"
@@ -83,10 +82,11 @@ const submitFormHandler = () => {
                 <InputError :message="form.errors.email" />
             </FormField>
 
-            <div v-if="mustVerifyEmail && user.email_verified_at === null" class="mb-3">
+            <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 mb-0 text-sm text-warning">
                     <strong>Attention</strong>, votre adresse électronique n'est pas vérifiée.
                     <Link
+                        type="button"
                         :href="route('verification.send')"
                         method="post"
                         as="button"
@@ -103,7 +103,7 @@ const submitFormHandler = () => {
                     Un nouveau lien de vérification a été envoyé à votre adresse électronique.
                 </div>
             </div>
-
+        <template #cardFooter>
             <div class="d-flex align-items-center justify-content-between">
                 <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
                 <Transition
@@ -116,5 +116,6 @@ const submitFormHandler = () => {
                     </p>
                 </Transition>
             </div>
-        </form>
+        </template>
+    </FormCard>
 </template>

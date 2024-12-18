@@ -1,6 +1,7 @@
 <template>
-    <Card card-title="Photo de profil">
-        <p class="form-text text-center">Personnalisez l'image de profil de cet utilisateur</p>
+    <FormCard card-title="Ma photo de profil" :submit-handler-fn-callback="submithandler">
+        <p class="form-text text-center">Personnalisez votre image de profil</p>
+        <pre>{{form}}</pre>
         <p class="text-center">
             <AvatarGravatar class="size-5" :user="user" :preview-upload-image="dataPhotoPreview"/>
         </p>
@@ -13,44 +14,45 @@
             accept="image/png, image/jpeg"
             @change="updatePhotoPreview"/>
         <div class="d-flex justify-content-center">
-            <button type="button"
-                    class="btn btn-outline-primary btn-with-icon btn-sm"
-                    @click.prevent="selectNewPhotoHandler">
+            <PrimaryButton outlined class="btn-with-icon btn-sm" @click.prevent="selectNewPhotoHandler">
                 <CameraIcon class="size-1 me-1"/>Importer une photo
-            </button>
-            <button type="button"
-                    class="btn btn-outline-danger btn-with-icon btn-sm ms-2"
-                    v-if="viewDeleteButton"
-                    @click.prevent="removePreviewPhotoHandler">
+            </PrimaryButton>
+            <DangerButton outlined class="btn-with-icon btn-sm ms-2"
+                          v-if="viewDeleteButton"
+                          @click.prevent="removePreviewPhotoHandler">
                 <TrashIcon class="size-1 me-1"/>Supprimer
-            </button>
+            </DangerButton>
         </div>
-    </Card>
+        <template #cardFooter>
+            <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+        </template>
+    </FormCard>
 </template>
 
 <script setup>
-import AvatarGravatar from "@/Components/ui/user/AvatarGravatar.vue";
-import InputError from "@/Components/ui/form/InputError.vue";
-import {computed, ref} from "vue";
-import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
-import Card from "@/Components/ui/Card.vue";
 
-const props = defineProps({
-    form:{
-        type:Object,
-        required: true,
-    },
-    user:{
-        type:Object,
-        required: true,
-    }
-})
+import Card from "@/Components/ui/Card.vue";
+import AvatarGravatar from "@/Components/ui/user/AvatarGravatar.vue";
+import {computed, ref} from "vue";
+import {useForm, usePage} from "@inertiajs/vue3";
+import InputError from "@/Components/ui/form/InputError.vue";
+import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
+import DangerButton from "@/Components/ui/form/DangerButton.vue";
+import FormCard from "@/Components/ui/FormCard.vue";
+
+const user = computed(() => usePage().props.auth.user);
 const photoInput = ref(null);
 const dataPhotoPreview = ref(null);
+const form = useForm({
+    photo: null,
+    delete_old_photo:false,
+})
+
 const appDomain = window.location.origin;
 
 const viewPreviewPhoto = computed(()=>dataPhotoPreview.value !== null)
-const hasLocalPhoto = computed(() => props.user.profile_photo_url && props.user.profile_photo_url.startsWith(appDomain))
+const hasLocalPhoto = computed(() => user.value.profile_photo_url && user.value.profile_photo_url.startsWith(appDomain))
 /**
  * On cache le bouto de suppression d'avatar que s'il y a une preview ou que si
  * user.profile_photo_url commence par le domaine de l'app
@@ -58,12 +60,9 @@ const hasLocalPhoto = computed(() => props.user.profile_photo_url && props.user.
  */
 const viewDeleteButton = computed(() => (viewPreviewPhoto.value || hasLocalPhoto.value ));
 
-/**
- * Handler sur le clic du bouton d'importation d'avatar'
- * @returns {*}
- */
-const selectNewPhotoHandler = () => photoInput.value.click();
-
+const submithandler = () => {
+    console.log("submit");
+}
 /**
  * Mise à jour de la prévisualisation de la photo
  */
@@ -71,14 +70,14 @@ const updatePhotoPreview = () => {
     const photo = photoInput.value.files[0];
     if (!photo) return;
 
-    props.form.clearErrors("photo")
+    form.clearErrors("photo")
     const reader = new FileReader();
     reader.onload = (e) => {
         dataPhotoPreview.value = e.target.result;
     };
 
     if (photoInput.value) {
-        props.form.photo = photoInput.value.files[0];
+       form.photo = photoInput.value.files[0];
     }
     reader.readAsDataURL(photo);
 }
@@ -89,13 +88,13 @@ const updatePhotoPreview = () => {
  */
 const removePreviewPhotoHandler = () => {
     // un préview d'upload est affiché
-    if(props.form.photo){
-        props.form.reset("photo")
-        props.form.clearErrors("photo")
+    if(form.photo){
+        form.reset("photo")
+        form.clearErrors("photo")
         dataPhotoPreview.value = null;
         clearPhotoFileInput();
     }else{
-        props.form.delete_old_photo = true;
+        form.delete_old_photo = true;
     }
 }
 
@@ -104,4 +103,10 @@ const clearPhotoFileInput = () => {
         photoInput.value.value = null;
     }
 }
+
+/**
+ * Handler sur le clic du bouton d'importation d'avatar'
+ * @returns {*}
+ */
+const selectNewPhotoHandler = () => photoInput.value.click();
 </script>
