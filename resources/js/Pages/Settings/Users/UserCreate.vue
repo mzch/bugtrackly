@@ -1,5 +1,5 @@
 <template>
-    <NewAuthenticatedLayout page-title="Utilisateurs">
+    <AuthenticatedLayout page-title="Utilisateurs">
         <template #header><span v-html="dynamic_page_title"/></template>
         <template #headerActions>
             <Link :href="route('settings.users.index')" class="btn btn-primary btn-sm btn-with-icon">
@@ -31,6 +31,7 @@
                                        type="text"
                                        placeholder="Password"
                                        id="password"
+                                       minlength="8"
                                        :class="{'is-invalid':form.errors.password}"/>
                             <InputLabel for="password" value="Mot de passe du compte" required/>
                             <InputError :message="form.errors.password"/>
@@ -51,10 +52,10 @@
             </div>
         </FormCard>
 
-    </NewAuthenticatedLayout>
+    </AuthenticatedLayout>
 </template>
 <script setup>
-import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Link, useForm} from '@inertiajs/vue3';
 import {ArrowLeftIcon, XCircleIcon, ArchiveBoxArrowDownIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";

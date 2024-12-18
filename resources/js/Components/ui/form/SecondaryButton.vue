@@ -3,6 +3,7 @@
         <slot />
     </button>
 </template>
+
 <script setup>
 import {computed} from "vue";
 
@@ -16,6 +17,5 @@ const props = defineProps({
         default: false,
     }
 });
-
-const classes = computed(() => props.outlined ? "btn-outline-primary" : "btn-primary")
+const classes = computed(() => props.outlined ? "btn-outline-secondary" : "btn-secondary")
 </script>

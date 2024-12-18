@@ -16,6 +16,5 @@ const props = defineProps({
         default: false,
     }
 });
-
-const classes = computed(() => props.outlined ? "btn-outline-primary" : "btn-primary")
+const classes = computed(() => props.outlined ? "btn-outline-danger" : "btn-danger")
 </script>

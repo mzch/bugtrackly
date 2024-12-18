@@ -48,10 +48,10 @@ import NavLink from "@/Components/ui/NavLink.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {Link, usePage} from "@inertiajs/vue3";
 
-import {onMounted, onUnmounted, ref} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 const root = ref(null)
 const showUserMenu = ref(false);
-const current_user = usePage().props.auth.user;
+const current_user = computed(() => usePage().props.auth.user)
 const closeUserDropDown = (e) => {
     if (! root.value.contains(e.target)) {
         showUserMenu.value = false

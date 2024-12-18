@@ -1,5 +1,5 @@
 <template>
-    <NewAuthenticatedLayout page-title="Utilisateurs">
+    <AuthenticatedLayout page-title="Utilisateurs">
         <template #header><span v-html="dynamic_page_title"/></template>
         <template #headerActions>
             <Link :href="route('settings.users.index')" class="btn btn-primary btn-with-icon">
@@ -72,10 +72,10 @@
             </div>
 
         </FormCard>
-    </NewAuthenticatedLayout>
+    </AuthenticatedLayout>
 </template>
 <script setup>
-import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Link, useForm} from '@inertiajs/vue3';
 import {ArchiveBoxArrowDownIcon, ArrowLeftIcon, XCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";

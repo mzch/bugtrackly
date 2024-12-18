@@ -1,5 +1,5 @@
 <template>
-    <div class="user-avatar" :class="{'user-avatar-initials': !hasGravatar || !previewUploadImage || !profile_photo_url }">
+    <div class="user-avatar" :class="{'user-avatar-initials': !hasGravatar || !previewUploadImage || !user.profile_photo_url }">
          <span v-if="previewUploadImage"
                class="d-block rounded-circle w-100 h-100"
                :style="'background-image: url(\'' + previewUploadImage + '\');'"></span>

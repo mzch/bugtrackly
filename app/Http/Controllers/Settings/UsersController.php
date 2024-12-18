@@ -12,6 +12,7 @@ use App\Notifications\Users\UserCreatedNotification;
 use App\Notifications\Users\UserPasswordChangedNotification;
 use App\Repositories\RolesPersmissions\RolesPersmissionsRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -71,6 +72,7 @@ class UsersController extends SettingsController
             'email'      => $validated['email'],
             'role_id'    => $validated['role_id'],
             'password'   => Hash::make($validated['password']),
+            'email_verified_at' => Carbon::now(),
         ]);
 
         if($photo = $request->validated("photo")){
