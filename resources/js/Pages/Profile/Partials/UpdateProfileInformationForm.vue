@@ -75,7 +75,6 @@ const submitFormHandler = () => {
                     id="email"
                     type="email"
                     placeholder="Votre adresse email"
-                    class="mt-1 block w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"
@@ -84,40 +83,35 @@ const submitFormHandler = () => {
                 <InputError :message="form.errors.email" />
             </FormField>
 
-            <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800">
-                    Your email address is unverified.
+            <div v-if="mustVerifyEmail && user.email_verified_at === null" class="mb-3">
+                <p class="mt-2 mb-0 text-sm text-warning">
+                    <strong>Attention</strong>, votre adresse électronique n'est pas vérifiée.
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="btn btn-outline-primary btn-sm"
                     >
-                        Click here to re-send the verification email.
+                        Vérifier mon adresse email
                     </Link>
                 </p>
 
                 <div
                     v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
+                    class="mt-1 mb-2 text-success"
                 >
-                    A new verification link has been sent to your email address.
+                    Un nouveau lien de vérification a été envoyé à votre adresse électronique.
                 </div>
             </div>
 
             <div class="d-flex align-items-center justify-content-between">
                 <PrimaryButton :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
-
                 <Transition
                     enter-active-class="transition-opacity"
                     enter-from-class="opacity-0"
                     leave-active-class="transition-opacity"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="mb-0 text-success fw-bold"
-                    >
+                    leave-to-class="opacity-0">
+                    <p v-if="form.recentlySuccessful" class="mb-0 text-success fw-bold">
                         Informations enregistrées !
                     </p>
                 </Transition>

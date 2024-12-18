@@ -13,6 +13,9 @@
                     v-model="form.current_password"
                     type="password"
                     autocomplete="current-password"
+                    required
+                    minlength="8"
+                    :class="{'is-invalid' :form.errors.current_password}"
                 />
                 <InputLabel for="current_password" value="Mot de passe actuel" />
                 <InputError :message="form.errors.current_password"/>
@@ -25,7 +28,9 @@
                     v-model="form.password"
                     type="password"
                     placeholder="Nouveau mot de passe"
-                    class="mt-1 block w-full"
+                    required
+                    minlength="8"
+                    :class="{'is-invalid' :form.errors.password}"
                     autocomplete="new-password"
                 />
                 <InputLabel for="password" value="Nouveau mot de passe" />
@@ -38,27 +43,23 @@
                     v-model="form.password_confirmation"
                     type="password"
                     placeholder="Confirmer le mot de passe"
-                    class="mt-1 block w-full"
+                    required
+                    minlength="8"
+                    :class="{'is-invalid' :form.errors.password_confirmation}"
                     autocomplete="new-password"
                 />
                 <InputLabel for="password_confirmation" value="Confirmer le mot de passe"/>
                 <InputError :message="form.errors.password_confirmation"/>
             </FormField>
-
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Enregistrer</PrimaryButton>
-
+            <div class="d-flex align-items-center justify-content-between">
+                <PrimaryButton :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
                 <Transition
-                    enter-active-class="transition ease-in-out"
+                    enter-active-class="transition-opacity ease-in-out"
                     enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
+                    leave-active-class="transition-opacity ease-in-out"
+                    leave-to-class="opacity-0">
+                    <p v-if="form.recentlySuccessful" class="mb-0 text-success fw-bold">
+                        Votre nouveau mot de passe a été pris en compte.
                     </p>
                 </Transition>
             </div>

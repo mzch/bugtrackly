@@ -31,6 +31,7 @@
                                        type="text"
                                        placeholder="Password"
                                        id="password"
+                                       minlength="8"
                                        :class="{'is-invalid':form.errors.password}"/>
                             <InputLabel for="password" value="Mot de passe du compte" required/>
                             <InputError :message="form.errors.password"/>

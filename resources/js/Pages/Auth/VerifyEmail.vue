@@ -23,37 +23,38 @@ const verificationLinkSent = computed(
 
 <template>
     <GuestLayout>
-        <Head title="Email Verification" />
+        <Head title="Vérification de votre adresse -email" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your
-            email address by clicking on the link we just emailed to you? If you
-            didn't receive the email, we will gladly send you another.
-        </div>
+        <p class="mb-4">
+            Avant de poursuivre, vous devez vérifier votre
+            adresse électronique en cliquant sur le lien que nous venons de vous envoyer par courrier électronique ?
+            <br>
+            Si vous n'avez pas reçu cet email, nous vous en enverrons un autre avec plaisir.
+        </p>
 
         <div
-            class="mb-4 text-sm font-medium text-green-600"
+            class="mb-4 text-success"
             v-if="verificationLinkSent"
         >
-            A new verification link has been sent to the email address you
-            provided during registration.
+            Un nouveau lien de vérification a été envoyé à l'adresse électronique que vous avez
+            fournie.
         </div>
 
         <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
+            <div class="mt-4 d-flex align-items-center justify-content-between">
                 <PrimaryButton
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Resend Verification Email
+                    Renvoyer l'e-mail de vérification
                 </PrimaryButton>
 
                 <Link
                     :href="route('logout')"
                     method="post"
                     as="button"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >Log Out</Link
+                    class="btn btn-secondary"
+                    >Se déconnecter</Link
                 >
             </div>
         </form>
