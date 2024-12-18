@@ -1,5 +1,5 @@
 <template>
-  <NewAuthenticatedLayout page-title="Dashboard">
+  <AuthenticatedLayout page-title="Dashboard">
     <template #header>Tableau de bord</template>
 <!--    <template #headerActions>Actions</template>-->
       <Card class="mb-4">
@@ -68,11 +68,11 @@
           </div>
       </div>
 
-  </NewAuthenticatedLayout>
+  </AuthenticatedLayout>
 </template>
 
 <script setup>
-import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Card from "@/Components/ui/Card.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {usePage} from "@inertiajs/vue3";

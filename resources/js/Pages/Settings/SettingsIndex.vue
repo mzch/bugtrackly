@@ -1,5 +1,5 @@
 <template>
-    <NewAuthenticatedLayout page-title="Utilisateurs">
+    <AuthenticatedLayout page-title="Utilisateurs">
         <template #header>Paramètres</template>
 
         <div class="row">
@@ -20,10 +20,10 @@
                 </Card>
             </div>
         </div>
-    </NewAuthenticatedLayout>
+    </AuthenticatedLayout>
 </template>
 <script setup>
-import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Card from "@/Components/ui/Card.vue";
 import { Link } from '@inertiajs/vue3';
 </script>

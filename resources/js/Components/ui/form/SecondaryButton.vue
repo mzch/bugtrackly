@@ -1,8 +1,9 @@
 <template>
-    <button :type="type" class="btn btn-primary">
+    <button :type="type" class="btn btn-secondary">
         <slot />
     </button>
 </template>
+
 <script setup>
 defineProps({
     type: {

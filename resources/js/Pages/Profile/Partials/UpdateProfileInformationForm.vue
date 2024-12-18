@@ -105,7 +105,7 @@ const submitFormHandler = () => {
             </div>
 
             <div class="d-flex align-items-center justify-content-between">
-                <PrimaryButton :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
                 <Transition
                     enter-active-class="transition-opacity"
                     enter-from-class="opacity-0"

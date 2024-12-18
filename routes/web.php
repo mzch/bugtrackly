@@ -38,9 +38,6 @@ Route::prefix('settings')
 Route::get('/projects/sop', [ProjectsController::class, 'soprotocol'])->middleware(['auth', 'verified'])->name('projects-sop');
 Route::get('/projects/lauraco', [ProjectsController::class, 'lauraco'])->middleware(['auth', 'verified'])->name('projects-loraco');
 
-Route::get('/tpl', function () {
-    return Inertia::render('Tpl/Index');
-})->middleware(['auth', 'verified'])->name('tpl');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

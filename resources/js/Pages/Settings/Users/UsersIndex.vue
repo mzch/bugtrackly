@@ -1,5 +1,5 @@
 <template>
-    <NewAuthenticatedLayout page-title="Utilisateurs">
+    <AuthenticatedLayout page-title="Utilisateurs">
         <template #header>Gestion des utilisateurs</template>
         <template #headerActions>
             <Link :href="route('settings.users.create')" class="btn btn-primary btn-with-icon">
@@ -10,11 +10,11 @@
         <UsersList/>
         <UserDeleteModal/>
         <UserConnectAsModal/>
-    </NewAuthenticatedLayout>
+    </AuthenticatedLayout>
 
 </template>
 <script setup>
-import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Link} from '@inertiajs/vue3';
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import UsersList from "@/Pages/Settings/Users/partials/UsersList.vue";

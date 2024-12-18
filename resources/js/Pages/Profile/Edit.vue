@@ -1,9 +1,9 @@
 
 
 <template>
-    <NewAuthenticatedLayout page-title="Mon profil">
-        <FormCard :submit-handler-fn-callback="updateProfileFormHandler">
-            <div class="row gx-5">
+    <AuthenticatedLayout page-title="Mon profil">
+        <Card>
+            <div class="row gx-5 mb-5">
                 <div class="col-lg-6 col-xxl-8">
                     <Card card-title="Informations sur le profil" class="mb-5">
                         <UpdateProfileInformationForm
@@ -15,27 +15,30 @@
                         <UpdatePasswordForm/>
                     </Card>
                 </div>
+                <div class="col-lg-6 col-xxl-4">
+                    avatar
+                </div>
             </div>
-
-        </FormCard>
+            <div class="row">
+                <div class="col">
+                    <Card card-title="Suppression de mon compte">
+                        <DeleteUserForm/>
+                    </Card>
+                </div>
+            </div>
+        </Card>
     <template #header>Mon profil</template>
 
-    <Card>
-        <DeleteUserForm/>
-    </Card>
-    </NewAuthenticatedLayout>
+
+    </AuthenticatedLayout>
 </template>
 <script setup>
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 
-import NewAuthenticatedLayout from "@/Layouts/NewAuthenticatedLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Card from "@/Components/ui/Card.vue";
-import FormCard from "@/Components/ui/FormCard.vue";
-import {ArchiveBoxArrowDownIcon, XCircleIcon} from "@heroicons/vue/24/outline/index.js";
-import {Link} from "@inertiajs/vue3";
-import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 
 defineProps({
     mustVerifyEmail: {
@@ -46,7 +49,4 @@ defineProps({
     },
 });
 
-const updateProfileFormHandler = () => {
-    console.log("updateProfileFormHandler");
-}
 </script>

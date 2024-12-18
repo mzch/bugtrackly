@@ -54,6 +54,7 @@ const submit = () => {
 
             <FormEnd>
                 <PrimaryButton
+                    type="submit"
                     class="flex-grow-1"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"

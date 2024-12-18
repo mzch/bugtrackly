@@ -52,7 +52,7 @@
                 <InputError :message="form.errors.password_confirmation"/>
             </FormField>
             <div class="d-flex align-items-center justify-content-between">
-                <PrimaryButton :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
                 <Transition
                     enter-active-class="transition-opacity ease-in-out"
                     enter-from-class="opacity-0"

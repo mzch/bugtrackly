@@ -76,7 +76,7 @@ const submit = () => {
                     :href="route('password.request')">
                     Mot de passe oublié ?</Link>
 
-                <PrimaryButton
+                <PrimaryButton type="submit"
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"

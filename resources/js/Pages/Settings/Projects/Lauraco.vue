@@ -1,5 +1,5 @@
 <template>
-    <NewAuthenticatedLayout page-title="Lauraco">
+    <AuthenticatedLayout page-title="Lauraco">
         <template #header>Mes projets / Lauraco</template>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto est, ipsum molestias nisi nulla possimus
             repellat sint velit? Debitis eveniet itaque minima modi officia pariatur quo sit tempore ut vitae?</p>
@@ -8,8 +8,8 @@
         <br>
         {{$page.component}}
 
-    </NewAuthenticatedLayout>
+    </AuthenticatedLayout>
 </template>
 <script setup>
-import NewAuthenticatedLayout from '@/Layouts/NewAuthenticatedLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 </script>
