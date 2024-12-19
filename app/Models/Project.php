@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Trait\Project\HasProjectPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     /** @use HasFactory<\Database\Factories\ProjectFactory> */
-    use HasFactory;
+    use HasFactory, HasProjectPhoto;
 
     /**
      * Les attributs qui peuvent être assignés en masse.
@@ -19,6 +20,24 @@ class Project extends Model
         'name',
         'slug',
         'short_desc',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'project_photo_path',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'project_photo_url',
     ];
 
     protected static function boot()
@@ -50,6 +69,9 @@ class Project extends Model
             }
 
             $project->slug = $slug;
+        });
+        static::deleting(function (Project $project) {
+            $project->deleteProjectPhoto();
         });
     }
 

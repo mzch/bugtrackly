@@ -19,7 +19,7 @@ trait HasProfilePhoto
     public function updateProfilePhoto(UploadedFile $photo, false|string $storagePath = false)
     {
         if(!$storagePath){
-            $storagePath = config('bugtrackly.storage_path');
+            $storagePath = config('bugtrackly.profile_photo_storage_path');
         }
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -51,6 +51,7 @@ trait HasProfilePhoto
             'profile_photo_path' => null,
         ])->save();
     }
+
     /**
      * Get the URL to the user's profile photo.
      *

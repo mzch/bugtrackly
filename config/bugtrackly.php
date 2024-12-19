@@ -6,7 +6,15 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'storage_path'         => env('BUGTRACKLY_USER_AVATAR_STORAGE_PATH', 'profile-photos'),
+    'profile_photo_storage_path'         => env('BUGTRACKLY_USER_AVATAR_STORAGE_PATH', 'profile-photos'),
+
+    /*
+   |--------------------------------------------------------------------------
+   | Storage path for the project photo
+   |--------------------------------------------------------------------------
+   |
+   */
+    'project_photo_storage_path'         => env('BUGTRACKLY_PROJECT_PHOTO_STORAGE_PATH', 'profile-photos'),
 
     /*
     |--------------------------------------------------------------------------
@@ -15,6 +23,14 @@ return [
     |
     */
     'profile_photo_disk'   => env('BUGTRACKLY_USER_AVATAR_STORAGE_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Storage disk for the project photo
+    |--------------------------------------------------------------------------
+    |
+    */
+    'profile_project_disk'   => env('BUGTRACKLY_PROJECT_PHOTO_STORAGE_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------

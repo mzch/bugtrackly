@@ -25,7 +25,6 @@
                                placeholder="Courte description"
                                id="name"
                                :class="{'is-invalid':form.errors.short_desc}"
-                               autofocus
                                required
                     />
                     <InputLabel for="name" value="Courte description" required/>
@@ -33,7 +32,7 @@
                 </FormField>
             </div>
             <div class="col-lg-4">
-
+                <ProjectPhoto :form="form"/>
             </div>
         </div>
 
@@ -48,6 +47,7 @@ import InputError from "@/Components/ui/form/InputError.vue";
 import FormField from "@/Components/ui/form/FormField.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import ProjectPermalien from "@/Pages/Settings/Projects/partials/form/ProjectPermalien.vue";
+import ProjectPhoto from "@/Pages/Settings/Projects/partials/form/ProjectPhoto.vue";
 
 const props = defineProps({
     form: {

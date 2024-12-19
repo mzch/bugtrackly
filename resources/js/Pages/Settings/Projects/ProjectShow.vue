@@ -61,6 +61,7 @@ const dynamic_page_title = computed(() => {
 const updateHandler = () => {
   console.log("updateHandler");
   form.post(route('settings.projects.update', props.project.id)), {
+      forceFormData:true,
       onFinish: () => console.log("ok"),
   }
 }

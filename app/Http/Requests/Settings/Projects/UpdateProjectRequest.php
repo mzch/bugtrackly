@@ -25,6 +25,15 @@ class UpdateProjectRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'slug' => ['required', 'string', 'max:255'],
             'short_desc' => ['required', 'string', 'max:255'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'delete_old_photo' => ['required', 'boolean'],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'delete_old_photo' => filter_var($this->delete_old_photo, FILTER_VALIDATE_BOOLEAN),
+        ]);
     }
 }

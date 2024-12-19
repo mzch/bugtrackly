@@ -79,6 +79,14 @@ class ProjectController extends SettingsController
             'short_desc'      => $validated['short_desc'],
         ];
         $project->update($dataUpdate);
+
+        if($request->validated("photo")){
+            $project->updateProjectPhoto($request->validated("photo"));
+        }
+        if($request->validated("delete_old_photo")){
+            $project->deleteProjectPhoto();
+        }
+
         return to_route('settings.projects.show', ['project' =>$project]);
     }
 
