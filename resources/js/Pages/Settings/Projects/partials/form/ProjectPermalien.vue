@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex align-items-center text-sm mt-2">
+    <div class="d-flex align-items-center text-sm">
         <strong class="me-1">Permalien :</strong>
         <template v-if="!editing_slug">
             <Link :href="route('projects.show', original_slug)">
@@ -14,6 +14,7 @@
             <span>{{ route('projects.index') }}/</span>
             <TextInput v-model="slug"
                        @keydown.prevent.enter="valideSlugHandler"
+                       maxlength="255"
                        ref="slugField"
                        class="form-control-sm w-auto px-1 ms-1"/>
             <button type="button" class="btn btn-sm btn-secondary ms-1" @click="valideSlugHandler">Ok</button>
@@ -44,7 +45,8 @@ const showEditSlug = () => {
 };
 const valideSlugHandler = () => {
     axios.post(route('settings.projects.validate_slug',usePage().props.project.id ), {
-        slug: slug.value
+        slug: slug.value,
+        name:props.form.name
     })
         .then(response => {
             const safeSlug = response.data.safeSlug;

@@ -40,6 +40,17 @@ class Project extends Model
                 $project->slug = $slug;
             }
         });
+        static::updating(function ($project) {
+            $originalSlug = $project->slug;
+            $slug = $originalSlug;
+            $counter = 2;
+            while (self::where('slug', $slug)->where('id', '!=', $project->id)->exists()) {
+                $slug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+
+            $project->slug = $slug;
+        });
     }
 
 }

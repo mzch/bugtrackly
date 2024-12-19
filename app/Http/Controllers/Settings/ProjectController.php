@@ -72,7 +72,14 @@ class ProjectController extends SettingsController
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $validated = $request->validated();
+        $dataUpdate = [
+            'name' => $validated['name'],
+            'slug'  => $validated['slug'],
+            'short_desc'      => $validated['short_desc'],
+        ];
+        $project->update($dataUpdate);
+        return to_route('settings.projects.show', ['project' =>$project]);
     }
 
     /**
@@ -87,9 +94,16 @@ class ProjectController extends SettingsController
     {
         $validated  = $request->validate([
             'slug' => 'nullable|string',
+            'name' => 'nullable|string',
         ]);
+//        dd($validated);
         if($validated['slug'] === null){
-            $validated['slug']= \Str::slug($project->name);
+            if($validated['name'] === null){
+                $name = $project->name;
+            }else{
+                $name = $validated['name'];
+            }
+            $validated['slug']= \Str::slug($name);
         }
         $originalSlug = \Str::slug($validated['slug']);
         $slug = $originalSlug;

@@ -11,7 +11,7 @@ class UpdateProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return $this->user()->can('manage-projects');
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255'],
+            'short_desc' => ['required', 'string', 'max:255'],
         ];
     }
 }

@@ -60,5 +60,8 @@ const dynamic_page_title = computed(() => {
 
 const updateHandler = () => {
   console.log("updateHandler");
+  form.post(route('settings.projects.update', props.project.id)), {
+      onFinish: () => console.log("ok"),
+  }
 }
 </script>
