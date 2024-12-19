@@ -1,7 +1,7 @@
 <template>
     <Card card-title="Caractéristiques du projet">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-9">
                 <FormField class="form-floating">
                     <TextInput v-model.trim="form.name"
                                type="text"
@@ -31,7 +31,7 @@
                     <InputError :message="form.errors.name"/>
                 </FormField>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <ProjectPhoto :form="form"/>
             </div>
         </div>

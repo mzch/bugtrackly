@@ -2,13 +2,14 @@
   <div class="project-photo">
     <span v-if="dataPhotoPreview"
           :style="'background-image: url(\'' + dataPhotoPreview + '\');'"></span>
-    <template v-else-if="projects.project_photo_url">
+    <template v-else-if="projects.project_photo_url && !form.delete_old_photo">
       <img :src="projects.project_photo_url" />
     </template>
     <template v-else>
       <span class="default"><ComputerDesktopIcon class="size-5"/></span>
     </template>
   </div>
+  <InputError :message="form.errors.photo" class="text-center mb-2" :class="{'d-block':form.errors.photo}"/>
   <input
       id="photo"
       ref="photoInput"
@@ -31,8 +32,6 @@
       Supprimer
     </button>
   </div>
-  <pre>{{ projects }}</pre>
-  <pre>{{ form }}</pre>
 </template>
 
 <script setup>
@@ -40,6 +39,7 @@ import {computed, ref} from "vue";
 import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import {usePage} from "@inertiajs/vue3";
 import {ComputerDesktopIcon} from "@heroicons/vue/24/outline/index.js";
+import InputError from "@/Components/ui/form/InputError.vue";
 
 const props = defineProps({
   form: {
@@ -50,14 +50,14 @@ const props = defineProps({
 const projects = computed(()=>usePage().props.project);
 const photoInput = ref(null);
 const dataPhotoPreview = ref(null);
-
+const hasLocalPhoto = computed(() => projects.value.project_photo_url )
 const viewPreviewPhoto = computed(()=>dataPhotoPreview.value !== null)
 /**
  * On cache le bouton de suppression d'avatar que s'il y a une preview ou que si
  * user.profile_photo_url commence par le domaine de l'app
  * @type {ComputedRef<boolean>}
  */
-const viewDeleteButton = computed(() => viewPreviewPhoto.value);
+const viewDeleteButton = computed(() => viewPreviewPhoto.value || hasLocalPhoto.value);
 
 /**
  * Handler sur le clic du bouton d'importation d'avatar'
