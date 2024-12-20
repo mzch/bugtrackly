@@ -17,18 +17,31 @@
             <tr>
                 <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
                 <th>Utilisateurs</th>
+                <th class="date-col" :class="sortingClass('date', params)" @click="sort('date')">Date</th>
             </tr>
             </thead>
             <tbody>
                 <tr v-for="item in items.data" :key="item.id">
                     <td class="fw-medium">
                         <div class="d-flex align-items-center">
-                            <Link :href="route('settings.projects.show', item.id)">
+                            <Link class="fw-bold" :href="route('settings.projects.show', item.id)">
                                 {{item.name}}
                             </Link>
                         </div>
+                        <div class="row-actions">
+                            <Link :href="route('settings.projects.show', item.id)">Modifier</Link>
+                            <span class="mx-1 text-gray">|</span>
+                            <button class="btn btn-sm btn-sm border-0 p-0 btn-link text-danger"
+                                    @click="store.commit('projectsManagement/setProjectToDelete', item)"
+                                    type="button">
+                                Supprimer
+                            </button>
+                        </div>
                     </td>
                     <td></td>
+                    <td class="text-sm text-secondary">
+                        <InfoProject :project="item"/>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -49,7 +62,9 @@ import {pickBy, throttle} from "lodash";
 import Pagination from "@/Components/ui/Pagination.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
 import Avatar from "@/Components/ui/user/avatar.vue";
-
+import InfoProject from "@/Components/ui/project/InfoProject.vue";
+import {useStore} from "vuex";
+const store = useStore();
 const items = computed(()=>usePage().props.projects);
 
 /**
@@ -91,3 +106,8 @@ watch(params, throttle(function () {
     router.get(route('settings.projects.index'), my_params, {replace: true, preserveState: true})
 }, 300), {deep: true})
 </script>
+<style scoped>
+.date-col{
+    width: 250px;
+}
+</style>

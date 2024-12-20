@@ -22,7 +22,6 @@
             </template>
             <div class="row gx-5">
                 <div class="col-12">
-                    <pre>{{form}}</pre>
                     <ProjectIdentity :form="form"/>
                 </div>
             </div>

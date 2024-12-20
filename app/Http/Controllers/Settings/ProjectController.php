@@ -31,7 +31,7 @@ class ProjectController extends SettingsController
     {
         $request->validate([
             'direction' => 'in:asc,desc',
-            'field'     => 'in:name,email,role',
+            'field'     => 'in:name,date',
         ]);
 
 
@@ -39,11 +39,11 @@ class ProjectController extends SettingsController
             'projects' => $this->project_repository->getAll($request),
             'filters' => [
                 'search' => $request->get('search', null),
-                'field' => $request->get('field',  'updated_at'),
+                'field' => $request->get('field',  'date'),
                 'direction' =>$request->get('direction', 'desc'),
             ],
         ];
-        
+
         return $this->render('Settings/Projects/ProjectIndex', $data);
     }
 

@@ -37,6 +37,9 @@ class ProjectRepository implements ProjectRepositoryInterface
                 case "name" :
                     $sortField = 'name';
                     break;
+                case "date" :
+                    $sortField = 'updated_at';
+                    break;
                 default :
                     $sortField = $request->field;
             }

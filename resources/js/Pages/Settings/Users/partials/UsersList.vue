@@ -39,12 +39,12 @@
                                 <Link :href="route('settings.users.show', user.id)">Modifier</Link>
 
                                 <template v-if="$page.props.auth.user.id !== user.id">
-                                    <span class="mx-1">|</span>
+                                    <span class="mx-1 text-gray">|</span>
                                     <button class="btn btn-sm btn-sm border-0 p-0 btn-link text-danger"
                                             @click="store.commit('usersManagement/setUserToDelete', user)" type="button">
                                         Supprimer
                                     </button>
-                                    <span class="mx-1">|</span>
+                                    <span class="mx-1 text-gray">|</span>
                                     <button class="btn btn-sm btn-sm border-0 p-0 btn-link"
                                             @click="store.commit('usersManagement/setUserToConnectAs', user)" type="button">
                                         Se connecter comme
