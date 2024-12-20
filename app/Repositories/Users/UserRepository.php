@@ -7,17 +7,22 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class UserRepository implements UserRepositoryInterface
 {
 
+    public function getAll() :Collection
+    {
+        return User::all();
+    }
     /**
-     * Get all user
+     * Get all user with pagination
      * @param Request $request
      * @param int $nb_per_page
      * @return LengthAwarePaginator
      */
-    public function getAll(Request $request, int $nb_per_page = 10): LengthAwarePaginator
+    public function getAllPaginate(Request $request, int $nb_per_page = 10): LengthAwarePaginator
     {
         $queryUsers = User::query();
         $queryUsers = $this->sortQuery($queryUsers, $request);

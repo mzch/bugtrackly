@@ -8,6 +8,7 @@ use App\Http\Requests\Settings\Projects\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\User;
 use App\Repositories\Projects\ProjectRepositoryInterface;
+use App\Repositories\Users\UserRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,8 +19,10 @@ use function MongoDB\BSON\toJSON;
 class ProjectController extends SettingsController
 {
     public function __construct(
-        protected ProjectRepositoryInterface $project_repository
-    ){
+        protected ProjectRepositoryInterface $project_repository,
+        protected UserRepositoryInterface    $user_repository
+    )
+    {
         parent::__construct();
         $this->addBreadcrumb('Gestion des projets', route('settings.projects.index'));
     }
@@ -28,7 +31,7 @@ class ProjectController extends SettingsController
      * Display a listing of the resource.
      * @param Request $request
      */
-    public function index(Request $request):Response
+    public function index(Request $request): Response
     {
         $request->validate([
             'direction' => 'in:asc,desc',
@@ -37,11 +40,11 @@ class ProjectController extends SettingsController
 
 
         $data = [
-            'projects' => $this->project_repository->getAll($request),
-            'filters' => [
-                'search' => $request->get('search', null),
-                'field' => $request->get('field',  'date'),
-                'direction' =>$request->get('direction', 'desc'),
+            'projects' => $this->project_repository->getAllPaginate($request),
+            'filters'  => [
+                'search'    => $request->get('search', null),
+                'field'     => $request->get('field', 'date'),
+                'direction' => $request->get('direction', 'desc'),
             ],
         ];
 
@@ -65,12 +68,12 @@ class ProjectController extends SettingsController
         //
         $validated = $request->validated();
         $project = Project::create([
-            'name' => $validated['name'],
-            'slug'  => $validated['slug'],
-            'short_desc'      => $validated['short_desc'],
+            'name'       => $validated['name'],
+            'slug'       => $validated['slug'],
+            'short_desc' => $validated['short_desc'],
         ]);
 
-        if($photo = $request->validated("photo")){
+        if ($photo = $request->validated("photo")) {
             $project->updateProjectPhoto($photo);
         }
         return to_route('settings.projects.index');
@@ -82,8 +85,9 @@ class ProjectController extends SettingsController
     public function show(Project $project)
     {
         $this->addBreadcrumb('Édition', route('settings.projects.create'));
-        $data =[
+        $data = [
             'project' => $project,
+            'users'   => $this->user_repository->getAll()->makeHidden('role')
 
         ];
         return $this->render('Settings/Projects/ProjectShow', $data);
@@ -96,20 +100,20 @@ class ProjectController extends SettingsController
     {
         $validated = $request->validated();
         $dataUpdate = [
-            'name' => $validated['name'],
-            'slug'  => $validated['slug'],
-            'short_desc'      => $validated['short_desc'],
+            'name'       => $validated['name'],
+            'slug'       => $validated['slug'],
+            'short_desc' => $validated['short_desc'],
         ];
         $project->update($dataUpdate);
 
-        if($request->validated("photo")){
+        if ($request->validated("photo")) {
             $project->updateProjectPhoto($request->validated("photo"));
         }
-        if($request->validated("delete_old_photo")){
+        if ($request->validated("delete_old_photo")) {
             $project->deleteProjectPhoto();
         }
 
-        return to_route('settings.projects.show', ['project' =>$project]);
+        return to_route('settings.projects.show', ['project' => $project]);
     }
 
     /**
@@ -123,7 +127,7 @@ class ProjectController extends SettingsController
 
     public function create_slug(Request $request): JsonResponse
     {
-        $validated  = $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string',
         ]);
         $originalSlug = \Str::slug($validated['name']);
@@ -140,17 +144,17 @@ class ProjectController extends SettingsController
 
     public function validate_slug(Request $request, Project $project): JsonResponse
     {
-        $validated  = $request->validate([
+        $validated = $request->validate([
             'slug' => 'nullable|string',
             'name' => 'nullable|string',
         ]);
-        if($validated['slug'] === null){
-            if($validated['name'] === null){
+        if ($validated['slug'] === null) {
+            if ($validated['name'] === null) {
                 $name = $project->name;
-            }else{
+            } else {
                 $name = $validated['name'];
             }
-            $validated['slug']= \Str::slug($name);
+            $validated['slug'] = \Str::slug($name);
         }
         $originalSlug = \Str::slug($validated['slug']);
         $slug = $originalSlug;

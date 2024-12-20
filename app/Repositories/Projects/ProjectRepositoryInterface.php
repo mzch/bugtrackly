@@ -9,5 +9,5 @@ interface ProjectRepositoryInterface
 {
     public function countAll(): int;
 
-    public function getAll(Request $request, int $nb_per_page = 10): LengthAwarePaginator;
+    public function getAllPaginate(Request $request, int $nb_per_page = 10): LengthAwarePaginator;
 }

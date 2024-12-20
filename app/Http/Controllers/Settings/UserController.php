@@ -42,7 +42,7 @@ class UserController extends SettingsController
         ]);
 
         $data = [
-            'users'   => $this->usersRepository->getAll($request),
+            'users'   => $this->usersRepository->getAllPaginate($request),
             'filters' => $request->all(['search', 'field', 'direction']),
         ];
         return $this->render('Settings/Users/UserIndex', $data);

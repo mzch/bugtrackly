@@ -16,7 +16,7 @@ class ProjectRepository implements ProjectRepositoryInterface
         return Project::count();
     }
 
-    public function getAll(Request $request, int $nb_per_page = 10): LengthAwarePaginator
+    public function getAllPaginate(Request $request, int $nb_per_page = 10): LengthAwarePaginator
     {
         $query = Project::query();
         $query = $this->sortQuery($query, $request);
