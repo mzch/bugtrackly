@@ -1,5 +1,6 @@
 <?php
 return [
+    'baseline'   => env('BUGTRACKLY_BASELINE', 'Traquez les bugs, boostez la qualité'),
     /*
     |--------------------------------------------------------------------------
     | Storage path for the profile photo

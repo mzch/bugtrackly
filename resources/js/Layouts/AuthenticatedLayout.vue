@@ -19,8 +19,11 @@
         <main class="flex-grow-1 mt-2">
           <slot/>
         </main>
-        <footer class="mt-auto text-secondary py-3">
-          <small>© 2024 BugTrackly</small>
+        <footer class="mt-auto text-secondary py-3 text-end">
+          <small>
+              <span class="opacity-75" v-if="usePage().props.baseline">{{usePage().props.baseline}} -</span>
+              © 2024 BugTrackly
+          </small>
         </footer>
       </div>
     </div>
@@ -30,7 +33,7 @@
 <script setup>
 import NavigationSideBar from "@/Components/layout/NavigationSideBar.vue";
 import MobileTopBar from "@/Components/layout/MobileTopBar.vue";
-import {Head} from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import Breadcrumb from "@/Components/layout/Breadcrumb.vue";
 defineProps({
   pageTitle: {
