@@ -1,31 +1,35 @@
 <template>
     <div class="d-flex align-items-center text-sm">
-        <strong class="me-1">Permalien :</strong>
-        <template v-if="!editing_slug">
-            <Link :href="route('projects.show', original_slug)">
+            <strong class="me-1">Permalien :</strong>
+            <template v-if="!editing_slug">
+                <a :href="route('projects.show', original_slug)" target="_blank">
+                    <span>{{ route('projects.index') }}/</span>
+                    <strong>{{ form.slug }}</strong>
+                </a>
+                <button type="button" class="btn btn-outline-secondary py-1 btn-sm ms-1" @click="showEditSlug">
+                    Modifier
+                </button>
+            </template>
+            <template v-else>
                 <span>{{ route('projects.index') }}/</span>
-                <span>{{ form.slug }}</span>
-            </Link>
-            <button type="button" class="btn btn-outline-secondary py-1 btn-sm ms-1" @click="showEditSlug">
-                Modifier
-            </button>
-        </template>
-        <template v-else>
-            <span>{{ route('projects.index') }}/</span>
-            <TextInput v-model="slug"
-                       @keydown.prevent.enter="valideSlugHandler"
-                       maxlength="255"
-                       ref="slugField"
-                       class="form-control-sm w-auto px-1 ms-1"/>
-            <button type="button" class="btn btn-sm btn-secondary ms-1" @click="valideSlugHandler">Ok</button>
-            <button type="button" class="btn btn-sm btn-link ms-1" @click="cancelEditingSlug">Annuler</button>
-        </template>
+                <TextInput v-model="slug"
+                           @keydown.prevent.enter="valideSlugHandler"
+                           maxlength="255"
+                           ref="slugField"
+                           class="form-control-sm w-auto px-1 ms-1"/>
+                <button type="button" class="btn btn-sm btn-secondary ms-1" @click="valideSlugHandler">Ok</button>
+                <button type="button" class="btn btn-sm btn-link ms-1" @click="cancelEditingSlug">Annuler</button>
+            </template>
+
+
+
     </div>
+
 </template>
 
 <script setup>
-import {nextTick, ref} from "vue";
-import {Link, useForm, usePage} from '@inertiajs/vue3';
+import {computed, nextTick, ref} from "vue";
+import {Link, usePage} from '@inertiajs/vue3';
 import TextInput from "@/Components/ui/form/TextInput.vue";
 const editing_slug = ref(false);
 

@@ -6,6 +6,7 @@ use App\Http\Requests\Settings\Projects\StoreProjectRequest;
 use App\Http\Requests\Settings\Projects\UpdateProjectRequest;
 use App\Models\Project;
 use App\Repositories\Projects\ProjectRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use function MongoDB\BSON\toJSON;
@@ -98,13 +99,27 @@ class ProjectController extends SettingsController
         //
     }
 
-    public function validate_slug(Request $request, Project $project)
+    public function create_slug(Request $request): JsonResponse
+    {
+        $validated  = $request->validate([
+            'name' => 'required|string',
+        ]);
+        $originalSlug = \Str::slug($validated['name']);
+        $slug = $originalSlug;
+        $counter = 2;
+        // Vérifie si le slug existe déjà pour un autre projet
+        while (Project::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+        return response()->json(["safeSlug" => $slug]);
+    }
+    public function validate_slug(Request $request, Project $project): JsonResponse
     {
         $validated  = $request->validate([
             'slug' => 'nullable|string',
             'name' => 'nullable|string',
         ]);
-//        dd($validated);
         if($validated['slug'] === null){
             if($validated['name'] === null){
                 $name = $project->name;

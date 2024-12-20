@@ -2,7 +2,7 @@
     <AuthenticatedLayout page-title="Utilisateurs">
         <template #header><span v-html="dynamic_page_title"/></template>
         <template #headerActions>
-            <Link :href="route('settings.users.index')" class="btn btn-primary btn-with-icon">
+            <Link :href="route('settings.users.index')" class="btn btn-primary btn-with-icon btn-sm">
                 <ArrowLeftIcon class="size-1 me-1"/>
                 Retour aux utilisateurs
             </Link>

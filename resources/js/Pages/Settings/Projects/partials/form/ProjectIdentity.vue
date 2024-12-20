@@ -10,12 +10,14 @@
                                maxlength="255"
                                class="form-control-lg"
                                :class="{'is-invalid':form.errors.name}"
+                               @focusout="focus_out_project_name"
                                autofocus
                                required
                     />
                     <InputLabel for="name" value="Nom du projet" required/>
                     <InputError :message="form.errors.name"/>
-                    <ProjectPermalien class="mt-2" :form="form"/>
+                    <ProjectPermalien v-if="project" class="mt-2" :form="form"/>
+                    <ProjectPermalienCreation ref="permalienCreationRef" v-else class="mt-2" :form="form"/>
                 </FormField>
 
                 <FormField class="form-floating" no-margin-bottom>
@@ -32,7 +34,7 @@
                 </FormField>
             </div>
             <div class="col-lg-3">
-                <ProjectPhoto :form="form"/>
+<!--                <ProjectPhoto :form="form"/>-->
             </div>
         </div>
 
@@ -48,11 +50,21 @@ import FormField from "@/Components/ui/form/FormField.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import ProjectPermalien from "@/Pages/Settings/Projects/partials/form/ProjectPermalien.vue";
 import ProjectPhoto from "@/Pages/Settings/Projects/partials/form/ProjectPhoto.vue";
+import {computed, ref} from "vue";
+import {usePage} from "@inertiajs/vue3";
+import ProjectPermalienCreation from "@/Pages/Settings/Projects/partials/form/ProjectPermalienCreation.vue";
 
+const project = computed(() => usePage().props.project ?? null)
 const props = defineProps({
     form: {
         type: Object,
         required: true
     }
 })
+const permalienCreationRef = ref(null);
+const focus_out_project_name = () =>{
+    if(permalienCreationRef.value){
+        permalienCreationRef.value.generate_first_permalink()
+    }
+}
 </script>
