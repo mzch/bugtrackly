@@ -40,6 +40,7 @@ Route::prefix('settings')
                 Route::post('/show/{project}', [ProjectController::class, 'update'])->name('update');
                 Route::post('/show/{project}/validate_new_slug', [ProjectController::class, 'validate_slug'])->name('validate_slug');
                 Route::post('/create_slug', [ProjectController::class, 'create_slug'])->name('create_slug');
+                Route::delete('/{project}', [ProjectController::class, 'destroy'])->name('destroy');
             });
 
     });

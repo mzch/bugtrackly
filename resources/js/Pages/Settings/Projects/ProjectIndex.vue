@@ -8,6 +8,7 @@
             </Link>
         </template>
         <ProjectList/>
+        <ProjectDeleteModal/>
     </AuthenticatedLayout>
 </template>
 <script setup>
@@ -15,4 +16,5 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import {Link} from "@inertiajs/vue3";
 import ProjectList from "@/Pages/Settings/Projects/partials/ProjectList.vue";
+import ProjectDeleteModal from "@/Pages/Settings/Projects/partials/ProjectDeleteModal.vue";
 </script>

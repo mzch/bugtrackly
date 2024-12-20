@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Http\Requests\Settings\Projects\DeleteProjectRequest;
 use App\Http\Requests\Settings\Projects\StoreProjectRequest;
 use App\Http\Requests\Settings\Projects\UpdateProjectRequest;
 use App\Models\Project;
@@ -114,9 +115,10 @@ class ProjectController extends SettingsController
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Project $project)
+    public function destroy(DeleteProjectRequest $request, Project $project)
     {
-        //
+        $project->delete();
+        return to_route('settings.projects.index')->with('success');
     }
 
     public function create_slug(Request $request): JsonResponse
