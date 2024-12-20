@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Requests\Settings\Projects\StoreProjectRequest;
 use App\Http\Requests\Settings\Projects\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\User;
 use App\Repositories\Projects\ProjectRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 use function MongoDB\BSON\toJSON;
 
@@ -31,10 +34,16 @@ class ProjectController extends SettingsController
             'field'     => 'in:name,email,role',
         ]);
 
+
         $data = [
             'projects' => $this->project_repository->getAll($request),
-            'filters' => $request->all(['search', 'field', 'direction']),
+            'filters' => [
+                'search' => $request->get('search', null),
+                'field' => $request->get('field',  'updated_at'),
+                'direction' =>$request->get('direction', 'desc'),
+            ],
         ];
+        
         return $this->render('Settings/Projects/ProjectIndex', $data);
     }
 
@@ -53,6 +62,17 @@ class ProjectController extends SettingsController
     public function store(StoreProjectRequest $request)
     {
         //
+        $validated = $request->validated();
+        $project = Project::create([
+            'name' => $validated['name'],
+            'slug'  => $validated['slug'],
+            'short_desc'      => $validated['short_desc'],
+        ]);
+
+        if($photo = $request->validated("photo")){
+            $project->updateProjectPhoto($photo);
+        }
+        return to_route('settings.projects.index');
     }
 
     /**
@@ -114,6 +134,8 @@ class ProjectController extends SettingsController
         }
         return response()->json(["safeSlug" => $slug]);
     }
+
+
     public function validate_slug(Request $request, Project $project): JsonResponse
     {
         $validated  = $request->validate([

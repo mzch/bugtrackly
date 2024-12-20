@@ -34,7 +34,7 @@
                 </FormField>
             </div>
             <div class="col-lg-3">
-<!--                <ProjectPhoto :form="form"/>-->
+                <ProjectPhoto :form="form"/>
             </div>
         </div>
 

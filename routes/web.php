@@ -35,6 +35,7 @@ Route::prefix('settings')
             ->group(function () {
                 Route::get('/', [ProjectController::class, 'index'])->name('index');
                 Route::get('create', [ProjectController::class, 'create'])->name('create');
+                Route::post('/', [ProjectController::class, 'store'])->name('store');
                 Route::get('/show/{project}', [ProjectController::class, 'show'])->name('show');
                 Route::post('/show/{project}', [ProjectController::class, 'update'])->name('update');
                 Route::post('/show/{project}/validate_new_slug', [ProjectController::class, 'validate_slug'])->name('validate_slug');

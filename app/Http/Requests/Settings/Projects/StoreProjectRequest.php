@@ -22,7 +22,10 @@ class StoreProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255'],
+            'short_desc' => ['required', 'string', 'max:255'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
         ];
     }
 }

@@ -45,6 +45,8 @@ class ProjectRepository implements ProjectRepositoryInterface
             } else {
                 $query->orderByDesc($sortField);
             }
+        }else{
+            $query->orderBy('updated_at', 'desc');
         }
         return $query;
     }

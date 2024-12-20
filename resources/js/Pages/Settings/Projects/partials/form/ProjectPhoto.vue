@@ -2,7 +2,7 @@
   <div class="project-photo">
     <span v-if="dataPhotoPreview"
           :style="'background-image: url(\'' + dataPhotoPreview + '\');'"></span>
-    <template v-else-if="projects.project_photo_url && !form.delete_old_photo">
+    <template v-else-if="projects?.project_photo_url && !form.delete_old_photo">
       <img :src="projects.project_photo_url" />
     </template>
     <template v-else>
@@ -50,7 +50,7 @@ const props = defineProps({
 const projects = computed(()=>usePage().props.project);
 const photoInput = ref(null);
 const dataPhotoPreview = ref(null);
-const hasLocalPhoto = computed(() => projects.value.project_photo_url )
+const hasLocalPhoto = computed(() => projects.value?.project_photo_url || false )
 const viewPreviewPhoto = computed(()=>dataPhotoPreview.value !== null)
 /**
  * On cache le bouton de suppression d'avatar que s'il y a une preview ou que si
