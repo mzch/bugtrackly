@@ -2,7 +2,7 @@
     <AuthenticatedLayout page-title="Utilisateurs">
         <template #header>Gestion des utilisateurs</template>
         <template #headerActions>
-            <Link :href="route('settings.users.create')" class="btn btn-primary btn-with-icon">
+            <Link :href="route('settings.users.create')" class="btn btn-primary btn-with-icon btn-sm">
                 <PlusCircleIcon class="size-1 me-1"/>
                 Ajouter un utilisateur
             </Link>

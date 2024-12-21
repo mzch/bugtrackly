@@ -31,7 +31,6 @@
             </ul>
         </div>
     </div>
-
     <div class="d-flex justify-content-between align-items-center" ref="root">
         <button class="btn btn-link p-0" @click="showUserMenu = !showUserMenu">
             <Avatar class="size-2" :user="current_user"/>

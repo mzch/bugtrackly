@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 
-class UsersController extends SettingsController
+class UserController extends SettingsController
 {
     public function __construct(
         protected RolesPersmissionsRepositoryInterface $rolesPermissionsRepository,
@@ -42,10 +42,10 @@ class UsersController extends SettingsController
         ]);
 
         $data = [
-            'users'   => $this->usersRepository->getAll($request),
+            'users'   => $this->usersRepository->getAllPaginate($request),
             'filters' => $request->all(['search', 'field', 'direction']),
         ];
-        return $this->render('Settings/Users/UsersIndex', $data);
+        return $this->render('Settings/Users/UserIndex', $data);
     }
 
     public function create(): Response
@@ -162,21 +162,5 @@ class UsersController extends SettingsController
         session()->put('admin_user_id', $adminUserId);
         //return redirect()->route('admin.dashboard');
         return to_route('dashboard');
-    }
-
-    /**
-     * @param BackToUserAdminRequest $request
-     * @return RedirectResponse
-     */
-    public function backToAdminUser(BackToUserAdminRequest $request): RedirectResponse
-    {
-        $adminUserId = $request->session()->get('admin_user_id', false);
-        if($adminUserId !== false) {
-            $newUser = User::find($adminUserId);
-            session()->flush();
-            Auth::login($newUser);
-            return to_route('settings.users.index');
-        }
-        return redirect()->back();
     }
 }

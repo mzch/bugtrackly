@@ -13,16 +13,4 @@ class DeleteUserRequest extends FormRequest
     {
         return $this->user()->can('manage-users') &&  $this->user->id !== $this->user()->id;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
-    }
 }

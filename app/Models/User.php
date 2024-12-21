@@ -52,7 +52,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
         'full_name',
         'initiales',
-        'role'
+        'role',
+        'role_name',
     ];
 
 
@@ -81,5 +82,10 @@ class User extends Authenticatable implements MustVerifyEmail
             $user->deleteProfilePhoto();
         });
 
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
     }
 }

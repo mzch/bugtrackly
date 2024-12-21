@@ -2,7 +2,7 @@
     <AuthenticatedLayout page-title="Utilisateurs">
         <template #header><span v-html="dynamic_page_title"/></template>
         <template #headerActions>
-            <Link :href="route('settings.users.index')" class="btn btn-primary btn-with-icon">
+            <Link :href="route('settings.users.index')" class="btn btn-primary btn-with-icon btn-sm">
                 <ArrowLeftIcon class="size-1 me-1"/>
                 Retour aux utilisateurs
             </Link>
@@ -11,13 +11,11 @@
             <template #cardFooter>
                 <div class="d-flex justify-content-end">
                     <Link :href="route('settings.users.index')" class="btn btn-light btn-with-icon me-2">
-                        <XCircleIcon class="size-1 me-1 "/>
                         Retour
                     </Link>
                     <PrimaryButton type="submit"
                                    class="btn-with-icon"
                                    :disabled="submitButtonDisabled">
-                        <ArchiveBoxArrowDownIcon class="size-1 me-1"/>
                         Enregistrer
                     </PrimaryButton>
                 </div>

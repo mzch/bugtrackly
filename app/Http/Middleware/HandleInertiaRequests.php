@@ -30,11 +30,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $current_user = $request->user();
+        if($current_user) {
+            $current_user->load('projects');
+        }
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $current_user,
             ],
+            'app_url' => config('app.url'),
+            'baseline' => config('bugtrackly.baseline'),
             'admin_user_id' => function () use ($request) {
                 if($request->session()->get('admin_user_id')){
                     return User::find($request->session()->get('admin_user_id'));

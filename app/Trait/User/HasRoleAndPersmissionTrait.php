@@ -23,6 +23,18 @@ trait HasRoleAndPersmissionTrait
     }
 
     /**
+     * Retourne le role de l'utilisateur
+     * @return Attribute
+     */
+    protected function roleName(): Attribute{
+        $roleRepository = app(RolesPersmissionsRepositoryInterface::class);
+
+        return new Attribute(
+            get: fn () => $this->role['name'],
+        );
+    }
+
+    /**
      * Check role
      * @param $roleSlug
      * @return bool

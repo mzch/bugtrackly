@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\Settings\ProjectsController;
-use App\Http\Controllers\Settings\SettingsController;
-use App\Http\Controllers\Settings\UsersController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController as FrontProjectController;
+use App\Http\Controllers\Settings\ProjectController;
+use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Settings\UserController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -19,24 +20,39 @@ Route::prefix('settings')
             ->name('users.')
             ->middleware(['can:manage-users'])
             ->group(function () {
-                Route::get('/', [UsersController::class, 'index'])->name('index');
-                Route::post('/', [UsersController::class, 'store'])->name('store');
-                Route::get('create', [UsersController::class, 'create'])->name('create');
-                Route::get('/show/{user}', [UsersController::class, 'show'])->name('show')->where('user', '[0-9]+');
-                Route::post('/show/{user}', [UsersController::class, 'update'])->name('update')->where('user', '[0-9]+');
-                Route::delete('/{user}', [UsersController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
-                Route::get('switch-user/{newUser}', [UsersController::class, 'switchUser'])->name('switch_user');
-                Route::get('back-to-admin-user', [UsersController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
+                Route::get('/', [UserController::class, 'index'])->name('index');
+                Route::post('/', [UserController::class, 'store'])->name('store');
+                Route::get('create', [UserController::class, 'create'])->name('create');
+                Route::get('/show/{user}', [UserController::class, 'show'])->name('show')->where('user', '[0-9]+');
+                Route::post('/show/{user}', [UserController::class, 'update'])->name('update')->where('user', '[0-9]+');
+                Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
+                Route::get('switch-user/{newUser}', [UserController::class, 'switchUser'])->name('switch_user');
+                Route::get('back-to-admin-user', [AuthenticatedSessionController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
             });
-        Route::get('projects', [ProjectsController::class, 'index'])->name('projects.index');
+
+        Route::prefix('projects')
+            ->name('projects.')
+            ->middleware(['can:manage-projects'])
+            ->group(function () {
+                Route::get('/', [ProjectController::class, 'index'])->name('index');
+                Route::get('create', [ProjectController::class, 'create'])->name('create');
+                Route::post('/', [ProjectController::class, 'store'])->name('store');
+                Route::get('/show/{project}', [ProjectController::class, 'show'])->name('show');
+                Route::post('/show/{project}', [ProjectController::class, 'update'])->name('update');
+                Route::post('/show/{project}/validate_new_slug', [ProjectController::class, 'validate_slug'])->name('validate_slug');
+                Route::post('/create_slug', [ProjectController::class, 'create_slug'])->name('create_slug');
+                Route::delete('/{project}', [ProjectController::class, 'destroy'])->name('destroy');
+            });
+
     });
 
 
-
-
-
-Route::get('/projects/sop', [ProjectsController::class, 'soprotocol'])->middleware(['auth', 'verified'])->name('projects-sop');
-Route::get('/projects/lauraco', [ProjectsController::class, 'lauraco'])->middleware(['auth', 'verified'])->name('projects-loraco');
+Route::prefix('projets')
+    ->name('projects.')
+    ->group(function () {
+        Route::get('/', [FrontProjectController::class, 'index'])->name('index');
+        Route::get('/{project}', [FrontProjectController::class, 'show'])->name('show');
+    });
 
 
 Route::middleware('auth')->group(function () {

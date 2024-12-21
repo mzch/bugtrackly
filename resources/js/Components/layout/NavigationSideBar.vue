@@ -19,7 +19,7 @@
                     </NavLink>
                 </li>
 
-                <li :class="{'active' : $page.component.startsWith('Projects') || currentSubNavViewed==='projects'}">
+                <li v-if="page.props.auth.user.projects.length" :class="{'active' : $page.component.startsWith('Projects') || currentSubNavViewed==='projects'}">
                     <NavLinkBtn icon="FolderIcon"
                                 @click.prevent="toogleSubMenu('projects')"
                                 :opened="currentSubNavViewed==='projects'">
@@ -30,11 +30,8 @@
                                       :no-duration-on-mounted="page.component.startsWith('Projects')|| currentSubNavViewed==='projects'">
                         <div v-show="currentSubNavViewed==='projects'">
                             <ul class="list-unstyled mb-0 pb-2">
-                                <li :class="{'active' : page.component.startsWith('Projects/SoProtocol') }">
-                                    <SubNavLink :href="route('projects-sop')">SoProtocol - App</SubNavLink>
-                                </li>
-                                <li :class="{'active' : page.component.startsWith('Projects/Lauraco') }">
-                                    <SubNavLink :href="route('projects-loraco')">Lauraco - Site Elo</SubNavLink>
+                                <li v-for="project in page.props.auth.user.projects" :key="project.id" :class="{'active' : page.component.startsWith('Projects/SoProtocol') }">
+                                    <SubNavLink :href="route('projects.show', project.slug)">{{ project.name }}</SubNavLink>
                                 </li>
                             </ul>
                         </div>
