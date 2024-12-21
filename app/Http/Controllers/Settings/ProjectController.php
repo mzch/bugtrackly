@@ -84,6 +84,7 @@ class ProjectController extends SettingsController
      */
     public function show(Project $project)
     {
+        $project->load('users');
         $this->addBreadcrumb('Édition', route('settings.projects.create'));
         $data = [
             'project' => $project,
@@ -105,7 +106,7 @@ class ProjectController extends SettingsController
             'short_desc' => $validated['short_desc'],
         ];
         $project->update($dataUpdate);
-
+        $project->users()->sync($validated['users']);
         if ($request->validated("photo")) {
             $project->updateProjectPhoto($request->validated("photo"));
         }

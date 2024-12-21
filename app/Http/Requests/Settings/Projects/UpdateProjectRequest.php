@@ -27,6 +27,8 @@ class UpdateProjectRequest extends FormRequest
             'short_desc' => ['required', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
             'delete_old_photo' => ['required', 'boolean'],
+            'users' => ['array'],
+            'users.*' => ['integer', 'exists:users,id'],
         ];
     }
 

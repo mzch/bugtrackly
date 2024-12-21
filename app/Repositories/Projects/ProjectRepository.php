@@ -18,7 +18,7 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function getAllPaginate(Request $request, int $nb_per_page = 10): LengthAwarePaginator
     {
-        $query = Project::query();
+        $query = Project::query()->with(['users']);
         $query = $this->sortQuery($query, $request);
         $query = $this->searchQuery($query, $request);
         return $query->paginate($nb_per_page)->withQueryString();

@@ -3,3 +3,11 @@
     align-items: center;
 }
 
+.avatar-btn{
+    border: 1px solid $secondary;
+    display: inline-flex;
+    align-items: center;
+    font-size: $btn-font-size;
+    border-radius: $border-radius;
+    padding: $btn-padding-y $btn-padding-x;
+}

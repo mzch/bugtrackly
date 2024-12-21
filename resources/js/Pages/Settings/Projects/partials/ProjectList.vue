@@ -38,7 +38,16 @@
                             </button>
                         </div>
                     </td>
-                    <td></td>
+                    <td>
+                        <AvatarsList :items="item.users"/>
+<!--                        <ul class="list-inline mb-0">
+                            <li v-for="user in item.users"
+                                :key="user.id"
+                                class="list-inline-item">
+                                <ButtonUserAvatar :href="route('settings.users.show', user.id)" :user="user" :is-link="true"/>
+                            </li>
+                        </ul>-->
+                    </td>
                     <td class="text-sm text-secondary">
                         <InfoProject :project="item"/>
                     </td>
@@ -64,6 +73,8 @@ import {sortingClass} from "@/Helpers/datatable.js";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import InfoProject from "@/Components/ui/project/InfoProject.vue";
 import {useStore} from "vuex";
+import ButtonUserAvatar from "@/Components/ui/form/ButtonUserAvatar.vue";
+import AvatarsList from "@/Pages/Settings/Projects/partials/AvatarsList.vue";
 const store = useStore();
 const items = computed(()=>usePage().props.projects);
 

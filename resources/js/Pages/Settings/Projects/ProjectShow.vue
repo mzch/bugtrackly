@@ -44,14 +44,16 @@ const props = defineProps({
         required: true,
     }
 })
+const users_for_project = computed(() => props.project.users.map(user => user.id))
 const form = useForm({
     name: props.project.name,
     slug: props.project.slug,
     short_desc: props.project.short_desc,
     photo: null,
-    users:[],
+    users:users_for_project.value,
     delete_old_photo: false,
 });
+
 const submitButtonDisabled = computed(() => form.processing || !form.isDirty);
 const dynamic_page_title = computed(() => {
     const start = 'Édition d\'un projet',
