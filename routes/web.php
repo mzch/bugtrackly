@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController as FrontProjectController;
@@ -26,7 +27,7 @@ Route::prefix('settings')
                 Route::post('/show/{user}', [UserController::class, 'update'])->name('update')->where('user', '[0-9]+');
                 Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy')->where('user', '[0-9]+');
                 Route::get('switch-user/{newUser}', [UserController::class, 'switchUser'])->name('switch_user');
-                Route::get('back-to-admin-user', [UserController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
+                Route::get('back-to-admin-user', [AuthenticatedSessionController::class, 'backToAdminUser'])->name('back_to_admin_user')->withoutMiddleware(['can:access-settings','can:manage-users']);
             });
 
         Route::prefix('projects')

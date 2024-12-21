@@ -163,20 +163,4 @@ class UserController extends SettingsController
         //return redirect()->route('admin.dashboard');
         return to_route('dashboard');
     }
-
-    /**
-     * @param BackToUserAdminRequest $request
-     * @return RedirectResponse
-     */
-    public function backToAdminUser(BackToUserAdminRequest $request): RedirectResponse
-    {
-        $adminUserId = $request->session()->get('admin_user_id', false);
-        if($adminUserId !== false) {
-            $newUser = User::find($adminUserId);
-            session()->flush();
-            Auth::login($newUser);
-            return to_route('settings.users.index');
-        }
-        return redirect()->back();
-    }
 }
