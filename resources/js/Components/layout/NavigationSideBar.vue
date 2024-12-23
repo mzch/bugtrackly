@@ -19,7 +19,7 @@
                     </NavLink>
                 </li>
 
-                <li v-if="page.props.auth.user.projects.length" :class="{'active' : $page.component.startsWith('SingleProject/SingleProjectIndex') || currentSubNavViewed==='projects'}">
+                <li v-if="page.props.auth.user?.projects.length" :class="{'active' : $page.component.startsWith('SingleProject/SingleProjectIndex') || currentSubNavViewed==='projects'}">
                     <NavLinkBtn icon="FolderIcon"
                                 @click.prevent="toogleSubMenu('projects')"
                                 :opened="currentSubNavViewed==='projects'">

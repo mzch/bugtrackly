@@ -50,6 +50,7 @@ Route::prefix('settings')
 
 Route::prefix('projets')
     ->name('projects.')
+    ->middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('/', [FrontProjectController::class, 'index'])->name('index');
         Route::get('/{project:slug}', [FrontProjectController::class, 'show'])->name('show');
