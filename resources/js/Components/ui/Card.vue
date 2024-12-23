@@ -1,5 +1,6 @@
 <template>
     <div class="card">
+        <slot name="cardImg"/>
         <div class="card-header d-flex align-items-center justify-content-between" v-if="$slots.cardHeaderAction || props.cardTitle">
             <h3 class="mb-0 txt_16 fw-medium" v-if="props.cardTitle">{{cardTitle}}</h3>
             <div class="ms-auto flex-grow-1" v-if="$slots.cardHeaderAction">
