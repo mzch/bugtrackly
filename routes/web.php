@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectController as FrontProjectController;
 use App\Http\Controllers\Settings\ProjectController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Settings\UserController;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -49,9 +50,10 @@ Route::prefix('settings')
 
 Route::prefix('projets')
     ->name('projects.')
+    ->middleware(['auth', 'verified'])
     ->group(function () {
         Route::get('/', [FrontProjectController::class, 'index'])->name('index');
-        Route::get('/{project}', [FrontProjectController::class, 'show'])->name('show');
+        Route::get('/{project:slug}', [FrontProjectController::class, 'show'])->name('show');
     });
 
 

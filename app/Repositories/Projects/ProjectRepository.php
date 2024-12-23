@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class ProjectRepository implements ProjectRepositoryInterface
 {
@@ -22,6 +23,11 @@ class ProjectRepository implements ProjectRepositoryInterface
         $query = $this->sortQuery($query, $request);
         $query = $this->searchQuery($query, $request);
         return $query->paginate($nb_per_page)->withQueryString();
+    }
+
+    public function getProjectsForCurrentUser(Request $request): Collection
+    {
+        return $request->user()->projects()->orderBy('updated_at', 'desc')->get();;
     }
 
     /**
@@ -67,4 +73,6 @@ class ProjectRepository implements ProjectRepositoryInterface
         }
         return $query;
     }
+
+
 }

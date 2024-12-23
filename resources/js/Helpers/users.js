@@ -7,7 +7,7 @@ import sha256 from "crypto-js/sha256.js";
  * @param role_to_check
  * @returns {{return: boolean}}
  */
-const hasRole = (role_to_check) => usePage().props.auth.user.role.internal_name === role_to_check;
+const hasRole = (role_to_check) => usePage().props.auth?.user?.role.internal_name === role_to_check;
 
 /**
  * Check current user permission

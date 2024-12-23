@@ -32,7 +32,9 @@ class HandleInertiaRequests extends Middleware
     {
         $current_user = $request->user();
         if($current_user) {
-            $current_user->load('projects');
+            $current_user->load(['projects' => function ($query) {
+                $query->orderBy('name', 'asc');
+            }]);
         }
         return [
             ...parent::share($request),
