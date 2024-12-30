@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Repositories\BugStatus;
+namespace App\Repositories\BugInfos;
 
-use App\Repositories\BugStatus\BugStatusRepositoryInterface;
+use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
-class BugStatusRepository implements BugStatusRepositoryInterface
+class BugInfosRepository implements BugInfosRepositoryInterface
 {
     protected string $bugStatusFile = 'bugs/status.json';
+    protected string $bugPrioritiesFile = 'bugs/priorities.json';
 
 
 
@@ -33,5 +34,16 @@ class BugStatusRepository implements BugStatusRepositoryInterface
             $item["children"] = $children;
             return $item;
         });
+    }
+
+    /**
+     * Renvoie la liste des priorités disponibles pour les bugs
+     * @return Collection
+     */
+    public function getAllBugPriorities(): Collection
+    {
+        $jsonContent = Storage::get($this->bugPrioritiesFile);
+        $data = json_decode($jsonContent, true);
+        return collect($data['priorities'] ?? []);
     }
 }
