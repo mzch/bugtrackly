@@ -8,33 +8,39 @@
             </button>
         </template>
         <Card card-title="Liste des bugs" :remove-body-padding="true" class="mb-4">
-            <pre>{{project.bugs}}</pre>
-        </Card>
-        <Card card-title="Info sur les bugs">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h5>Liste des status des bugs</h5>
-                    <ul>
-                        <li v-for="(status, index) in bug_status" :key="index">
-                            {{status.label}}
-                            <ul v-if="status.children.length">
-                                <li v-for="(child_status, index_child) in status.children" :key="index_child">
-                                    {{child_status.label}}
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <h5>Liste des priorités des bugs</h5>
-                    <ul>
-                        <li v-for="(priority, index) in bug_priorities" :key="index">
-                            {{priority.label}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <template #cardFooter>
+                <Pagination :items="bugs" item-singular-name="bug" item-plural-name="bugs"/>
+            </template>
+            <table class="table table-bordered table-hover mb-0 caption-top" v-if="bugs.data.length">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Priorité</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="bug in bugs.data" :key="bug.id">
+                        <td>
+                            <p class="mb-0 d-flex flex-column align-items-start">
+                                <a href="#" class="fw-bold">
+                                    <span class="badge text-bg-light fw-light">
+                                    {{formatBugId(bug.id)}}
+                                    </span>
+                                    {{bug.title}}
+                                </a>
+                                <BagdeStatusBug class="mt-1" :bug="bug"/>
 
+                            </p>
+                        </td>
+                        <td><BadgePriorityBug :bug="bug"/></td>
+                        <td class="text-sm text-secondary"><InfoDateBug :bug="bug"/></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="p-5" v-else>
+                <p class="mb-0 text-center">{{ no_result }}</p>
+            </div>
         </Card>
     </AuthenticatedLayout>
 
@@ -45,8 +51,19 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
+import {computed} from "vue";
+import {usePage} from "@inertiajs/vue3";
+import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
+import {formatBugId} from "../../Helpers/bug.js";
+import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
+import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
+import Pagination from "@/Components/ui/Pagination.vue";
 const props = defineProps({
     project:{
+        type:Object,
+        required:true,
+    },
+    bugs:{
         type:Object,
         required:true,
     },
@@ -59,6 +76,13 @@ const props = defineProps({
         required:true,
     }
 })
+
+/**
+ * Filter received from the controller
+ * @type {ComputedRef<unknown>}
+ */
+const filters = computed(() => usePage().props.filters);
+const no_result = computed( () => filters.value.search !== null ? "Aucun bug trouvé" : "Aucun bug enregistré")
 </script>
 
 <style scoped>

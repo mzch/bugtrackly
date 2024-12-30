@@ -15,6 +15,12 @@
             > :not(caption) > * > *{
                 padding-left: $card-cap-padding-y;
                 padding-right: $card-cap-padding-y;
+                &:first-child{
+                    border-left: none;
+                }
+                &:last-child{
+                    border-right: none;
+                }
             }
         }
     }

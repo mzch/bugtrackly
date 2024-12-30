@@ -35,6 +35,18 @@ $theme-colors: (
     "gray": $gray,
     "purple": $purple,
     "light": $light,
+    "priority-0" : #B0B0B0,
+    "priority-10" : #8BC34A,
+    "priority-20" : #2196F3,
+    "priority-30" : #FF9800,
+    "priority-40" : #F44336,
+    "status-new": #9C27B0,
+    "status-accepted": #03A9F4,
+    "status-rejected": #757575,
+    "status-in_progress": #FFEB3B,
+    "status-resolved": #4CAF50,
+    "status-closed": #212121,
+    "status-reopened": #E91E63,
 );
 $headings-color: $dark;
 $btn-color: #FFFFFF;
