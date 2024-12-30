@@ -8,7 +8,7 @@
             </button>
         </template>
         <Card card-title="Liste des bugs" :remove-body-padding="true" class="mb-4">
-            <pre>project:{{project}}</pre>
+            <pre>{{project.bugs}}</pre>
         </Card>
         <Card card-title="Info sur les bugs">
             <div class="row">

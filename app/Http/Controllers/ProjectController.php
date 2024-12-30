@@ -17,6 +17,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $project->load('bugs');
         $this->addBreadcrumb($project->name, false);
         $data =[
             'project' => $project,
