@@ -1,4 +1,6 @@
 *
 !roles-permissions/
 !roles-permissions/*
+!bug/
+!bug/*
 !.gitignore
