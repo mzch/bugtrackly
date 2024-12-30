@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Repositories\BugStatus\BugStatusRepositoryInterface;
+use App\Repositories\Projects\ProjectRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function index(Request $request){
-        dump("index");
+    public function __construct(
+        protected BugStatusRepositoryInterface $bug_status_repository
+    )
+    {
     }
     /**
      * Display the specified resource.
@@ -17,7 +21,8 @@ class ProjectController extends Controller
     {
         $this->addBreadcrumb($project->name, false);
         $data =[
-            'project' => $project
+            'project' => $project,
+            'bug_status' => $this->bug_status_repository->getAllBugStatus()
         ];
         return $this->render('SingleProject/SingleProjectIndex', $data);
     }

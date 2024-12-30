@@ -6,5 +6,5 @@ use Illuminate\Support\Collection;
 
 interface BugStatusRepositoryInterface
 {
-    public function getAllBugStatus() :Collection;
+    public function getAllBugStatus(bool $with_children = true) :Collection;
 }

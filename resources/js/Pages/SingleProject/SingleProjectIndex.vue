@@ -7,8 +7,20 @@
                 Rapporter un nouveau bug
             </button>
         </template>
-        <Card card-title="Liste des bugs" :remove-body-padding="true">
+        <Card card-title="Liste des bugs" :remove-body-padding="true" class="mb-4">
             <pre>project:{{project}}</pre>
+        </Card>
+        <Card card-title="Status des bugs">
+            <ul>
+                <li v-for="(status, index) in bug_status" :key="index">
+                    {{status.label}}
+                    <ul v-if="status.children.length">
+                        <li v-for="(child_status, index_child) in status.children" :key="index_child">
+                            {{child_status.label}}
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </Card>
     </AuthenticatedLayout>
 
@@ -22,6 +34,10 @@ import Card from "@/Components/ui/Card.vue";
 const props = defineProps({
     project:{
         type:Object,
+        required:true,
+    },
+    bug_status:{
+        type:Array,
         required:true,
     }
 })
