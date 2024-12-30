@@ -4,43 +4,43 @@
             "id": 1,
             "slug": "new",
             "label" : "Nouveau",
-            "child" : [2,3]
+            "children" : [2,3]
         },
         {
             "id": 2,
             "slug": "accepted",
             "label" : "Accepté",
-            "child" : [4]
+            "children" : [4]
         },
         {
             "id": 3,
             "slug": "rejected",
             "label" : "Rejeté",
-            "child" : [6,7]
+            "children" : [6,7]
         },
         {
             "id": 4,
             "slug": "in_progress",
             "label" : "En cours de résolution",
-            "child" : [5]
+            "children" : [5]
         },
         {
             "id": 5,
             "slug": "resolved",
             "label" : "Résolu",
-            "child" : [6,7]
+            "children" : [6,7]
         },
         {
             "id": 6,
             "slug": "closed",
             "label" : "Fermé",
-            "child" : [7]
+            "children" : [7]
         },
         {
             "id": 7,
             "slug": "reopened",
             "label" : "Réouvert",
-            "child" : [2,3]
+            "children" : [2,3]
         }
     ]
 }

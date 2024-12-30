@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BugStatus\BugStatusRepository;
+use App\Repositories\BugStatus\BugStatusRepositoryInterface;
 use App\Repositories\Projects\ProjectRepository;
 use App\Repositories\Projects\ProjectRepositoryInterface;
 use App\Repositories\RolesPersmissions\RolesPermissionsRepository;
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RolesPersmissionsRepositoryInterface::class, RolesPermissionsRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
+        $this->app->bind(BugStatusRepositoryInterface::class, BugStatusRepository::class);
     }
 
     /**
