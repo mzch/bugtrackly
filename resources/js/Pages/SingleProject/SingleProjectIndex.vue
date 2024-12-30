@@ -17,7 +17,6 @@
 <script setup>
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {Link, usePage} from "@inertiajs/vue3";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
 const props = defineProps({
