@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+
 class Bug extends Model
 {
     //
@@ -16,6 +18,24 @@ class Bug extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function scopeBugSearch(Builder $query, Request $request)
+    {
+        if ($request->has('search')) {
+            $searchValue = strtolower(StringHelper::remove_accents($request->get('search')));
+
+            if (is_numeric($searchValue)) {
+                // Recherche sur l'id ou le title
+                $query->where(function ($query) use ($searchValue) {
+                    $query->where('id', $searchValue)
+                        ->orWhere('title', 'like', '%' . $searchValue . '%');
+                });
+            } else {
+                $query->where('title', 'like', '%' . $searchValue . '%');
+            }
+        }
+        return $query;
     }
 
     /**
@@ -98,7 +118,7 @@ class Bug extends Model
             } else {
                 $query->orderByDesc($sortField);
             }
-        }else{
+        } else {
             $query->orderBy('updated_at', 'desc');
         }
         return $query;
