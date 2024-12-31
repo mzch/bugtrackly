@@ -12,7 +12,7 @@ class ProjectController extends Controller
 {
     public function __construct(
         protected BugInfosRepositoryInterface $bug_status_repository,
-        protected BugRepositoryInterface $bug_repository,
+        protected BugRepositoryInterface      $bug_repository,
     )
     {
     }
@@ -24,17 +24,25 @@ class ProjectController extends Controller
     {
         $request->validate([
             'direction' => 'in:asc,desc',
-            'field'     => 'in:name,email,role',
+            'field'     => 'in:title,date,priority',
+            'priority'  => 'in:none,low,normal,hight,immediate',
+            'status'    => 'in:new,accepted,rejected,in_progress,resolved,closed,reopened',
         ]);
 
         $this->addBreadcrumb($project->name, false);
 
 
-        $data =[
-            'project' => $project,
-            'bugs' => $this->bug_repository->getAllBugsPaginatedForProject($project, $request, 20),
-            'filters' => $request->all(['search', 'field', 'direction']),
-            'bug_status' => $this->bug_status_repository->getAllBugStatus(),
+        $data = [
+            'project'        => $project,
+            'bugs'           => $this->bug_repository->getAllBugsPaginatedForProject($project, $request, 20),
+            'filters'        => [
+                'direction' => $request->get('direction', 'desc'),
+                'field'     => $request->get('field', 'date'),
+                'priority'  => $request->get('priority', null),
+                'status'    => $request->get('status', null),
+                'search'    => $request->get('search', null),
+            ],
+            'bug_status'     => $this->bug_status_repository->getAllBugStatus(),
             'bug_priorities' => $this->bug_status_repository->getAllBugPriorities(),
         ];
         return $this->render('SingleProject/SingleProjectIndex', $data);

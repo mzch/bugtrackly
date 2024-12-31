@@ -18,12 +18,89 @@ class Bug extends Model
         return $this->belongsTo(Project::class);
     }
 
+    /**
+     * Scope pour filtrer sur les status des bugs
+     * @param Builder $query
+     * @param Request $request
+     * @return Builder
+     */
     public function scopeFilterByStatus(Builder $query, Request $request): Builder
     {
         if ($request->has(['status'])) {
-            return $query->whereIn('status', $request->get('status'));
+            $request_status = $request->get('status');
+            switch ($request_status) {
+                case 'new' :
+                    return $query->where('status', 1);
+                case 'accepted' :
+                    return $query->where('status', 2);
+                case 'rejected' :
+                    return $query->where('status', 3);
+                case 'in_progress' :
+                    return $query->where('status', 4);
+                case 'resolved' :
+                    return $query->where('status', 5);
+                case 'closed' :
+                    return $query->where('status', 6);
+                case 'reopened' :
+                    return $query->where('status', 7);
+                default :
+                    return $query->where('status', '!=', 6);
+            }
         }
-        // Applique le filtre sur le statut
         return $query->where('status', '!=', 6);
+    }
+
+    /**
+     * Scope pour filtrer sur les prioritées des bugs
+     * @param Builder $query
+     * @param Request $request
+     * @return Builder
+     */
+    public function scopeFilterByPriority(Builder $query, Request $request): Builder
+    {
+        if ($request->has(['priority'])) {
+            $request_priority = $request->get('priority');
+            switch ($request_priority) {
+                case 'none':
+                    return $query->where('priority', 1);
+                case 'low':
+                    return $query->where('priority', 2);
+                case 'normal':
+                    return $query->where('priority', 3);
+                case 'hight':
+                    return $query->where('priority', 4);
+                case 'immediate':
+                    return $query->where('priority', 5);
+            }
+            return $query->where('priority', $request->get('priority'));
+        }
+        return $query;
+    }
+
+    /**
+     * Scope pour ordonner les bugs
+     * @param Builder $query
+     * @param Request $request
+     * @return Builder
+     */
+    public function scopeBugOrderBy(Builder $query, Request $request): Builder
+    {
+        if ($request->has(['field', 'direction'])) {
+            switch ($request->field) {
+                case "date" :
+                    $sortField = 'updated_at';
+                    break;
+                default :
+                    $sortField = $request->field;
+            }
+            if ($request->direction === 'asc') {
+                $query->orderBy($sortField);
+            } else {
+                $query->orderByDesc($sortField);
+            }
+        }else{
+            $query->orderBy('updated_at', 'desc');
+        }
+        return $query;
     }
 }

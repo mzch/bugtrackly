@@ -2,7 +2,7 @@ import {usePage} from "@inertiajs/vue3";
 import {find} from "lodash";
 
 const formatBugId = (id) => {
-    return `#${id.toString().padStart(7, '0')}`;
+    return `${id.toString().padStart(7, '0')}`;
 }
 
 const getPriorityObject = (id) => {

@@ -8,15 +8,42 @@
             </button>
         </template>
         <Card card-title="Liste des bugs" :remove-body-padding="true" class="mb-4">
+            <template #cardHeaderAction>
+                <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
+                    Priorité :
+                </InputLabel>
+                <FormSelect id="priority_filter"
+                            class="col-auto form-select-sm w-auto me-1"
+                            :options="priorities_options"
+                            :display-select-label-option="false"
+                            v-model="params.priority" />
+
+                <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
+                    Status :
+                </InputLabel>
+                <FormSelect id="priority_filter"
+                            class="col-auto form-select-sm w-auto me-1"
+                            :options="status_options"
+                            :display-select-label-option="false"
+                            v-model="params.status" />
+
+                <InputLabel for="search_user"
+                            class="col-form-label col-form-label-sm text-end col-auto">
+                    Rechercher un bug :
+                </InputLabel>
+                <div class="col-auto">
+                    <TextInput type="search" id="search_user" v-model="params.search" placeholder="Numéro ou titre" class="form-control-sm" autofocus/>
+                </div>
+            </template>
             <template #cardFooter>
                 <Pagination :items="bugs" item-singular-name="bug" item-plural-name="bugs"/>
             </template>
             <table class="table table-bordered table-hover mb-0 caption-top" v-if="bugs.data.length">
                 <thead>
                     <tr>
-                        <th>Titre</th>
-                        <th>Priorité</th>
-                        <th>Date</th>
+                        <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
+                        <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
+                        <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,13 +78,18 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
-import {computed} from "vue";
-import {usePage} from "@inertiajs/vue3";
+import {computed, ref, watch} from "vue";
+import {router, usePage} from "@inertiajs/vue3";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
 import {formatBugId} from "../../Helpers/bug.js";
 import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import Pagination from "@/Components/ui/Pagination.vue";
+import InputLabel from "@/Components/ui/form/InputLabel.vue";
+import TextInput from "@/Components/ui/form/TextInput.vue";
+import {sortingClass} from "@/Helpers/datatable.js";
+import {pickBy, throttle} from "lodash";
+import FormSelect from "@/Components/ui/form/FormSelect.vue";
 const props = defineProps({
     project:{
         type:Object,
@@ -77,12 +109,58 @@ const props = defineProps({
     }
 })
 
+const priorities_options = computed(() => {
+    const priorities = props.bug_priorities || [];
+    const priorities_opt = priorities.map(p => ({id: p.slug, label: p.label}));
+    return [...[{id:null, label:'Toutes'}], ...priorities_opt];
+});
+
+const status_options = computed(() => {
+    const status = props.bug_status || [];
+    const status_opt = status.map(s => ({id: s.slug, label: s.label}));
+    return [...[{id:null, label:'Tous'}], ...status_opt];
+});
+
 /**
  * Filter received from the controller
  * @type {ComputedRef<unknown>}
  */
 const filters = computed(() => usePage().props.filters);
+
+/**
+ * Params send to the controller
+ * @type {Ref<UnwrapRef<{search, field: *, direction}>>}
+ */
+const params = ref({
+    search: filters.value.search,
+    priority: filters.value.priority,
+    status: filters.value.status,
+    field: filters.value.field,
+    direction: filters.value.direction
+});
+
 const no_result = computed( () => filters.value.search !== null ? "Aucun bug trouvé" : "Aucun bug enregistré")
+
+/**
+ * Sort handler on columns header
+ * @param field
+ */
+const sort = (field) => {
+    params.value.field = field
+    params.value.direction = params.value.direction === 'asc' ? 'desc' : 'asc';
+}
+
+/**
+ * Watcher for params
+ * Make an Inertia request with cleaned params
+ */
+watch(params, throttle(function () {
+    //clean empty params
+    const my_params = pickBy(params.value);
+
+    //request
+    router.get(route('projects.show', props.project.slug), my_params, {replace: true, preserveState: true})
+}, 300), {deep: true})
 </script>
 
 <style scoped>
