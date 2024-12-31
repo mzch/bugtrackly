@@ -10,7 +10,33 @@ use Illuminate\Http\Request;
 
 class Bug extends Model
 {
-    //
+    /**
+     * Les attributs qui peuvent être assignés en masse.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title',
+        'description',
+        'priority',
+        'status',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (Bug $bug) {
+            if (empty($bug->status)) {
+                $bug->status = 1;
+            }
+        });
+
+        // Lors de la création d'un bug, on met à jour updated_at du projet
+        static::created(function (Bug $bug) {
+            $bug->project->touch();
+        });
+    }
 
     /**
      * Get the post that owns the comment.

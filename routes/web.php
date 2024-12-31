@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BugController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController as FrontProjectController;
@@ -54,6 +55,9 @@ Route::prefix('projets')
     ->group(function () {
         Route::get('/', [FrontProjectController::class, 'index'])->name('index');
         Route::get('/{project:slug}', [FrontProjectController::class, 'show'])->name('show');
+
+        Route::get('/{project:slug}/rapporter-un-bug', [BugController::class, 'create'])->name('bug.create');
+        Route::post('/{project:slug}/rapporter-un-bug', [BugController::class, 'store'])->name('bug.store');
     });
 
 

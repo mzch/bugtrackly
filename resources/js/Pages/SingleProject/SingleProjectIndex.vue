@@ -2,12 +2,12 @@
     <AuthenticatedLayout :page-title="project.name">
         <template #header>{{ project.name }} - <span class="text-secondary">{{ project.short_desc }}</span></template>
         <template #headerActions>
-            <button class="btn btn-primary btn-with-icon btn-sm">
+            <Link :href="route('projects.bug.create', project.slug)" class="btn btn-primary btn-with-icon btn-sm">
                 <PlusCircleIcon class="size-1 me-1"/>
                 Rapporter un nouveau bug
-            </button>
+            </Link>
         </template>
-        <Card card-title="Liste des bugs" :remove-body-padding="true" class="mb-4">
+        <Card card-title="Liste des bugs" :remove-body-padding="true">
             <template #cardHeaderAction>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
                     Priorité :
@@ -79,7 +79,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
 import {computed, ref, watch} from "vue";
-import {router, usePage} from "@inertiajs/vue3";
+import {router,Link, usePage} from "@inertiajs/vue3";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
 import {formatBugId} from "../../Helpers/bug.js";
 import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
