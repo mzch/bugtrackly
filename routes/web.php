@@ -56,8 +56,12 @@ Route::prefix('projets')
         Route::get('/', [FrontProjectController::class, 'index'])->name('index');
         Route::get('/{project:slug}', [FrontProjectController::class, 'show'])->name('show');
 
-        Route::get('/{project:slug}/rapporter-un-bug', [BugController::class, 'create'])->name('bug.create');
-        Route::post('/{project:slug}/rapporter-un-bug', [BugController::class, 'store'])->name('bug.store');
+        Route::name('bug.')->group(function (){
+            Route::get('/{project:slug}/rapporter-un-bug', [BugController::class, 'create'])->name('create');
+            Route::post('/{project:slug}/rapporter-un-bug', [BugController::class, 'store'])->name('store');
+            Route::get('/{project:slug}/bug/{bug}', [BugController::class, 'show'])->name('show');
+        });
+
     });
 
 

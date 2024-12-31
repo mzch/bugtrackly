@@ -50,12 +50,12 @@
                     <tr v-for="bug in bugs.data" :key="bug.id">
                         <td>
                             <p class="mb-0 d-flex flex-column align-items-start">
-                                <a href="#" class="fw-bold">
+                                <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold">
                                     <span class="badge text-bg-light fw-light">
                                     {{formatBugId(bug.id)}}
                                     </span>
                                     {{bug.title}}
-                                </a>
+                                </Link>
                                 <BagdeStatusBug class="mt-1" :bug="bug"/>
 
                             </p>

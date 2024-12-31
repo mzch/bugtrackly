@@ -35,4 +35,16 @@ class BugController extends Controller
         $project->bugs()->save($bug);
         return to_route('projects.show', $project);
     }
+
+    public function show(Project $project, Bug $bug): Response
+    {
+        $this->addBreadcrumb($project->name, route('projects.show', $project));
+        $this->addBreadcrumb($bug->title, route('projects.show', $project));
+        $data = [
+            'project'        => $project,
+            'bug'        => $bug,
+            'bug_priorities' => $this->bug_infos_repository->getAllBugPriorities()
+        ];
+        return $this->render('Bug/BugShow', $data);
+    }
 }
