@@ -51,6 +51,10 @@ class Bug extends Model
         static::created(function (Bug $bug) {
             $bug->project->touch();
         });
+
+        static::updated(function (Bug $bug) {
+            $bug->project->touch();
+        });
     }
 
     /**
