@@ -27,12 +27,12 @@
                 <TextArea
                     id="bug_desc"
                     placeholder="Description"
-                    v-model.trim="form.description"
+                    v-model.trim="form.content"
                     required
                     style="height: 200px"
-                    :class="{'is-invalid' :form.errors.description}"/>
+                    :class="{'is-invalid' :form.errors.content}"/>
                 <InputLabel for="bug_desc" value="Description"/>
-                <InputError :message="form.errors.description"/>
+                <InputError :message="form.errors.content"/>
             </FormField>
 
             <FormField class="form-floating">
@@ -76,7 +76,7 @@ const props = defineProps({
 })
 const form = useForm({
     title:"",
-    description:"",
+    content:"",
     priority:3,
 })
 

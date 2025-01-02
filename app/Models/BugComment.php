@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Auth;
 
 class BugComment extends Model
 {
@@ -19,7 +20,22 @@ class BugComment extends Model
     protected $fillable = [
       'content'
     ];
-    //
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function (BugComment $bugComment) {
+            $bugComment->user_id = Auth::id();
+        });
+
+        // Lors de la création d'un bug, on met à jour updated_at du projet
+        static::created(function (BugComment $bugComment) {
+            $bugComment->bug->project->touch();
+        });
+    }
+
+
     public function bug(): BelongsTo
     {
         return $this->belongsTo(Bug::class);

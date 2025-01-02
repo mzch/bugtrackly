@@ -25,6 +25,7 @@ class StoreBugRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'content' => 'required|string',
             'priority' => 'required|integer|between:1,5',
         ];
     }

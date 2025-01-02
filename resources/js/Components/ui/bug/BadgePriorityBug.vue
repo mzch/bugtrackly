@@ -1,7 +1,8 @@
 <template>
     <span :class="classes">
-    {{priority.label}}
-        </span>
+        <template v-if="addPriorityLabel">Priorité</template>
+        {{ priorityLabel }}
+    </span>
 </template>
 
 <script setup>
@@ -12,10 +13,16 @@ const props = defineProps({
     bug: {
         type: Object,
         required: true,
+    },
+    addPriorityLabel :{
+        type: Boolean,
+        required: false,
+        default: false,
     }
 })
 
 const priority = computed(() => getPriorityObject(props.bug.priority))
+const priorityLabel = computed(() => props.addPriorityLabel ? priority.value.label.toLowerCase() : priority.value.label)
 const classes = computed(() => `badge text-bg-priority-${priority.value.weight}`)
 </script>
 

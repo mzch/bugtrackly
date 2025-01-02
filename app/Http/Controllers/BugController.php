@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Bug\StoreBugRequest;
 use App\Models\Bug;
+use App\Models\BugComment;
 use App\Models\Project;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
@@ -31,8 +32,13 @@ class BugController extends Controller
 
     public function store(StoreBugRequest $request , Project $project): RedirectResponse
     {
+
         $bug = new Bug($request->validated());
+        $bugComment = new BugComment($request->validated());
+
         $project->bugs()->save($bug);
+        $bug->bug_comments()->save($bugComment);
+
         return to_route('projects.show', $project);
     }
 
@@ -44,6 +50,7 @@ class BugController extends Controller
         $data = [
             'project'        => $project,
             'bug'        => $bug,
+            'bug_status'     => $this->bug_infos_repository->getAllBugStatus(),
             'bug_priorities' => $this->bug_infos_repository->getAllBugPriorities()
         ];
         return $this->render('Bug/BugShow', $data);
