@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Bug\ShowBugRequest;
 use App\Http\Requests\Bug\StoreBugRequest;
+use App\Http\Requests\Bug\UpdateBugStatusRequest;
 use App\Models\Bug;
 use App\Models\BugComment;
 use App\Models\Project;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -57,8 +59,9 @@ class BugController extends Controller
         return $this->render('Bug/BugShow', $data);
     }
 
-    public function update_status(Project $project, Bug $bug): RedirectResponse
+    public function update_status(UpdateBugStatusRequest $request, Project $project, Bug $bug): JsonResponse
     {
-        return to_route('projects.bug.show', [$project, $bug]);
+        $bug->update($request->validated());
+        return response()->json(["success" => true]);
     }
 }

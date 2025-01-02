@@ -10,7 +10,6 @@
                 <BadgePriorityBug :add-priority-label="true" :bug="bug"/>
                 </div>
             </template>
-
             <div class="text-secondary mb-3" v-if="bug.user">
                 <div class="d-flex align-items-center">
                     <Avatar :user="bug.user" class="bordered me-1"/>
@@ -19,9 +18,6 @@
             </div>
             <p>{{first_bug_comment.content}}</p>
             <p class="text-sm text-secondary mb-0">{{formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm")}}</p>
-
-
-
             <template #cardFooter>
                 <div>
                     <SecondaryButton  type="button" class="btn-sm me-2" @click="store.commit('bug/setBugToUpdateStatus', props.bug)" v-if="canUpdateBugStatus">
@@ -46,6 +42,7 @@
             </div>
         </Card>
     </AuthenticatedLayout>
+    <ModalBugStatusUpdate :bug="bug" :project="project"/>
 </template>
 
 <script setup>
@@ -60,9 +57,10 @@ import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
 import SecondaryButton from "@/Components/ui/form/SecondaryButton.vue";
 import {hasRole} from "@/Helpers/users.js";
-import {getStatusObject} from "@/Helpers/bug.js";
-import store from "@/Store/index.js";
 
+import ModalBugStatusUpdate from "@/Pages/Bug/partial/ModalBugStatusUpdate.vue";
+import {useStore} from "vuex";
+const store = useStore();
 const props = defineProps({
     project: {
         type: Object,
@@ -81,7 +79,7 @@ const props = defineProps({
         required: true,
     }
 })
-const status = computed(() => getStatusObject(props.bug.status))
+
 const first_bug_comment = computed(() => props.bug.bug_comments[0] ?? false);
 const bug_responses = computed(() => {
     if(props.bug.bug_comments.length > 0){
