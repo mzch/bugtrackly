@@ -43,6 +43,7 @@
                     <tr>
                         <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
                         <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
+                        <th>Auteur</th>
                         <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                     </tr>
                 </thead>
@@ -61,6 +62,13 @@
                             </p>
                         </td>
                         <td><BadgePriorityBug :bug="bug"/></td>
+                        <td class="text-secondary text-sm">
+                            <div class="d-flex align-items-center" v-if="bug.user">
+                                <Avatar :user="bug.user" class="me-1 bordered"/>
+                                {{ bug.user.full_name }}
+                            </div>
+                            <p class="mb-0" v-else>n/a</p>
+                        </td>
                         <td class="text-sm text-secondary"><InfoDateBug :bug="bug"/></td>
                     </tr>
                 </tbody>
@@ -90,6 +98,7 @@ import TextInput from "@/Components/ui/form/TextInput.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
 import {pickBy, throttle} from "lodash";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
+import Avatar from "@/Components/ui/user/avatar.vue";
 const props = defineProps({
     project:{
         type:Object,

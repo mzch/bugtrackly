@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class Bug extends Model
 {
@@ -17,9 +19,17 @@ class Bug extends Model
      */
     protected $fillable = [
         'title',
-        'description',
         'priority',
         'status',
+    ];
+
+    /**
+     * The relations to eager load on every query.
+     *
+     * @var array
+     */
+    protected $with = [
+        'user'
     ];
 
     protected static function boot()
@@ -27,9 +37,8 @@ class Bug extends Model
         parent::boot();
 
         static::creating(function (Bug $bug) {
-            if (empty($bug->status)) {
-                $bug->status = 1;
-            }
+            $bug->user_id = Auth::id();
+            $bug->status = 1;
         });
 
         // Lors de la création d'un bug, on met à jour updated_at du projet
@@ -44,6 +53,11 @@ class Bug extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function scopeBugSearch(Builder $query, Request $request)

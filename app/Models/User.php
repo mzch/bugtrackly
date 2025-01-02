@@ -8,7 +8,9 @@ use App\Trait\User\HasProfilePhoto;
 use App\Trait\User\HasRoleAndPersmissionTrait;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+ use Illuminate\Database\Eloquent\Relations\HasMany;
+ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -84,8 +86,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
-    public function projects()
+    public function projects():BelongsToMany
     {
         return $this->belongsToMany(Project::class);
+    }
+
+    public function bugs():HasMany
+    {
+        return $this->hasMany(Bug::class);
     }
 }
