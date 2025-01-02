@@ -38,7 +38,7 @@ class BugController extends Controller
 
     public function show(Project $project, Bug $bug): Response
     {
-        //$bug->load('user');
+        $bug->load('bug_comments');
         $this->addBreadcrumb($project->name, route('projects.show', $project));
         $this->addBreadcrumb('Bug n°'.$bug->bug_id_formatted, route('projects.show', $project));
         $data = [
