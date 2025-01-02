@@ -23,9 +23,9 @@
                     <SecondaryButton  type="button" class="btn-sm me-2" @click="store.commit('bug/setBugToUpdateStatus', props.bug)" v-if="canUpdateBugStatus">
                         Modifier le statut
                     </SecondaryButton>
-                    <!--                <SecondaryButton outlined type="button" class="btn-sm">
-                                        Modifier la priorité
-                                    </SecondaryButton>-->
+                    <SecondaryButton type="button" class="btn-sm" @click="store.commit('bug/setBugToUpdatePriority', props.bug)">
+                        Modifier la priorité
+                    </SecondaryButton>
                 </div>
             </template>
         </Card>
@@ -43,6 +43,7 @@
         </Card>
     </AuthenticatedLayout>
     <ModalBugStatusUpdate :bug="bug" :project="project"/>
+    <ModalBugStatusPriority :bug="bug" :project="project"/>
 </template>
 
 <script setup>
@@ -60,6 +61,7 @@ import {hasRole} from "@/Helpers/users.js";
 
 import ModalBugStatusUpdate from "@/Pages/Bug/partial/ModalBugStatusUpdate.vue";
 import {useStore} from "vuex";
+import ModalBugStatusPriority from "@/Pages/Bug/partial/ModalBugStatusPriority.vue";
 const store = useStore();
 const props = defineProps({
     project: {

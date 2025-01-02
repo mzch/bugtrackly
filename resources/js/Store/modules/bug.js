@@ -3,15 +3,22 @@ export default {
     namespaced: true,
     state: {
         bugToUpdateStatus: null,
+        bugToUpdatePriority: null,
     },
     mutations: {
         setBugToUpdateStatus(state, item) {
             state.bugToUpdateStatus = item;  // Change la valeur de showMobileNav
         },
+        setBugToUpdatePriority(state, item) {
+            state.bugToUpdatePriority = item;  // Change la valeur de showMobileNav
+        },
     },
     getters: {
         bugToUpdateStatus(state) {
             return state.bugToUpdateStatus;
+        },
+        bugToUpdatePriority(state) {
+            return state.bugToUpdatePriority;
         },
     }
 };
