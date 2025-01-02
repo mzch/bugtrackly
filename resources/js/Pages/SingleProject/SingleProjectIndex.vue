@@ -53,7 +53,7 @@
                             <p class="mb-0 d-flex flex-column align-items-start">
                                 <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold">
                                     <span class="badge text-bg-light fw-light">
-                                    {{formatBugId(bug.id)}}
+                                    {{bug.bug_id_formatted}}
                                     </span>
                                     {{bug.title}}
                                 </Link>
@@ -89,7 +89,6 @@ import Card from "@/Components/ui/Card.vue";
 import {computed, ref, watch} from "vue";
 import {router,Link, usePage} from "@inertiajs/vue3";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
-import {formatBugId} from "../../Helpers/bug.js";
 import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import Pagination from "@/Components/ui/Pagination.vue";

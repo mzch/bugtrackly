@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\StringHelper;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,6 +31,10 @@ class Bug extends Model
      */
     protected $with = [
         'user'
+    ];
+
+    protected $appends = [
+      'bug_id_formatted'
     ];
 
     protected static function boot()
@@ -162,5 +167,13 @@ class Bug extends Model
             $query->orderBy('updated_at', 'desc');
         }
         return $query;
+    }
+
+    protected function bugIdFormatted(): Attribute{
+
+
+        return new Attribute(
+            get: fn () => str_pad($this->id, 7, '0', STR_PAD_LEFT)
+        );
     }
 }

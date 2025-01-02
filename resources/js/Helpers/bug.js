@@ -1,10 +1,6 @@
 import {usePage} from "@inertiajs/vue3";
 import {find} from "lodash";
 
-const formatBugId = (id) => {
-    return `${id.toString().padStart(7, '0')}`;
-}
-
 const getPriorityObject = (id) => {
     const priorities = usePage().props.bug_priorities ?? false;
     if(!priorities){
@@ -31,4 +27,4 @@ const getStatusObject = (id) => {
     return status
 }
 
-export {formatBugId, getPriorityObject, getStatusObject}
+export {getPriorityObject, getStatusObject}

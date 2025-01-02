@@ -1,6 +1,6 @@
 <template>
     <AuthenticatedLayout page-title="bug show">
-        <template #header>{{ project.name }} - <span class="text-secondary">Bug n°{{ formatBugId(bug.id) }}</span></template>
+        <template #header>{{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span></template>
         <Card :card-title="bug.title">
             <pre>{{bug}}</pre>
         </Card>
@@ -10,7 +10,7 @@
 <script setup>
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {formatBugId} from "../../Helpers/bug.js";
+
 import Card from "@/Components/ui/Card.vue";
 
 const props = defineProps({

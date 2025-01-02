@@ -40,7 +40,7 @@ class BugController extends Controller
     {
         //$bug->load('user');
         $this->addBreadcrumb($project->name, route('projects.show', $project));
-        $this->addBreadcrumb($bug->title, route('projects.show', $project));
+        $this->addBreadcrumb('Bug n°'.$bug->bug_id_formatted, route('projects.show', $project));
         $data = [
             'project'        => $project,
             'bug'        => $bug,
