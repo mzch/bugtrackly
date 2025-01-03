@@ -8,10 +8,6 @@
     <template #cardFooter>
         <div>
             <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
-                             @click="editing_bug_description = true" v-if="canModifyBug">
-                Modifier le bug
-            </SecondaryButton>
-            <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
                              @click="store.commit('bug/setBugToUpdateStatus', props.bug)"
                              v-if="canUpdateBugStatus">
                 Modifier le statut
@@ -20,18 +16,36 @@
                              @click="store.commit('bug/setBugToUpdatePriority', props.bug)">
                 Modifier la priorité
             </SecondaryButton>
-            <DangerButton :disabled="editing_bug_description" class="btn-sm"
-                          v-if="canDeleteBug"
-                          @click="store.commit('bug/setBugToDelete', props.bug)">
-                Supprimer ce bug
-            </DangerButton>
         </div>
     </template>
     <div class="text-secondary mb-3" v-if="bug.user">
-        <div class="d-flex align-items-center">
-            <Avatar :user="bug.user" class="bordered me-1"/>
-            <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <Avatar :user="bug.user" class="bordered me-1"/>
+                <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
+            </div>
+            <div :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
+                <button class="btn btn-link  btn-sm btn-with-icon px-1 text-secondary"
+                        :disabled="editing_bug_description"
+                        >
+                    <EllipsisVerticalIcon class="size-1"/>
+                </button>
+
+
+                <div v-show="show_bug_submenu" class="actions_bug">
+                    <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2 w-100"
+                                     @click="click_edit_bug_handler" v-if="canModifyBug">
+                        Modifier le bug
+                    </SecondaryButton>
+                    <DangerButton :disabled="editing_bug_description" class="btn-sm w-100 mt-1"
+                                  v-if="canDeleteBug"
+                                  @click="click_delete_bug_handler">
+                        Supprimer ce bug
+                    </DangerButton>
+                </div>
+            </div>
         </div>
+
     </div>
     <p v-if="!editing_bug_description" v-html="format_text(first_bug_comment.content)"></p>
     <template v-else>
@@ -92,6 +106,7 @@ import {formatDate} from "@/Helpers/date.js";
 import {useStore} from "vuex";
 import {hasRole} from "@/Helpers/users.js";
 import {format_text} from "@/Helpers/bug.js";
+import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 const store = useStore();
 const props = defineProps({
@@ -104,6 +119,16 @@ const props = defineProps({
         required: true,
     },
 })
+const show_bug_submenu = ref(false);
+let timer = null;
+const showBugSubMenuHandler = () => {
+    clearTimeout(timer);
+    show_bug_submenu.value = true;
+}
+const hideBugSubMenuHandler = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => show_bug_submenu.value = false, 200);
+}
 const first_bug_comment = computed(() => props.bug.bug_comments[0] ?? false);
 
 const form = useForm({
@@ -112,6 +137,17 @@ const form = useForm({
 })
 
 const editing_bug_description = ref(false);
+
+
+const click_edit_bug_handler = () => {
+    editing_bug_description.value = true;
+    show_bug_submenu.value = false;
+}
+
+const click_delete_bug_handler = () => {
+    store.commit('bug/setBugResponseToDelete', props.bug)
+    show_bug_submenu.value = false;
+}
 
 const card_title = computed(() => {
     if(!editing_bug_description){

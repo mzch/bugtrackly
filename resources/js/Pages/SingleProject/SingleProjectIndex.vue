@@ -45,8 +45,8 @@
                     <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
                     <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
                     <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
-                    <th>Auteur</th>
                     <th>Notes</th>
+                    <th>Auteur</th>
                     <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                 </tr>
                 </thead>
@@ -70,6 +70,7 @@
                     <td>
                         <BadgePriorityBug :bug="bug"/>
                     </td>
+                    <td class="text-secondary text-sm text-center"><span class="badge text-bg-secondary rounded-pill">{{nb_notes(bug.bug_comments_count)}}</span></td>
                     <td class="text-secondary text-sm">
                         <div class="d-flex align-items-center" v-if="bug.user">
                             <Avatar :user="bug.user" class="me-1 bordered"/>
@@ -77,7 +78,7 @@
                         </div>
                         <p class="mb-0" v-else>n/a</p>
                     </td>
-                    <td class="text-secondary text-sm text-center"><span class="badge text-bg-secondary rounded-pill">{{nb_notes(bug.bug_comments_count)}}</span></td>
+
                     <td class="text-sm text-secondary">
                         <InfoDateBug :bug="bug"/>
                     </td>
