@@ -35,7 +35,11 @@
             <SecondaryButton class="btn-sm"
                              :disabled="editingResponse"
                              @click="updateResponseHandler"
-                             v-if="canUpdateResponse">Modifier la réponse</SecondaryButton>
+                             v-if="canUpdateResponse">Modifier la note</SecondaryButton>
+            <DangerButton class="btn-sm ms-2"
+                          :disabled="editingResponse"
+                          @click="store.commit('bug/setBugResponseToDelete', response)"
+                          v-if="canDeleteSingleResponse">Supprimer cette note</DangerButton>
         </template>
     </Card>
 </template>
@@ -56,7 +60,10 @@ import TextArea from "@/Components/ui/form/TextArea.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {forEach} from "lodash";
 import {format_text} from "@/Helpers/bug.js";
+import DangerButton from "@/Components/ui/form/DangerButton.vue";
+import {useStore} from "vuex";
 
+const store = useStore()
 const props = defineProps({
     response:{
         type:Object,
@@ -68,9 +75,8 @@ const form = useForm({
 })
 const editingResponse = ref(false);
 
-const updateResponseHandler = () => {
-    editingResponse.value = true;
-}
+const updateResponseHandler = () => editingResponse.value = true
+
 
 const cancelEditingResponseHandler = () => {
     editingResponse.value = false;
@@ -110,6 +116,8 @@ const canUpdateResponse = computed(() => {
     }
     return  false
 });
+
+const canDeleteSingleResponse = computed(() => hasRole('admin'))
 
 /**
  * Des boutons en footer sont-il visible ?

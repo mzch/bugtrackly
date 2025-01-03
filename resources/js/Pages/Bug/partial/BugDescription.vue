@@ -28,7 +28,7 @@
             <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
         </div>
     </div>
-    <p v-if="!editing_bug_description">{{ first_bug_comment.content }}</p>
+    <p v-if="!editing_bug_description" v-html="format_text(first_bug_comment.content)"></p>
     <template v-else>
         <FormField class="form-floating">
             <TextInput v-model="form.title"
@@ -86,6 +86,7 @@ import {forEach} from "lodash";
 import {formatDate} from "@/Helpers/date.js";
 import {useStore} from "vuex";
 import {hasRole} from "@/Helpers/users.js";
+import {format_text} from "@/Helpers/bug.js";
 const store = useStore();
 const props = defineProps({
     bug: {

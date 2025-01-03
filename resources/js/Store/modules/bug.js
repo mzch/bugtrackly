@@ -4,6 +4,7 @@ export default {
     state: {
         bugToUpdateStatus: null,
         bugToUpdatePriority: null,
+        bugResponseToDelete: null,
     },
     mutations: {
         setBugToUpdateStatus(state, item) {
@@ -12,6 +13,9 @@ export default {
         setBugToUpdatePriority(state, item) {
             state.bugToUpdatePriority = item;  // Change la valeur de showMobileNav
         },
+        setBugResponseToDelete(state, item) {
+            state.bugResponseToDelete = item;  // Change la valeur de showMobileNav
+        },
     },
     getters: {
         bugToUpdateStatus(state) {
@@ -19,6 +23,9 @@ export default {
         },
         bugToUpdatePriority(state) {
             return state.bugToUpdatePriority;
+        },
+        bugResponseToDelete(state) {
+            return state.bugResponseToDelete;
         },
     }
 };

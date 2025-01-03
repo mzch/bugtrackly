@@ -7,9 +7,11 @@
         </template>
         <BugDescription :bug="bug" :project="project"/>
         <BugResponses :bug-responses="bug_responses"/>
+
     </AuthenticatedLayout>
     <ModalBugStatusUpdate :bug="bug" :project="project"/>
     <ModalBugStatusPriority :bug="bug" :project="project"/>
+    <ModalDeleteResponse/>
 </template>
 
 <script setup>
@@ -20,6 +22,7 @@ import ModalBugStatusUpdate from "@/Pages/Bug/partial/ModalBugStatusUpdate.vue";
 import ModalBugStatusPriority from "@/Pages/Bug/partial/ModalBugStatusPriority.vue";
 import BugDescription from "@/Pages/Bug/partial/BugDescription.vue";
 import BugResponses from "@/Pages/Bug/partial/BugResponses.vue";
+import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";
 
 const props = defineProps({
     project: {

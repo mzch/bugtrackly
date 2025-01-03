@@ -65,9 +65,13 @@ Route::prefix('projets')
                 Route::put('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
                 Route::put('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
                 Route::post('/{project:slug}/bug/{bug}/responses', [BugCommentController::class, 'store'])->name('store-response');
+
                 Route::put('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'update'])
                     ->middleware(['can:view-bug-comment,bug,bugComment'])
                     ->name('update-response');
+                Route::delete('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'destroy'])
+                    ->middleware(['can:view-bug-comment,bug,bugComment'])
+                    ->name('delete-response');
             });
 
         });
