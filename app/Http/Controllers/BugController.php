@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Bug\ShowBugRequest;
 use App\Http\Requests\Bug\StoreBugRequest;
 use App\Http\Requests\Bug\UpdateBugPriorityRequest;
+use App\Http\Requests\Bug\UpdateBugRequest;
 use App\Http\Requests\Bug\UpdateBugStatusRequest;
 use App\Models\Bug;
 use App\Models\BugComment;
@@ -60,12 +61,31 @@ class BugController extends Controller
         return $this->render('Bug/BugShow', $data);
     }
 
+    public function update(UpdateBugRequest $request, Project $project, Bug $bug): JsonResponse{
+        $bug->update($request->validated());
+        $bug->bug_comments()->first()->update($request->validated());
+        return response()->json(["success" => true]);
+    }
+    /**
+     * Update du statut du bug
+     * @param UpdateBugStatusRequest $request
+     * @param Project $project
+     * @param Bug $bug
+     * @return JsonResponse
+     */
     public function update_status(UpdateBugStatusRequest $request, Project $project, Bug $bug): JsonResponse
     {
         $bug->update($request->validated());
         return response()->json(["success" => true]);
     }
 
+    /**
+     * Update de la priorité du bug
+     * @param UpdateBugPriorityRequest $request
+     * @param Project $project
+     * @param Bug $bug
+     * @return JsonResponse
+     */
     public function update_priority(UpdateBugPriorityRequest $request, Project $project, Bug $bug): JsonResponse
     {
         $bug->update($request->validated());

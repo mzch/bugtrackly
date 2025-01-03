@@ -60,6 +60,7 @@ Route::prefix('projets')
             Route::get('/{project:slug}/rapporter-un-bug', [BugController::class, 'create'])->name('create');
             Route::post('/{project:slug}/rapporter-un-bug', [BugController::class, 'store'])->name('store');
             Route::get('/{project:slug}/bug/{bug}', [BugController::class, 'show'])->name('show');
+            Route::post('/{project:slug}/bug/{bug}/update', [BugController::class, 'update'])->name('update');
             Route::post('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
             Route::post('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
         });
