@@ -1,5 +1,5 @@
 <template>
-    <AuthenticatedLayout page-title="bug show">
+    <AuthenticatedLayout :page-title="bug.title">
         <template #header>{{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
         </template>
         <template #headerActions>
@@ -12,6 +12,7 @@
     <ModalBugStatusUpdate :bug="bug" :project="project"/>
     <ModalBugStatusPriority :bug="bug" :project="project"/>
     <ModalDeleteResponse/>
+    <ModalDeleteBug/>
 </template>
 
 <script setup>
@@ -23,6 +24,7 @@ import ModalBugStatusPriority from "@/Pages/Bug/partial/ModalBugStatusPriority.v
 import BugDescription from "@/Pages/Bug/partial/BugDescription.vue";
 import BugResponses from "@/Pages/Bug/partial/BugResponses.vue";
 import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";
+import ModalDeleteBug from "@/Pages/Bug/partial/ModalDeleteBug.vue";
 
 const props = defineProps({
     project: {

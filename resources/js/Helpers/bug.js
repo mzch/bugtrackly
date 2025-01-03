@@ -31,6 +31,10 @@ const nb_notes = (nb_responses) => {
     return nb_responses - 1;
 }
 
-const format_text = (text) => text.replace(/\n/g, '<br>')
+const format_text = (text) => {
+    if(!text)
+        return "";
+    return text.replace(/\n/g, '<br>')
+}
 
 export {getPriorityObject, getStatusObject, nb_notes, format_text}

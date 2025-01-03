@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use App\Repositories\Bugs\BugRepositoryInterface;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 
@@ -17,6 +18,9 @@ class ProjectController extends Controller
     {
     }
 
+    public function index(Request $request):RedirectResponse{
+        return to_route('projects.show', $request->user()->projects->first());
+    }
     /**
      * Display the specified resource.
      */

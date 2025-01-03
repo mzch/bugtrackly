@@ -13,6 +13,8 @@ use App\Models\Project;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Response;
 
 class BugController extends Controller
@@ -65,6 +67,13 @@ class BugController extends Controller
         $bug->bug_comments()->first()->update($request->validated());
         return response()->json(["success" => true]);
     }
+
+    public function destroy(Request $request, Project $project, Bug $bug): JsonResponse
+    {
+        $bug->delete();
+        return response()->json(["success" => true]);
+    }
+
     /**
      * Update du statut du bug
      * @param UpdateBugStatusRequest $request

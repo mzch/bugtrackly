@@ -54,6 +54,7 @@ Route::prefix('projets')
     ->name('projects.')
     ->middleware(['auth', 'verified', 'can:view-project,project'])
     ->group(function () {
+        Route::get('/', [FrontProjectController::class, 'index'])->name('index');
         Route::get('/{project:slug}', [FrontProjectController::class, 'show'])->name('show');
         Route::name('bug.')->group(function (){
             Route::get('/{project:slug}/rapporter-un-bug', [BugController::class, 'create'])->name('create');
@@ -65,6 +66,7 @@ Route::prefix('projets')
                 Route::put('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
                 Route::put('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
                 Route::post('/{project:slug}/bug/{bug}/responses', [BugCommentController::class, 'store'])->name('store-response');
+                Route::delete('/{project:slug}/bug/{bug}', [BugController::class, 'destroy'])->name('destroy');
 
                 Route::put('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'update'])
                     ->middleware(['can:view-bug-comment,bug,bugComment'])

@@ -36,7 +36,7 @@ class PersmissionsServiceProvider extends ServiceProvider
         /**
          * Détermine si un utilisateur peut consulter un projet
          */
-        Gate::define('view-project', function (User $user, Project $project) {
+        Gate::define('view-project', function (User $user, ?Project $project) {
             return $user->role_id === 1 || $project->users->pluck('id')->contains($user->id);
         });
 

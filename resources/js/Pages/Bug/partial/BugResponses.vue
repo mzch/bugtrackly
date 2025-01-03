@@ -14,6 +14,7 @@
                        placeholder="Nouvelle note"
                        v-model.trim="form.content"
                        required
+                       autofocus
                        style="height: 150px"
                        :class="{'is-invalid' :form.errors.content}"/>
                    <InputLabel for="bug_desc" value="Nouvelle note"/>

@@ -16,10 +16,15 @@
                              v-if="canUpdateBugStatus">
                 Modifier le statut
             </SecondaryButton>
-            <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm"
+            <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
                              @click="store.commit('bug/setBugToUpdatePriority', props.bug)">
                 Modifier la priorité
             </SecondaryButton>
+            <DangerButton :disabled="editing_bug_description" class="btn-sm"
+                          v-if="canDeleteBug"
+                          @click="store.commit('bug/setBugToDelete', props.bug)">
+                Supprimer ce bug
+            </DangerButton>
         </div>
     </template>
     <div class="text-secondary mb-3" v-if="bug.user">
@@ -87,6 +92,7 @@ import {formatDate} from "@/Helpers/date.js";
 import {useStore} from "vuex";
 import {hasRole} from "@/Helpers/users.js";
 import {format_text} from "@/Helpers/bug.js";
+import DangerButton from "@/Components/ui/form/DangerButton.vue";
 const store = useStore();
 const props = defineProps({
     bug: {
@@ -116,6 +122,7 @@ const card_title = computed(() => {
 })
 
 const canModifyBug = computed(() => hasRole('admin'));
+const canDeleteBug = computed(() => hasRole('admin'));
 const canUpdateBugStatus = computed(() => {
     // un admin voir toujours ce bouton
     if (hasRole('admin')) {
