@@ -4,7 +4,7 @@ namespace App\Http\Requests\Bug;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBugRequest extends DefaultBugRequest
+class UpdateBugRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

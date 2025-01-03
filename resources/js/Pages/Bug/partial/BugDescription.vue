@@ -8,7 +8,7 @@
     <template #cardFooter>
         <div>
             <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
-                             @click="editing_bug_description = true">
+                             @click="editing_bug_description = true" v-if="canModifyBug">
                 Modifier le bug
             </SecondaryButton>
             <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
@@ -113,6 +113,8 @@ const card_title = computed(() => {
         return form.title;
     }
 })
+
+const canModifyBug = computed(() => hasRole('admin'));
 const canUpdateBugStatus = computed(() => {
     // un admin voir toujours ce bouton
     if (hasRole('admin')) {

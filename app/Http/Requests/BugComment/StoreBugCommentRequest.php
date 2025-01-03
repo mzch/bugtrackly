@@ -4,17 +4,8 @@ namespace App\Http\Requests\BugComment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreBugCommentRequest extends DefaultBugCommentRequest
+class StoreBugCommentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return $this->checkUserCapabilities()
-            && $this->checkBugRelativeToProject();
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

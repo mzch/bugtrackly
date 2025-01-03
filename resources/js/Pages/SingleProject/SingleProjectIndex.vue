@@ -46,6 +46,7 @@
                     <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
                     <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
                     <th>Auteur</th>
+                    <th>Notes</th>
                     <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                 </tr>
                 </thead>
@@ -76,6 +77,7 @@
                         </div>
                         <p class="mb-0" v-else>n/a</p>
                     </td>
+                    <td class="text-secondary text-sm text-center"><span class="badge text-bg-secondary rounded-pill">{{nb_notes(bug.bug_comments_count)}}</span></td>
                     <td class="text-sm text-secondary">
                         <InfoDateBug :bug="bug"/>
                     </td>
@@ -105,8 +107,10 @@ import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
 import {pickBy, throttle} from "lodash";
+import {ChatBubbleLeftIcon} from "@heroicons/vue/20/solid/index.js";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
+import {nb_notes} from "../../Helpers/bug.js";
 
 const props = defineProps({
     project: {

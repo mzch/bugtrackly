@@ -46,7 +46,7 @@ class BugController extends Controller
         return to_route('projects.show', $project);
     }
 
-    public function show(DefaultBugRequest $request, Project $project, Bug $bug): Response
+    public function show(Project $project, Bug $bug): Response
     {
         $bug->load('bug_comments');
         $this->addBreadcrumb($project->name, route('projects.show', $project));

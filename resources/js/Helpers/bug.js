@@ -27,4 +27,10 @@ const getStatusObject = (id) => {
     return status
 }
 
-export {getPriorityObject, getStatusObject}
+const nb_notes = (nb_responses) => {
+    return nb_responses - 1;
+}
+
+const format_text = (text) => text.replace(/\n/g, '<br>')
+
+export {getPriorityObject, getStatusObject, nb_notes, format_text}

@@ -6,7 +6,7 @@ use App\Models\Bug;
 use App\Rules\ValidBugStatus;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBugStatusRequest extends DefaultBugRequest
+class UpdateBugStatusRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

@@ -14,6 +14,7 @@ class BugRepository implements BugRepositoryInterface
     public function getAllBugsPaginatedForProject(Project $project, Request $request, int $nb_per_page = 10): LengthAwarePaginator
     {
         $query = Bug::whereBelongsTo($project)
+            ->withCount('bug_comments')
             ->bugSearch($request)
             ->filterByStatus($request)
             ->filterByPriority($request)

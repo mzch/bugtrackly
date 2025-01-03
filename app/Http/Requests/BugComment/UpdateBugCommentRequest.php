@@ -3,8 +3,9 @@
 namespace App\Http\Requests\BugComment;
 
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBugCommentRequest extends DefaultBugCommentRequest
+class UpdateBugCommentRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

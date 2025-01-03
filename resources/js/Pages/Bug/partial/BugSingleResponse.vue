@@ -4,7 +4,7 @@
             <Avatar :user="response.user" class="bordered me-1"/>
             <span class="fw-semibold me-1">{{ response.user.full_name }}</span>
         </div>
-        <p v-if="!editingResponse">{{ response.content }}</p>
+        <p v-if="!editingResponse" v-html="format_text(response.content)"></p>
         <template v-else>
             <FormField class="form-floating">
                 <TextArea
@@ -55,6 +55,7 @@ import InputError from "@/Components/ui/form/InputError.vue";
 import TextArea from "@/Components/ui/form/TextArea.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {forEach} from "lodash";
+import {format_text} from "@/Helpers/bug.js";
 
 const props = defineProps({
     response:{
@@ -107,7 +108,7 @@ const canUpdateResponse = computed(() => {
         return true;
 
     }
-    return  usePage().props.auth.user.id === Number(props.response.user.id)
+    return  false
 });
 
 /**

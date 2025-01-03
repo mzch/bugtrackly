@@ -34,6 +34,7 @@ class BugComment extends Model
             $bugComment->bug->project->touch();
         });
         static::updated(function (BugComment $bugComment) {
+            $bugComment->bug->touch();
             $bugComment->bug->project->touch();
         });
     }
