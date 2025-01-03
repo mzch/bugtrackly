@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Bug\ShowBugRequest;
+use App\Http\Requests\Bug\DefaultBugRequest;
 use App\Http\Requests\Bug\StoreBugRequest;
 use App\Http\Requests\Bug\UpdateBugPriorityRequest;
 use App\Http\Requests\Bug\UpdateBugRequest;
@@ -13,7 +13,6 @@ use App\Models\Project;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class BugController extends Controller
@@ -47,7 +46,7 @@ class BugController extends Controller
         return to_route('projects.show', $project);
     }
 
-    public function show(ShowBugRequest $request, Project $project, Bug $bug): Response
+    public function show(DefaultBugRequest $request, Project $project, Bug $bug): Response
     {
         $bug->load('bug_comments');
         $this->addBreadcrumb($project->name, route('projects.show', $project));

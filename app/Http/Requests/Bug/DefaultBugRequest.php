@@ -4,15 +4,22 @@ namespace App\Http\Requests\Bug;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShowBugRequest extends FormRequest
+class DefaultBugRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
+    {
+        return $this->checkUserCapabilities();
+    }
+
+    /**
+     * Vérifie que l'utilisateur est un admin ou bien a accès au projet
+     * @return bool
+     */
+    private function checkUserCapabilities(): bool
     {
         $user = $this->user();
         $project = $this->route('project');
         return $user->can('manage-projects') || ( $user->can('report-bug') && $project->users->pluck('id')->contains($user->id) );
     }
+
 }
