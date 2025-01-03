@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BugCommentController;
 use App\Http\Controllers\BugController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -63,6 +64,7 @@ Route::prefix('projets')
             Route::post('/{project:slug}/bug/{bug}/update', [BugController::class, 'update'])->name('update');
             Route::post('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
             Route::post('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
+            Route::post('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'update'])->name('update-response');
         });
 
     });

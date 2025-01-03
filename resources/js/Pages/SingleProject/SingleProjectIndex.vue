@@ -16,7 +16,7 @@
                             class="col-auto form-select-sm w-auto me-1"
                             :options="priorities_options"
                             :display-select-label-option="false"
-                            v-model="params.priority" />
+                            v-model="params.priority"/>
 
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
                     Status :
@@ -25,14 +25,15 @@
                             class="col-auto form-select-sm w-auto me-1"
                             :options="status_options"
                             :display-select-label-option="false"
-                            v-model="params.status" />
+                            v-model="params.status"/>
 
                 <InputLabel for="search_user"
                             class="col-form-label col-form-label-sm text-end col-auto">
                     Rechercher un bug :
                 </InputLabel>
                 <div class="col-auto">
-                    <TextInput type="search" id="search_user" v-model="params.search" placeholder="Numéro ou titre" class="form-control-sm" autofocus/>
+                    <TextInput type="search" id="search_user" v-model="params.search" placeholder="Numéro ou titre"
+                               class="form-control-sm" autofocus/>
                 </div>
             </template>
             <template #cardFooter>
@@ -40,37 +41,45 @@
             </template>
             <table class="table table-bordered table-hover mb-0 caption-top" v-if="bugs.data.length">
                 <thead>
-                    <tr>
-                        <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
-                        <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
-                        <th>Auteur</th>
-                        <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
-                    </tr>
+                <tr>
+                    <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
+                    <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
+                    <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
+                    <th>Auteur</th>
+                    <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="bug in bugs.data" :key="bug.id">
-                        <td>
-                            <p class="mb-0 d-flex flex-column align-items-start">
-                                <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold">
-                                    <span class="badge text-bg-light fw-light">
-                                    {{bug.bug_id_formatted}}
+                <tr v-for="bug in bugs.data" :key="bug.id">
+                    <td>
+                            <span class="badge text-bg-light fw-light">
+                                    {{ bug.bug_id_formatted }}
                                     </span>
-                                    {{bug.title}}
-                                </Link>
-                                <BagdeStatusBug class="mt-1" :bug="bug"/>
+                    </td>
+                    <td>
+                        <p class="mb-0 d-flex flex-column align-items-start">
+                            <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold">
 
-                            </p>
-                        </td>
-                        <td><BadgePriorityBug :bug="bug"/></td>
-                        <td class="text-secondary text-sm">
-                            <div class="d-flex align-items-center" v-if="bug.user">
-                                <Avatar :user="bug.user" class="me-1 bordered"/>
-                                {{ bug.user.full_name }}
-                            </div>
-                            <p class="mb-0" v-else>n/a</p>
-                        </td>
-                        <td class="text-sm text-secondary"><InfoDateBug :bug="bug"/></td>
-                    </tr>
+                                {{ bug.title }}
+                            </Link>
+                            <BagdeStatusBug class="mt-1" :bug="bug"/>
+
+                        </p>
+                    </td>
+                    <td>
+                        <BadgePriorityBug :bug="bug"/>
+                    </td>
+                    <td class="text-secondary text-sm">
+                        <div class="d-flex align-items-center" v-if="bug.user">
+                            <Avatar :user="bug.user" class="me-1 bordered"/>
+                            {{ bug.user.full_name }}
+                        </div>
+                        <p class="mb-0" v-else>n/a</p>
+                    </td>
+                    <td class="text-sm text-secondary">
+                        <InfoDateBug :bug="bug"/>
+                    </td>
+                </tr>
                 </tbody>
             </table>
             <div class="p-5" v-else>
@@ -87,7 +96,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
 import {computed, ref, watch} from "vue";
-import {router,Link, usePage} from "@inertiajs/vue3";
+import {router, Link, usePage} from "@inertiajs/vue3";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
 import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
@@ -98,35 +107,36 @@ import {sortingClass} from "@/Helpers/datatable.js";
 import {pickBy, throttle} from "lodash";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
+
 const props = defineProps({
-    project:{
-        type:Object,
-        required:true,
+    project: {
+        type: Object,
+        required: true,
     },
-    bugs:{
-        type:Object,
-        required:true,
+    bugs: {
+        type: Object,
+        required: true,
     },
-    bug_status:{
-        type:Array,
-        required:true,
+    bug_status: {
+        type: Array,
+        required: true,
     },
-    bug_priorities:{
-        type:Array,
-        required:true,
+    bug_priorities: {
+        type: Array,
+        required: true,
     }
 })
 
 const priorities_options = computed(() => {
     const priorities = props.bug_priorities || [];
     const priorities_opt = priorities.map(p => ({id: p.slug, label: p.label}));
-    return [...[{id:null, label:'Toutes'}], ...priorities_opt];
+    return [...[{id: null, label: 'Toutes'}], ...priorities_opt];
 });
 
 const status_options = computed(() => {
     const status = props.bug_status || [];
     const status_opt = status.map(s => ({id: s.slug, label: s.label}));
-    return [...[{id:null, label:'Tous'}], ...status_opt];
+    return [...[{id: null, label: 'Tous'}], ...status_opt];
 });
 
 /**
@@ -147,7 +157,7 @@ const params = ref({
     direction: filters.value.direction
 });
 
-const no_result = computed( () => filters.value.search !== null ? "Aucun bug trouvé" : "Aucun bug enregistré")
+const no_result = computed(() => filters.value.search !== null ? "Aucun bug trouvé" : "Aucun bug enregistré")
 
 /**
  * Sort handler on columns header

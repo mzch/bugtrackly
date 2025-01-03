@@ -24,7 +24,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'direction' => 'in:asc,desc',
-            'field'     => 'in:title,date,priority',
+            'field'     => 'in:id,title,date,priority',
             'priority'  => 'in:none,low,normal,hight,immediate',
             'status'    => 'in:new,accepted,rejected,in_progress,resolved,closed,reopened',
         ]);
