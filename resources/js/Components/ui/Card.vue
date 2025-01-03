@@ -5,7 +5,7 @@
             <h3 class="mb-0 txt_16 fw-medium" v-if="props.cardTitle">{{cardTitle}}</h3>
             <div class="ms-auto flex-grow-1" v-if="$slots.cardHeaderAction">
                 <div class="container-fluid px-0">
-                    <div class="row gx-1">
+                    <div class="row gx-1 align-items-center justify-content-end">
                         <slot name="cardHeaderAction"/>
                     </div>
                 </div>

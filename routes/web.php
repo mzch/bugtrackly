@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BugCommentController;
+use App\Http\Controllers\BugController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController as FrontProjectController;
@@ -50,10 +52,32 @@ Route::prefix('settings')
 
 Route::prefix('projets')
     ->name('projects.')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'can:view-project,project'])
     ->group(function () {
         Route::get('/', [FrontProjectController::class, 'index'])->name('index');
         Route::get('/{project:slug}', [FrontProjectController::class, 'show'])->name('show');
+        Route::name('bug.')->group(function (){
+            Route::get('/{project:slug}/rapporter-un-bug', [BugController::class, 'create'])->name('create');
+            Route::post('/{project:slug}/rapporter-un-bug', [BugController::class, 'store'])->name('store');
+
+            Route::middleware(['can:view-bug,project,bug'])->group(function () {
+                Route::get('/{project:slug}/bug/{bug}', [BugController::class, 'show'])->name('show');
+                Route::put('/{project:slug}/bug/{bug}/update', [BugController::class, 'update'])->name('update');
+                Route::put('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
+                Route::put('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
+                Route::post('/{project:slug}/bug/{bug}/responses', [BugCommentController::class, 'store'])->name('store-response');
+                Route::delete('/{project:slug}/bug/{bug}', [BugController::class, 'destroy'])->name('destroy');
+
+                Route::put('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'update'])
+                    ->middleware(['can:view-bug-comment,bug,bugComment'])
+                    ->name('update-response');
+                Route::delete('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'destroy'])
+                    ->middleware(['can:view-bug-comment,bug,bugComment'])
+                    ->name('delete-response');
+            });
+
+        });
+
     });
 
 

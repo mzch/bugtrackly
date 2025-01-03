@@ -3,6 +3,7 @@
         <option v-if="displaySelectLabelOption" :disabled="disableFirstOption" :value="null">{{ selectLabel }}</option>
         <option v-for="option in options"
                 :key="option.id"
+                :disabled="option?.disabled || false"
                 :value="option.id"
         >
             {{ option.label }}

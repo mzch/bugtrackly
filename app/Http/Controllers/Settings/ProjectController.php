@@ -91,6 +91,7 @@ class ProjectController extends SettingsController
             'users'   => $this->user_repository->getAll()->makeHidden('role')
 
         ];
+
         return $this->render('Settings/Projects/ProjectShow', $data);
     }
 

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Trait\Project\HasProjectPhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -59,6 +60,7 @@ class Project extends Model
                 $project->slug = $slug;
             }
         });
+
         static::updating(function ($project) {
             $originalSlug = $project->slug;
             $slug = $originalSlug;
@@ -78,6 +80,14 @@ class Project extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    /**
+     * Get the comments for the blog post.
+     */
+    public function bugs(): HasMany
+    {
+        return $this->hasMany(Bug::class);
     }
 
 }

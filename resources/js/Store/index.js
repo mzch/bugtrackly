@@ -3,11 +3,13 @@ import navigation from './modules/navigation.js'
 import usersManagement from './modules/users_management.js'
 import projectsManagement from './modules/projects_management.js'
 import currentProject from './modules/current_project.js'
+import bug from './modules/bug.js'
 export default createStore({
     modules: {
         navigation,
         usersManagement,
         projectsManagement,
-        currentProject
+        currentProject,
+        bug,
     }
 });
