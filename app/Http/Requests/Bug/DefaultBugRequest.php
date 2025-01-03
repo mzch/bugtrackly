@@ -15,7 +15,7 @@ class DefaultBugRequest extends FormRequest
      * Vérifie que l'utilisateur est un admin ou bien a accès au projet
      * @return bool
      */
-    private function checkUserCapabilities(): bool
+    protected function checkUserCapabilities(): bool
     {
         $user = $this->user();
         $project = $this->route('project');

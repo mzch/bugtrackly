@@ -76,7 +76,7 @@ const form = useForm({
 })
 
 const submitHandler = () => {
-    axios.post(route('projects.bug.update-priority', [props.project.slug, props.bug.id]), {
+    axios.put(route('projects.bug.update-priority', [props.project.slug, props.bug.id]), {
         priority: form.priority,
     })
         .then(response => {

@@ -38,7 +38,7 @@ class BugController extends Controller
     {
 
         $bug = new Bug($request->validated());
-        $bugComment = new BugComment($request->validated());
+            $bugComment = new BugComment($request->validated());
 
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);

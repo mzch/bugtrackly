@@ -127,7 +127,7 @@ const cancelEditingBugHandler = () => {
     form.reset();
 }
 const editBugHandler = () => {
-    axios.post(route('projects.bug.update', [props.project.slug, props.bug.id]), {
+    axios.put(route('projects.bug.update', [props.project.slug, props.bug.id]), {
         title: form.title,
         content: form.content,
     })

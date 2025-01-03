@@ -20,7 +20,7 @@ class DefaultBugCommentRequest extends FormRequest
      * Vérifie que l'utilisateur est un admin ou bien a accès au projet
      * @return bool
      */
-    private function checkUserCapabilities():bool
+    protected function checkUserCapabilities():bool
     {
         $user = $this->user();
         $project = $this->route('project');
@@ -31,7 +31,7 @@ class DefaultBugCommentRequest extends FormRequest
      * Vérifie que le bug en question est relatif au projet
      * @return bool
      */
-    private function checkBugRelativeToProject():bool{
+    protected function checkBugRelativeToProject():bool{
         $project = $this->route('project');
         $bug = $this->route('bug');
         return $project->id === $bug->project_id;
@@ -41,7 +41,7 @@ class DefaultBugCommentRequest extends FormRequest
      * Vérifie que la réponse du bug en question est relatif au bug
      * @return bool
      */
-    private function checkResponseRelativeToBug():bool{
+    protected function checkResponseRelativeToBug():bool{
         $bug = $this->route('bug');
         $bugComment = $this->route('bugComment');
         return $bug->id === $bugComment->bug_id;

@@ -76,7 +76,7 @@ const form = useForm({
 })
 
 const submitHandler = () => {
-    axios.post(route('projects.bug.update-status', [props.project.slug, props.bug.id]), {
+    axios.put(route('projects.bug.update-status', [props.project.slug, props.bug.id]), {
         status: form.status,
     })
         .then(response => {

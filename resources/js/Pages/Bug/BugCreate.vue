@@ -86,7 +86,6 @@ const priorities_options = computed(() => {
 });
 
 const createBugHandler = () => {
-    console.log("createBugHandler")
     form.post(route('projects.bug.store', props.project.slug), {
         preserveScroll: true,
         onSuccess: () => form.reset(),

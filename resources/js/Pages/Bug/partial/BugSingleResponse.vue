@@ -76,9 +76,8 @@ const cancelEditingResponseHandler = () => {
     form.reset();
 }
 const submitEditResponseHandler = () => {
-    console.log("axios to projects.bug.update-response");
     const urlParams = route().params;
-    axios.post(route('projects.bug.update-response', [urlParams.project, urlParams.bug, props.response.id]), {
+    axios.put(route('projects.bug.update-response', [urlParams.project, urlParams.bug, props.response.id]), {
         content: form.content,
     })
         .then(response => {
