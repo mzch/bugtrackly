@@ -6,8 +6,28 @@
             <BagdeStatusBug class="mt-1" :bug="bug"/>
         </template>
         <BugDescription :bug="bug" :project="project"/>
-        <BugResponses :bug-responses="bug_responses"/>
+        <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
+        <Card card-title="Historique" remove-body-padding>
+            <table class="table table-bordered table-sm">
+                <thead>
+                <tr>
+                    <th>Date de modification</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Changement</th>
+                    <th>Détail</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="log in bug.bug_logs" :key="log.id">
+                    <td>{{ formatDate(log.created_at, "d MMMM yyyy à HH'h'mm") }}</td>
+                    <td>{{log.user.full_name}}</td>
+                    <td>{{log.action}}</td>
+                    <td>{{log.details}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </Card>
     </AuthenticatedLayout>
     <ModalDeleteResponse/>
     <ModalDeleteBug/>
@@ -21,6 +41,8 @@ import BugDescription from "@/Pages/Bug/partial/BugDescription.vue";
 import BugResponses from "@/Pages/Bug/partial/BugResponses.vue";
 import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";
 import ModalDeleteBug from "@/Pages/Bug/partial/ModalDeleteBug.vue";
+import {formatDate} from "../../Helpers/date.js";
+import Card from "@/Components/ui/Card.vue";
 
 const props = defineProps({
     project: {

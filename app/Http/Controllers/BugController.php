@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Bug\DefaultBugRequest;
 use App\Http\Requests\Bug\StoreBugRequest;
 use App\Http\Requests\Bug\UpdateBugPriorityRequest;
 use App\Http\Requests\Bug\UpdateBugRequest;
@@ -10,15 +9,17 @@ use App\Http\Requests\Bug\UpdateBugStatusRequest;
 use App\Models\Bug;
 use App\Models\BugComment;
 use App\Models\Project;
+use App\Models\User;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
+use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Response;
 
 class BugController extends Controller
 {
+    use HasBugLogMethods;
     public function __construct(
         protected BugInfosRepositoryInterface $bug_infos_repository,
     )
@@ -47,13 +48,28 @@ class BugController extends Controller
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);
 
+        self::logAction(
+            $bug->id,
+            auth()->id(),
+            "Création d'un nouveau bug",
+        );
+        if($request->validated('assigned_user_id')){
+            $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
+            self::logAction(
+                $bug->id,
+                auth()->id(),
+                "Assigné à",
+                "=> " . $assignedUser->full_name,
+            );
+        }
+
         return to_route('projects.show', $project);
     }
 
     public function show(Project $project, Bug $bug): Response
     {
         $project->load('users');
-        $bug->load('bug_comments');
+        $bug->load(['bug_comments', 'bug_logs']);
         $this->addBreadcrumb($project->name, route('projects.show', $project));
         $this->addBreadcrumb('Bug n°'.$bug->bug_id_formatted, route('projects.show', $project));
         $data = [

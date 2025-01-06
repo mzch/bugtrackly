@@ -87,6 +87,10 @@ class Bug extends Model
     {
         return $this->hasMany(BugComment::class)->orderBy('created_at');
     }
+    public function bug_logs() : HasMany
+    {
+        return $this->hasMany(BugLog::class)->orderBy('created_at');
+    }
 
     public function scopeBugSearch(Builder $query, Request $request)
     {
