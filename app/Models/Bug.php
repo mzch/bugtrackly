@@ -31,7 +31,7 @@ class Bug extends Model
      *
      * @var array<string>
      */
-    protected $hidden = ['assigned_user_id'];
+    protected $hidden = [];
 
     /**
      * The relations to eager load on every query.

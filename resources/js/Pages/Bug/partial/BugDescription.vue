@@ -5,19 +5,6 @@
             <BadgePriorityBug :extended-label="true" :bug="bug"/>
         </div>
     </template>
-    <template #cardFooter>
-        <div>
-            <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
-                             @click="store.commit('bug/setBugToUpdateStatus', props.bug)"
-                             v-if="canUpdateBugStatus">
-                Modifier le statut
-            </SecondaryButton>
-            <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2"
-                             @click="store.commit('bug/setBugToUpdatePriority', props.bug)">
-                Modifier la priorité
-            </SecondaryButton>
-        </div>
-    </template>
     <div class="text-secondary mb-3" v-if="bug.user">
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
@@ -145,7 +132,7 @@ const click_edit_bug_handler = () => {
 }
 
 const click_delete_bug_handler = () => {
-    store.commit('bug/setBugResponseToDelete', props.bug)
+    store.commit('bug/setBugToDelete', props.bug)
     show_bug_submenu.value = false;
 }
 
@@ -159,15 +146,7 @@ const card_title = computed(() => {
 
 const canModifyBug = computed(() => hasRole('admin'));
 const canDeleteBug = computed(() => hasRole('admin'));
-const canUpdateBugStatus = computed(() => {
-    // un admin voir toujours ce bouton
-    if (hasRole('admin')) {
-        return true;
-    }
-    // un reporter ne voit ce bouton que si le bug est Rejeté (3), Résolu (5) ou Fermé (6)
-    const status_for_reporter = [3, 5, 6]
-    return status_for_reporter.includes(props.bug.status);
-})
+
 const cancelEditingBugHandler = () => {
     editing_bug_description.value = false;
     form.reset();

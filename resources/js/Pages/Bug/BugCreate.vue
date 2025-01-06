@@ -36,39 +36,14 @@
             </FormField>
             <div class="row">
                 <div class="col-md-6">
-                    <FormField class="form-floating">
+                    <FormField class="form-floating mt-4">
                         <FormSelect id="bug_priority" :options="priorities_options" v-model.number="form.priority"/>
                         <InputLabel for="bug_priority" value="Priorité"/>
                         <InputError :message="form.errors.priority"/>
                     </FormField>
                 </div>
                 <div class="col-md-6">
-                    <InputLabel for="vs-assigned-user">Assigner un utilisateur</InputLabel>
-                    <v-select v-model.number="form.assigned_user_id"
-                              inputId="vs-assigned-user"
-                              class="user-avatar-list"
-                              label="full_name"
-                              :reduce="user => user.id"
-                              placeholder="Sélectionnez un utilisateur"
-                              :options="project.users">
-                        <template #open-indicator="{ attributes }">
-                            <span v-bind="attributes">
-                                <svg xmlns='http://www.w3.org/2000/svg' style="width: 16px; height: 12px" viewBox='0 0 16 16'><path fill='none' stroke='#343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/></svg>
-                            </span>
-                        </template>
-                        <template #option="option">
-                            <div class="d-flex align-items-center">
-                                <Avatar :user="option" class="me-1 bordered"/>
-                                {{ option.full_name }}
-                            </div>
-                        </template>
-                        <template #selected-option="option">
-                            <div class="d-flex align-items-center">
-                                <Avatar :user="option" class="me-1 bordered"/>
-                                {{ option.full_name }}
-                            </div>
-                        </template>
-                    </v-select>
+                    <UserAvatarVSelect id="vs-assigned-user" label="Assigner un utilisateur à ce nouveau bug" :users="project.users" v-model="form.assigned_user_id"></UserAvatarVSelect>
                 </div>
             </div>
             <template #cardFooter>
@@ -95,6 +70,7 @@ import TextInput from "@/Components/ui/form/TextInput.vue";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import TextArea from "@/Components/ui/form/TextArea.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
+import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
 
 const props = defineProps({
     project:{
