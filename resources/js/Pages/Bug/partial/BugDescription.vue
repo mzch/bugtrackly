@@ -2,7 +2,7 @@
 <Card :card-title="card_title" class="mb-4">
     <template #cardHeaderAction>
         <div class="col-auto ms-auto">
-            <BadgePriorityBug :add-priority-label="true" :bug="bug"/>
+            <BadgePriorityBug :extended-label="true" :bug="bug"/>
         </div>
     </template>
     <template #cardFooter>

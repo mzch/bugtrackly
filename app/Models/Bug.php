@@ -23,7 +23,15 @@ class Bug extends Model
         'title',
         'priority',
         'status',
+        'assigned_user_id',
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<string>
+     */
+    protected $hidden = ['assigned_user_id'];
 
     /**
      * The relations to eager load on every query.
@@ -31,7 +39,8 @@ class Bug extends Model
      * @var array
      */
     protected $with = [
-        'user'
+        'user',
+        'assigned_user'
     ];
 
     protected $appends = [
@@ -68,6 +77,10 @@ class Bug extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function assigned_user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_user_id');
     }
 
     public function bug_comments() : HasMany

@@ -27,12 +27,14 @@ class BugController extends Controller
 
     public function create(Project $project): Response
     {
+        $project->load('users');
         $this->addBreadcrumb($project->name, route('projects.show', $project));
         $this->addBreadcrumb("Création d'un bug", false);
         $data = [
             'project'        => $project,
             'bug_priorities' => $this->bug_infos_repository->getAllBugPriorities()
         ];
+
         return $this->render('Bug/BugCreate', $data);
     }
 
