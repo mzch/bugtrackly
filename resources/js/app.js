@@ -8,7 +8,7 @@ import { router } from '@inertiajs/vue3'
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 import store from './store/index.js';
-
+import  vSelect from "vue-select";
 const appName = import.meta.env.BUGTRACKLY_VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
@@ -23,6 +23,7 @@ createInertiaApp({
             .use(plugin)
             .use(store) // Utiliser Vuex store
             .use(ZiggyVue)
+            .component("v-select", vSelect)
             .mount(el);
     },
     progress: {

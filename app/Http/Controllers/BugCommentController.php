@@ -20,8 +20,13 @@ class BugCommentController extends Controller
      * @return JsonResponse
      */
     public function store(StoreBugCommentRequest $request, Project $project, Bug $bug): JsonResponse{
-        $bugComment = new BugComment($request->validated());
-        $bug->bug_comments()->save($bugComment);
+        $bug->update($request->validated());
+
+        if(!blank($request->input("content")) ){
+            $bugComment = new BugComment($request->validated());
+            $bug->bug_comments()->save($bugComment);
+        }
+
         return response()->json(["success" => true]);
     }
 

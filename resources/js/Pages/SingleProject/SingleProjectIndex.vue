@@ -44,39 +44,39 @@
                 <tr>
                     <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
                     <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
-                    <th :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
+                    <th :class="sortingClass('status', params)" @click="sort('status')">Statut</th>
                     <th>Notes</th>
-                    <th>Auteur</th>
+                    <th>Assigné à</th>
                     <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="bug in bugs.data" :key="bug.id">
                     <td>
-                            <span class="badge text-bg-light fw-light">
-                                    {{ bug.bug_id_formatted }}
-                                    </span>
+                        <span class="badge text-bg-light fw-light">
+                        {{ bug.bug_id_formatted }}
+                        </span>
                     </td>
-                    <td>
+                    <td class="align-middle">
                         <p class="mb-0 d-flex flex-column align-items-start">
-                            <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold">
-
+                            <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold bug_title">
                                 {{ bug.title }}
                             </Link>
-                            <BagdeStatusBug class="mt-1" :bug="bug"/>
+                            <small class="text-secondary">{{ getPriorityObject(bug.priority)?.extended_label}}</small>
 
                         </p>
                     </td>
-                    <td>
-                        <BadgePriorityBug :bug="bug"/>
+                    <td class="align-middle">
+                        <BagdeStatusBug :bug="bug"/>
                     </td>
-                    <td class="text-secondary text-sm text-center"><span class="badge text-bg-secondary rounded-pill">{{nb_notes(bug.bug_comments_count)}}</span></td>
-                    <td class="text-secondary text-sm">
-                        <div class="d-flex align-items-center" v-if="bug.user">
-                            <Avatar :user="bug.user" class="me-1 bordered"/>
-                            {{ bug.user.full_name }}
+
+                    <td class="text-secondary text-sm text-center align-middle"><span class="badge text-bg-secondary rounded-pill">{{nb_notes(bug.bug_comments_count)}}</span></td>
+                    <td class="text-secondary text-sm text-center align-middle">
+                        <div class="d-flex align-items-center" v-if="bug.assigned_user">
+                            <Avatar :user="bug.assigned_user" class="me-1 bordered"/>
+                            {{ bug.assigned_user.full_name }}
                         </div>
-                        <p class="mb-0" v-else>n/a</p>
+                        <em class="mb-0 opacity-75" v-else>Non assigné</em>
                     </td>
 
                     <td class="text-sm text-secondary">
@@ -111,7 +111,7 @@ import {pickBy, throttle} from "lodash";
 import {ChatBubbleLeftIcon} from "@heroicons/vue/20/solid/index.js";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
-import {nb_notes} from "../../Helpers/bug.js";
+import {getPriorityObject, nb_notes} from "../../Helpers/bug.js";
 
 const props = defineProps({
     project: {

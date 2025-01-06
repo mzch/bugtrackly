@@ -1,0 +1,6 @@
+.bug_title{
+    width: 550px; /* Définit la largeur maximale de l'élément */
+    overflow: hidden; /* Cache le texte qui dépasse la largeur */
+    white-space: nowrap; /* Empêche le texte de se répartir sur plusieurs lignes */
+    text-overflow: ellipsis; /* Ajoute les points de suspension */
+}

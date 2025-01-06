@@ -29,7 +29,7 @@ class ValidBugStatus implements ValidationRule
             ->where('id', $current_bug_status)
             ->first();
 
-        if(!in_array($value, $current_bug_status_object["children"] )) {
+        if($value!==$this->bug->status && !in_array($value, $current_bug_status_object["children"] )) {
             $fail('Le nouveau statut de bug n\'est pas valide');
         }
     }
