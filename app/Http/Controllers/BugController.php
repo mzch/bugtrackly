@@ -10,6 +10,7 @@ use App\Models\Bug;
 use App\Models\BugComment;
 use App\Models\Project;
 use App\Models\User;
+use App\Notifications\Bug\BugCreatedNotification;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
@@ -41,18 +42,33 @@ class BugController extends Controller
 
     public function store(StoreBugRequest $request , Project $project): RedirectResponse
     {
-
+        // Nouveau bug
         $bug = new Bug($request->validated());
-            $bugComment = new BugComment($request->validated());
 
+        // Nouveau commentaire (description du bug)
+        $bugComment = new BugComment($request->validated());
+
+        // Enregistrement du bug et de son premier commentaire
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);
 
+        // Log de l'action dans l'historique du bug
         self::logAction(
             $bug->id,
             auth()->id(),
             "Création d'un nouveau bug",
         );
+
+        // log de la priorité
+        $new_priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
+        self::logAction(
+            $bug->id,
+            auth()->id(),
+            "Priorité",
+            " => " . $new_priority['label']
+        );
+
+        // log de l'utilisateur assigné si renseigné
         if($request->validated('assigned_user_id')){
             $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
             self::logAction(
@@ -62,6 +78,16 @@ class BugController extends Controller
                 "=> " . $assignedUser->full_name,
             );
         }
+
+
+        // email notif
+        $admins_to_notify = $project->users->where('role_id', 1);
+        foreach ($admins_to_notify as $admin) {
+            $status = $this->bug_infos_repository->getBugStatusById($bug->status);
+            $priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
+            $admin->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority));
+        }
+
 
         return to_route('projects.show', $project);
     }
