@@ -16,6 +16,11 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::all();
     }
+
+    public function getUserById($user_id): User
+    {
+        return User::where('id', $user_id)->first();
+    }
     /**
      * Get all user with pagination
      * @param Request $request

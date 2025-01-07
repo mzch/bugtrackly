@@ -9,11 +9,11 @@
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
         <Card card-title="Historique" remove-body-padding>
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm text-sm">
                 <thead>
                 <tr>
                     <th>Date de modification</th>
-                    <th>Nom d'utilisateur</th>
+                    <th>Utilisateur</th>
                     <th>Changement</th>
                     <th>Détail</th>
                 </tr>

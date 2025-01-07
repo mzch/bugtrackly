@@ -36,6 +36,13 @@ class BugInfosRepository implements BugInfosRepositoryInterface
         });
     }
 
+    public function getBugStatusById($id):array
+    {
+        $status = $this->getAllBugStatus();
+        return $status->where('id', $id)->first();
+    }
+
+
     /**
      * Renvoie la liste des priorités disponibles pour les bugs
      * @return Collection
@@ -45,5 +52,11 @@ class BugInfosRepository implements BugInfosRepositoryInterface
         $jsonContent = Storage::get($this->bugPrioritiesFile);
         $data = json_decode($jsonContent, true);
         return collect($data['priorities'] ?? []);
+    }
+
+    public function getBugPriorityById($id):array
+    {
+        $priorities = $this->getAllBugPriorities();
+        return $priorities->where('id', $id)->first();
     }
 }
