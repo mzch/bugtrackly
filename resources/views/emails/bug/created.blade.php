@@ -6,7 +6,7 @@ Un bug a été soumis.
 - Priorité : **{{$priority['label']}}**
 - Status : **{{$status['label']}}**
 @if($bug->assigned_user_id)
-- Assignée à: **{{$bug->assigned_user->full_name}}**
+- Assignée à : **{{$bug->assigned_user->full_name}}**
 @endif
 ---
 Titre :  **{{$bug->title}}**
