@@ -69,6 +69,7 @@ class BugController extends Controller
         );
 
         // log de l'utilisateur assigné si renseigné
+        $assignedUser = false;
         if($request->validated('assigned_user_id')){
             $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
             self::logAction(
@@ -81,11 +82,15 @@ class BugController extends Controller
 
 
         // email notif
-        $admins_to_notify = $project->users->where('role_id', 1);
-        foreach ($admins_to_notify as $admin) {
+        $usersToNotify = $project->users->where('role_id', 1); // les admins sur le projets
+        if($assignedUser){
+            $usersToNotify->push($assignedUser);
+        }
+        $usersToNotify = $usersToNotify->unique('id');
+        foreach ($usersToNotify as $user) {
             $status = $this->bug_infos_repository->getBugStatusById($bug->status);
             $priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
-            $admin->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority));
+            $user->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority));
         }
 
 
