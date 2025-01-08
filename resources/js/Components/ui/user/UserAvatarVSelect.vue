@@ -4,6 +4,7 @@
               :inputId="id"
               class="user-avatar-list"
               label="full_name"
+              :disabled="disabled"
               :reduce="user => user.id"
               placeholder="Sélectionnez un utilisateur"
               :options="users">
@@ -47,6 +48,10 @@ const props = defineProps({
     id:{
         type:String,
         required:true
+    },
+    disabled:{
+        type:Boolean,
+        default:false
     }
 })
 </script>

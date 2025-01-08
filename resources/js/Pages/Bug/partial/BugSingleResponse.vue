@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center text-secondary mb-3">
                 <Avatar :user="response.user" class="bordered me-1"/>
-                <span class="fw-semibold me-1">{{ response.user.full_name }}</span>
+                <span class="fw-semibold me-1">{{ response.user?.full_name || "Utilisateur supprimé" }}</span>
             </div>
 
             <div v-if="hasCardFooter" :style="{pointerEvents:!editingResponse ? 'auto' : 'none'}" class="position-relative" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
