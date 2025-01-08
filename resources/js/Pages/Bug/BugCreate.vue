@@ -35,14 +35,21 @@
                 <InputError :message="form.errors.content"/>
             </FormField>
             <div class="row">
-                <div class="col-md-6">
+                <div :class="nb_col_infos_bug" v-if="hasRole('admin')">
+                    <FormField class="form-floating mt-4">
+                        <FormSelect id="bug_status" :options="status_options" v-model.number="form.status"/>
+                        <InputLabel for="bug_status" value="Statut du bug"/>
+                        <InputError :message="form.errors.status"/>
+                    </FormField>
+                </div>
+                <div :class="nb_col_infos_bug">
                     <FormField class="form-floating mt-4">
                         <FormSelect id="bug_priority" :options="priorities_options" v-model.number="form.priority"/>
                         <InputLabel for="bug_priority" value="Priorité"/>
                         <InputError :message="form.errors.priority"/>
                     </FormField>
                 </div>
-                <div class="col-md-6">
+                <div :class="nb_col_infos_bug">
                     <UserAvatarVSelect id="vs-assigned-user" label="Assigner un utilisateur à ce nouveau bug" :users="project.users" v-model="form.assigned_user_id"></UserAvatarVSelect>
                 </div>
             </div>
@@ -69,8 +76,8 @@ import InputError from "@/Components/ui/form/InputError.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import TextArea from "@/Components/ui/form/TextArea.vue";
-import Avatar from "@/Components/ui/user/avatar.vue";
 import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
+import {hasRole} from "@/Helpers/users.js";
 
 const props = defineProps({
     project:{
@@ -80,12 +87,17 @@ const props = defineProps({
     bug_priorities:{
         type:Array,
         required:true,
+    },
+    bug_status:{
+        type:Array,
+        required:true,
     }
 })
 const form = useForm({
     assigned_user_id:null,
     title:"",
     content:"",
+    status:1,
     priority:3,
 })
 
@@ -93,6 +105,13 @@ const priorities_options = computed(() => {
     const priorities = props.bug_priorities || [];
     return priorities.map(p => ({id: p.id, label: p.label}));
 });
+
+const status_options = computed(() => {
+    const status = props.bug_status || [];
+    return status.map(p => ({id: p.id, label: p.label}));
+});
+
+const nb_col_infos_bug = computed(() => hasRole('admin') ? "col-md-4" : "col-md-6");
 
 const createBugHandler = () => {
     form.post(route('projects.bug.store', props.project.slug), {

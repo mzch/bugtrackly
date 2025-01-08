@@ -34,6 +34,7 @@ class BugController extends Controller
         $this->addBreadcrumb("Création d'un bug", false);
         $data = [
             'project'        => $project,
+            'bug_status'     => $this->bug_infos_repository->getAllBugStatus(),
             'bug_priorities' => $this->bug_infos_repository->getAllBugPriorities()
         ];
 
@@ -67,6 +68,16 @@ class BugController extends Controller
             "Priorité",
             " => " . $new_priority['label']
         );
+
+        if($bug->status !== 1){
+            $new_status= $this->bug_infos_repository->getBugStatusById($bug->status);
+            self::logAction(
+                $bug->id,
+                auth()->id(),
+                "Statut",
+                " => " . $new_status['label']
+            );
+        }
 
         // log de l'utilisateur assigné si renseigné
         $assignedUser = false;

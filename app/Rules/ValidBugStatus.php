@@ -22,15 +22,18 @@ class ValidBugStatus implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $current_bug_status = $this->bug->status;
+        if(auth()->user()->role_id!= 1){
+            $current_bug_status = $this->bug->status;
 
-        $current_bug_status_object = $this->bugInfosRepository
-            ->getAllBugStatus(false)
-            ->where('id', $current_bug_status)
-            ->first();
+            $current_bug_status_object = $this->bugInfosRepository
+                ->getAllBugStatus(false)
+                ->where('id', $current_bug_status)
+                ->first();
 
-        if($value!==$this->bug->status && !in_array($value, $current_bug_status_object["children"] )) {
-            $fail('Le nouveau statut de bug n\'est pas valide');
+            if($value!==$this->bug->status && !in_array($value, $current_bug_status_object["children"] )) {
+                $fail('Le nouveau statut de bug n\'est pas valide');
+            }
         }
+
     }
 }

@@ -53,7 +53,9 @@ class Bug extends Model
 
         static::creating(function (Bug $bug) {
             $bug->user_id = Auth::id();
-            $bug->status = 1;
+            if (empty($bug->status)) {
+                $bug->status = 1;
+            }
         });
 
         // Lors de la création d'un bug, on met à jour updated_at du projet

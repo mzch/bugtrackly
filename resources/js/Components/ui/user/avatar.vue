@@ -3,7 +3,7 @@
         <img v-if="user?.profile_photo_url" :src="user.profile_photo_url" />
         <span v-else
             class="initiales">
-            {{ user?.initiales }}
+            {{ user?.initiales || "X" }}
         </span>
     </div>
 </template>
@@ -11,7 +11,7 @@
 <script setup>
     const props = defineProps({
         user:{
-            type:Object,
+            type:[Object, null],
             required:true
         },
         bordered:{
