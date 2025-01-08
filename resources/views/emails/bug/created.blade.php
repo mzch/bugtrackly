@@ -11,7 +11,7 @@ Un bug a été soumis.
 ---
 Titre :  **{{$bug->title}}**
 
-Description<br>
+Description :<br>
 >{!! nl2br($bugComment->content) !!}
 <x-mail::button :url="route('projects.bug.show', ['project' => $project->slug, 'bug'=>$bug->id])">
     Voir le bug

@@ -7,7 +7,7 @@
 @endif
 
 @if($dataMail['new_comment'])
-Note<br>
+Note :<br>
 >{!! nl2br($dataMail['new_comment']->content) !!}
 @endif
 
