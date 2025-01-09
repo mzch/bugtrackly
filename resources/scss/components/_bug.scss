@@ -14,6 +14,11 @@
         background: $light;
         border: 1px dashed darken($light, 10%);
         border-radius: .5rem;
+        transition: background-color .2s ease-out, border .2s ease-out;
+        &.drag-over{
+            background: darken($light, 10%);
+            border-color: darken($light, 20%);;
+        }
     }
 }
 .dropZone{

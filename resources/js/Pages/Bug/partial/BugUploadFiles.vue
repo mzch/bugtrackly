@@ -1,7 +1,11 @@
 <template>
     <div class="upload-zone text-center p-3">
         <h5 class="fs-6">Téléverser des fichiers</h5>
-        <div class="drop-zone d-flex flex-column align-items-center p-5 mt-3 text-secondary">
+        <div class="drop-zone d-flex flex-column align-items-center p-5 mt-3 text-secondary"
+             @dragover.prevent="handleDragOver"
+             @dragenter.prevent="handleDragEnter"
+             @dragleave.prevent="handleDragLeave"
+             @drop.prevent="handleDrop">
             <input type="file" multiple ref="fileInput" class="visually-hidden" id="upload_file" @change="handleFileChange"/>
             <ArrowUpTrayIcon class="size-2 mb-2"/>
             <InputLabel for="upload_file" class="text-secondary text-sm">
@@ -28,10 +32,9 @@
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import {ArrowUpTrayIcon} from "@heroicons/vue/24/outline/index.js";
 import SecondaryButton from "@/Components/ui/form/SecondaryButton.vue";
-import {ref} from "vue";
+import {onBeforeUnmount, onMounted, ref} from "vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
 
-const emit = defineEmits(["update:modelValue"])
 // Définir la prop pour les fichiers
 const model = defineModel({ required: true,default: [] })
 
@@ -61,4 +64,64 @@ const removeFile = (index) => {
     model.value = updatedFiles; // Mettre à jour la liste
 };
 
+/**
+ * Gérer l'événement dragover pour permettre le dépôt des fichiers
+ */
+const handleDragOver = (event) => {
+    // Permettre le dépôt
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+};
+
+/**
+ * Gérer l'événement dragenter pour donner un effet visuel pendant le survol
+ */
+const handleDragEnter = (event) => event.target.classList.add('drag-over');
+
+/**
+ * Gérer l'événement dragleave pour supprimer l'effet visuel
+ */
+const handleDragLeave = (event) => event.target.classList.remove('drag-over');
+
+/**
+ * Gérer l'événement drop pour traiter les fichiers déposés
+ */
+const handleDrop = (event) => {
+    const droppedFiles = Array.from(event.dataTransfer.files); // Extraire les fichiers déposés
+    model.value = [...model.value, ...droppedFiles]; // Ajouter les fichiers déposés
+    event.target.classList.remove('drag-over');
+};
+
+/**
+ * Gérer l'événement paste pour gérer les fichiers copiés/collés
+ */
+const handlePaste = (event) => {
+    const clipboardItems = event.clipboardData.items; // Récupérer les éléments collés
+    const files = [];
+
+    // Parcourir les éléments du presse-papier
+    for (let i = 0; i < clipboardItems.length; i++) {
+        const item = clipboardItems[i];
+        if (item.kind === 'file') {
+            const file = item.getAsFile();
+            if (file) {
+                files.push(file); // Ajouter le fichier à la liste
+            }
+        }
+    }
+
+    if (files.length > 0) {
+        model.value = [...model.value, ...files]; // Ajouter les fichiers collés à la liste
+    }
+};
+
+// Ajouter l'écouteur d'événements au montage
+onMounted(() => {
+    window.addEventListener("paste", handlePaste);
+});
+
+// Retirer l'écouteur au démontage
+onBeforeUnmount(() => {
+    window.removeEventListener("paste", handlePaste);
+});
 </script>
