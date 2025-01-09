@@ -34,7 +34,7 @@
         </div>
 
     </div>
-    <p v-if="!editing_bug_description" v-html="format_text(first_bug_comment.content)"></p>
+    <MarkdownRenderer v-if="!editing_bug_description" :markdown="first_bug_comment.content"/>
     <template v-else>
         <FormField class="form-floating">
             <TextInput v-model="form.title"
@@ -70,7 +70,7 @@
                            @click="editBugHandler">Valider</PrimaryButton>
         </div>
     </template>
-    <p class="text-sm text-secondary mb-0">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
+    <p class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
 </Card>
 </template>
 
@@ -95,6 +95,7 @@ import {hasRole} from "@/Helpers/users.js";
 import {format_text} from "@/Helpers/bug.js";
 import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
+import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 const store = useStore();
 const props = defineProps({
     bug: {

@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <p v-if="!editingResponse" v-html="format_text(response.content)"></p>
+        <MarkdownRenderer v-if="!editingResponse" :markdown="response.content"/>
         <template v-else>
             <FormField class="form-floating">
                 <TextArea
@@ -51,7 +51,7 @@
                                @click="submitEditResponseHandler">Valider</PrimaryButton>
             </div>
         </template>
-        <p class="text-sm text-secondary mb-0">
+        <p class="text-sm text-secondary mb-0 opacity-75">
             {{ formatDate(response.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
 
     </Card>
@@ -76,6 +76,7 @@ import {format_text} from "@/Helpers/bug.js";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import {useStore} from "vuex";
 import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
+import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 
 const store = useStore()
 const props = defineProps({

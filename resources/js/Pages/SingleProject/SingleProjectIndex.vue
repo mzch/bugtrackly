@@ -7,6 +7,7 @@
                 Rapporter un nouveau bug
             </Link>
         </template>
+
         <Card card-title="Liste des bugs" :remove-body-padding="true">
             <template #cardHeaderAction>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
@@ -101,14 +102,12 @@ import Card from "@/Components/ui/Card.vue";
 import {computed, ref, watch} from "vue";
 import {router, Link, usePage} from "@inertiajs/vue3";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
-import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import Pagination from "@/Components/ui/Pagination.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
 import {pickBy, throttle} from "lodash";
-import {ChatBubbleLeftIcon} from "@heroicons/vue/20/solid/index.js";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {getPriorityObject, nb_notes} from "../../Helpers/bug.js";
