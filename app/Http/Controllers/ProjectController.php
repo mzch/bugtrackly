@@ -30,7 +30,7 @@ class ProjectController extends Controller
             'direction' => 'in:asc,desc',
             'field'     => 'in:id,title,date,priority',
             'priority'  => 'in:none,low,normal,hight,immediate',
-            'status'    => 'in:new,accepted,rejected,in_progress,resolved,closed,reopened',
+            'status'    => 'in:all,new,accepted,rejected,in_progress,resolved,closed,reopened',
         ]);
 
         $this->addBreadcrumb($project->name, false);

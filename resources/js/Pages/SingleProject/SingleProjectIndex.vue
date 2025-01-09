@@ -7,7 +7,6 @@
                 Rapporter un nouveau bug
             </Link>
         </template>
-
         <Card card-title="Liste des bugs" :remove-body-padding="true">
             <template #cardHeaderAction>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
@@ -140,7 +139,7 @@ const priorities_options = computed(() => {
 const status_options = computed(() => {
     const status = props.bug_status || [];
     const status_opt = status.map(s => ({id: s.slug, label: s.label}));
-    return [...[{id: null, label: 'Tous'}], ...status_opt];
+    return [...[{id: 'all', label: 'Tous'}, {id: null, label: 'Ouvert'}], ...status_opt];
 });
 
 /**

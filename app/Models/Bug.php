@@ -123,6 +123,8 @@ class Bug extends Model
         if ($request->has(['status'])) {
             $request_status = $request->get('status');
             switch ($request_status) {
+                case 'all' :
+                    return $query;
                 case 'new' :
                     return $query->where('status', 1);
                 case 'accepted' :
