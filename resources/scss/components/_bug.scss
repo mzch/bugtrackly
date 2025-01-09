@@ -4,3 +4,21 @@
     white-space: nowrap; /* Empêche le texte de se répartir sur plusieurs lignes */
     text-overflow: ellipsis; /* Ajoute les points de suspension */
 }
+.upload-zone{
+    background: lighten($light, 2%);
+    height: 100%;
+    border: 1px solid darken($light, 10%);
+    border-radius: .5rem;
+
+    .drop-zone{
+        background: $light;
+        border: 1px dashed darken($light, 10%);
+        border-radius: .5rem;
+    }
+}
+.dropZone{
+   /* background: $light;
+    height: 100%;
+    border: 1px solid darken($light, 10%);
+    border-radius: .5rem;*/
+}

@@ -8,32 +8,40 @@
             </Link>
         </template>
         <FormCard card-title="Nouveau bug" :submit-handler-fn-callback="createBugHandler">
-            <FormField class="form-floating">
-                <TextInput
-                    id="bug_title"
-                    class="form-control-lg"
-                    placeholder="Titre du bug"
-                    v-model.trim="form.title"
-                    type="text"
-                    autofocus
-                    required
-                    maxlength="255"
-                    :class="{'is-invalid' :form.errors.title}"
-                />
-                <InputLabel for="bug_title" value="Titre du bug"/>
-                <InputError :message="form.errors.title"/>
-            </FormField>
-            <FormField class="form-floating">
-                <TextArea
-                    id="bug_desc"
-                    placeholder="Description"
-                    v-model.trim="form.content"
-                    required
-                    style="height: 200px"
-                    :class="{'is-invalid' :form.errors.content}"/>
-                <InputLabel for="bug_desc" value="Description"/>
-                <InputError :message="form.errors.content"/>
-            </FormField>
+            <div class="row">
+                <div class="col-md-7 d-flex flex-column">
+                    <FormField class="form-floating">
+                        <TextInput
+                            id="bug_title"
+                            class="form-control-lg"
+                            placeholder="Titre du bug"
+                            v-model.trim="form.title"
+                            type="text"
+                            autofocus
+                            required
+                            maxlength="255"
+                            :class="{'is-invalid' :form.errors.title}"
+                        />
+                        <InputLabel for="bug_title" value="Titre du bug"/>
+                        <InputError :message="form.errors.title"/>
+                    </FormField>
+                    <FormField class="form-floating flex-grow-1">
+                        <TextArea
+                            id="bug_desc"
+                            placeholder="Description"
+                            v-model.trim="form.content"
+                            required
+                            style="height: 100%; min-height: 200px"
+                            :class="{'is-invalid' :form.errors.content}"/>
+                        <InputLabel for="bug_desc" value="Description"/>
+                        <InputError :message="form.errors.content"/>
+                    </FormField>
+                </div>
+                <div class="col-md-5 mb-3">
+                    <BugUploadFiles v-model="form.files"/>
+                </div>
+            </div>
+
             <div class="row">
                 <div :class="nb_col_infos_bug" v-if="hasRole('admin')">
                     <FormField class="form-floating mt-4">
@@ -78,6 +86,7 @@ import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import TextArea from "@/Components/ui/form/TextArea.vue";
 import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
 import {hasRole} from "@/Helpers/users.js";
+import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
 
 const props = defineProps({
     project:{
@@ -99,6 +108,7 @@ const form = useForm({
     content:"",
     status:1,
     priority:3,
+    files:[],
 })
 
 const priorities_options = computed(() => {
