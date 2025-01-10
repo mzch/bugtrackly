@@ -74,8 +74,8 @@ class Bug extends Model
         static::deleting(function ($bug) {
             foreach ($bug->bug_comments as $comment) {
                 $directory = "bug_comments/{$comment->id}";
-                if (Storage::disk('local')->exists($directory)) {
-                    Storage::disk('local')->deleteDirectory($directory);
+                if (Storage::disk('public')->exists($directory)) {
+                    Storage::disk('public')->deleteDirectory($directory);
                 }
             }
         });

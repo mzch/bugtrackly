@@ -26,14 +26,14 @@ class BugCommentFile extends Model
         // Suppression de tous les fichiers liés au bug
         static::deleting(function ($bugCommentFile) {
             $path = $bugCommentFile->file_path;
-            if (Storage::disk('local')->exists($path)) {
-                Storage::disk('local')->delete($path);
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
             }
 
             // Vérifier si le répertoire est vide et le supprimer s'il l'est
             $directory = dirname($path); // Récupérer le chemin du répertoire
-            if (Storage::disk('local')->exists($directory) && empty(Storage::disk('local')->files($directory))) {
-                Storage::disk('local')->deleteDirectory($directory);
+            if (Storage::disk('public')->exists($directory) && empty(Storage::disk('public')->files($directory))) {
+                Storage::disk('public')->deleteDirectory($directory);
             }
         });
     }

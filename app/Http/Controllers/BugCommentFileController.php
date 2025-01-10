@@ -16,11 +16,14 @@ class BugCommentFileController extends Controller
         // Construire le chemin complet du fichier
         $filePath = $file->file_path;
         // Vérifier si le fichier existe
-        if (!Storage::disk('local')->exists($filePath)) {
+        if (!Storage::disk('public')->exists($filePath)) {
             abort(404, 'Fichier non trouvé');
         }
         // Télécharger le fichier
-        return Storage::disk('local')->download($filePath);
+
+        // Retourner le fichier
+        return response()->file(Storage::disk('public')->path($filePath));
+
     }
 
     public function destroy(Request $request, Project $project, Bug $bug, BugComment $bugComment, BugCommentFile $file)
@@ -46,7 +49,7 @@ class BugCommentFileController extends Controller
                 $uniqueFileName = BugCommentFile::getUniqueFileName($directory, $file->getClientOriginalName());
 
                 // Stocker le fichier
-                $path = $file->storeAs($directory, $uniqueFileName);
+                $path = $file->storeAs($directory, $uniqueFileName, 'public');
 
                 // Créer une entrée pour le fichier
                 $bugComment->files()->create([
