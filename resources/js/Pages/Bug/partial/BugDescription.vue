@@ -11,7 +11,7 @@
                 <Avatar :user="bug.user" class="bordered me-1"/>
                 <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
             </div>
-            <div :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
+            <div :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
                 <button class="btn btn-link  btn-sm btn-with-icon px-1 text-secondary"
                         :disabled="editing_bug_description"
                         >
@@ -79,7 +79,7 @@
         <ul class="list-group mt-1 mb-0">
             <li v-for="file in first_bug_comment.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                    <a href="#">{{getFileName(file.file_path)}}</a>
+                    <a :href="route('projects.bug.download_file', [project.slug, bug.id, first_bug_comment.id, file.id])" target="_blank">{{getFileName(file.file_path)}}</a>
                     <br>
                     <span class="text-sm text-secondary">{{file.size_human_readable}}</span>
                 </div>
@@ -114,6 +114,7 @@ import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {getFileName} from "../../../Helpers/filename.js";
 const store = useStore();
 const props = defineProps({
     bug: {
@@ -125,9 +126,7 @@ const props = defineProps({
         required: true,
     },
 })
-const getFileName = (path) => {
-    return path.split('/').pop(); // Divise par "/" et prend le dernier élément
-};
+
 const show_bug_submenu = ref(false);
 let timer = null;
 const showBugSubMenuHandler = () => {

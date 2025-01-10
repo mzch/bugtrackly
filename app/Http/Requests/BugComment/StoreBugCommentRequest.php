@@ -4,6 +4,7 @@ namespace App\Http\Requests\BugComment;
 
 use App\Models\Bug;
 use App\Rules\ValidBugStatus;
+use App\Rules\ValideContentIfAsFileRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBugCommentRequest extends FormRequest
@@ -17,12 +18,14 @@ class StoreBugCommentRequest extends FormRequest
     {
         /** @var Bug $bug */
         $bug = $this->route('bug');
-
         return [
-            'content' => ['nullable', 'string'],
+            'content' => [new ValideContentIfAsFileRule()],
             'priority' => ['required','integer','between:1,5'],
             'status' => ['required', 'integer', new ValidBugStatus($bug)],
             'assigned_user_id' => 'nullable|integer|exists:users,id',
+            'files' => 'nullable|array',
+            'files.*' => 'file|max:2048',
+
         ];
     }
 }

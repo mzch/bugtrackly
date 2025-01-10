@@ -6,7 +6,7 @@
                 <span class="fw-semibold me-1">{{ response.user?.full_name || "Utilisateur supprimé" }}</span>
             </div>
 
-            <div v-if="hasCardFooter" :style="{pointerEvents:!editingResponse ? 'auto' : 'none'}" class="position-relative" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
+            <div v-if="hasCardFooter" :style="{pointerEvents:!editingResponse ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
                 <button class="btn btn-link  btn-sm btn-with-icon px-1 text-secondary"
                         :disabled="editingResponse"
                 >
@@ -53,7 +53,23 @@
         </template>
         <p class="text-sm text-secondary mb-0 opacity-75">
             {{ formatDate(response.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
-
+        <template #cardFooter v-if="response.files.length">
+            <p class="fw-semibold mb-0">
+                <template v-if="response.files.length > 1">Fichiers liés</template>
+                <template v-else>Fichier lié</template>
+            </p>
+            <ul class="list-group mt-1 mb-0">
+                <li v-for="file in response.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <a :href="route('projects.bug.download_file', [project.slug, bug.id, response.id, file.id])" target="_blank">{{getFileName(file.file_path)}}</a>
+                        <br>
+                        <span class="text-sm text-secondary">{{file.size_human_readable}}</span>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-link text-danger btn-with-icon" v-if="hasRole('admin')">
+                        <TrashIcon class="size-1"/></button>
+                </li>
+            </ul>
+        </template>
     </Card>
 </template>
 
@@ -77,6 +93,8 @@ import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import {useStore} from "vuex";
 import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
 import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
+import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {getFileName} from "../../../Helpers/filename.js";
 
 const store = useStore()
 const props = defineProps({
@@ -85,6 +103,9 @@ const props = defineProps({
         required:true,
     }
 })
+
+const project = computed(() => usePage().props.project)
+const bug = computed(() => usePage().props.bug)
 const form = useForm({
     content:props.response.content,
 })
@@ -92,10 +113,12 @@ const show_bug_submenu = ref(false);
 let timer = null;
 const showBugSubMenuHandler = () => {
     clearTimeout(timer);
+    timer = null;
     show_bug_submenu.value = true;
 }
 const hideBugSubMenuHandler = () => {
     clearTimeout(timer);
+    timer = null;
     timer = setTimeout(() => show_bug_submenu.value = false, 200);
 }
 

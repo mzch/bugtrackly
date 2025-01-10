@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BugCommentController;
+use App\Http\Controllers\BugCommentFileController;
 use App\Http\Controllers\BugController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -74,6 +75,8 @@ Route::prefix('projets')
                 Route::delete('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'destroy'])
                     ->middleware(['can:view-bug-comment,bug,bugComment'])
                     ->name('delete-response');
+
+                Route::get('/{project:slug}/bug/{bug}/responses/{bugComment}/file/{file}', [BugCommentFileController::class, 'download'])->name('download_file');
             });
 
         });

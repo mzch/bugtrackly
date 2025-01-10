@@ -1,7 +1,7 @@
 <template>
     <div class="upload-zone text-center p-3">
         <h5 class="fs-6">Ajouter des fichiers</h5>
-        <div class="drop-zone d-flex flex-column align-items-center p-5 mt-3 text-secondary"
+        <div class="drop-zone d-flex flex-column align-items-center p-4 mt-3 text-secondary"
              @dragover.prevent="handleDragOver"
              @dragenter.prevent="handleDragEnter"
              @dragleave.prevent="handleDragLeave"
