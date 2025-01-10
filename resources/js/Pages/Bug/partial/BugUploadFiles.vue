@@ -73,6 +73,13 @@ const handleDragOver = (event) => {
     event.dataTransfer.dropEffect = 'move';
 };
 
+const resetFileInput = () => {
+    if (fileInput.value) {
+        fileInput.value.value = null; // Réinitialiser l'input
+    }
+};
+
+
 /**
  * Gérer l'événement dragenter pour donner un effet visuel pendant le survol
  */
@@ -115,6 +122,7 @@ const handlePaste = (event) => {
     }
 };
 
+defineExpose({resetFileInput})
 // Ajouter l'écouteur d'événements au montage
 onMounted(() => {
     window.addEventListener("paste", handlePaste);

@@ -25,7 +25,7 @@
                         </FormField>
                     </div>
                     <div class="col-md-5">
-                        <BugUploadFiles v-model="form.files"/>
+                        <BugUploadFiles ref="file_uploader" v-model="form.files"/>
                     </div>
                 </div>
 
@@ -111,7 +111,7 @@ const props = defineProps({
         defaults: []
     }
 })
-
+const file_uploader = ref(null);
 const show_change_bug_props_form = ref(false);
 const cancel_show_change_bug_props_form = () => {
     form.defaults({
@@ -223,7 +223,8 @@ const submitResponseHandler = () => {
             router.reload({
                 only: ['bug'],
                 onSuccess: () => {
-                    cancel_show_change_bug_props_form()
+                    cancel_show_change_bug_props_form();
+                    file_uploader.value.resetFileInput();
                 },
             })
         })
