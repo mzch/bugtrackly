@@ -16,7 +16,8 @@ class BugComment extends Model
      * @var array
      */
     protected $with = [
-        'user'
+        'user',
+        'files'
     ];
 
     protected $fillable = [

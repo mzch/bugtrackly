@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('bug_comment_id')->constrained()->onDelete('cascade'); // Clé étrangère
             $table->string('file_path'); // Chemin du fichier
+            $table->bigInteger('size')->unsigned(); // Chemin du fichier
+            $table->string('size_human_readable'); // Chemin du fichier
             $table->timestamps();
         });
     }

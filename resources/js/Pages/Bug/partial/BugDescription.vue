@@ -71,6 +71,23 @@
         </div>
     </template>
     <p class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
+    <template #cardFooter v-if="first_bug_comment.files.length">
+        <p class="fw-semibold mb-0">
+            <template v-if="first_bug_comment.files.length > 1">Fichiers liés</template>
+            <template v-else>Fichier lié</template>
+        </p>
+        <ul class="list-group mt-1 mb-0">
+            <li v-for="file in first_bug_comment.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="#">{{getFileName(file.file_path)}}</a>
+                    <br>
+                    <span class="text-sm text-secondary">{{file.size_human_readable}}</span>
+                </div>
+                <button type="button" class="btn btn-sm btn-link text-danger btn-with-icon" v-if="hasRole('admin')">
+                    <TrashIcon class="size-1"/></button>
+            </li>
+        </ul>
+    </template>
 </Card>
 </template>
 
@@ -96,6 +113,7 @@ import {format_text} from "@/Helpers/bug.js";
 import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
+import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
 const store = useStore();
 const props = defineProps({
     bug: {
@@ -107,6 +125,9 @@ const props = defineProps({
         required: true,
     },
 })
+const getFileName = (path) => {
+    return path.split('/').pop(); // Divise par "/" et prend le dernier élément
+};
 const show_bug_submenu = ref(false);
 let timer = null;
 const showBugSubMenuHandler = () => {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileSizeHelper;
 use App\Http\Requests\Bug\StoreBugRequest;
 use App\Http\Requests\Bug\UpdateBugPriorityRequest;
 use App\Http\Requests\Bug\UpdateBugRequest;
@@ -67,7 +68,11 @@ class BugController extends Controller
                 $path = $file->storeAs($directory, $uniqueFileName);
 
                 // Créer une entrée pour le fichier
-                $bugComment->files()->create(['file_path' => $path]);
+                $bugComment->files()->create([
+                    'file_path' => $path,
+                    'size' => $file->getSize(),
+                    'size_human_readable' => FileSizeHelper::formatFileSize($file->getSize(), true),
+                ]);
             }
         }
 

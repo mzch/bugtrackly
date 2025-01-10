@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BugCommentFile extends Model
 {
-    protected $fillable = ['bug_comment_id', 'file_path'];
+    protected $fillable = [
+        'file_path',
+        'size',
+        'size_human_readable'
+    ];
+
 
     public function bugComment(): BelongsTo
     {
