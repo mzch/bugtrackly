@@ -77,6 +77,7 @@ Route::prefix('projets')
                     ->name('delete-response');
 
                 Route::get('/{project:slug}/bug/{bug}/responses/{bugComment}/file/{file}', [BugCommentFileController::class, 'download'])->name('download_file');
+                Route::delete('/{project:slug}/bug/{bug}/responses/{bugComment}/file/{file}', [BugCommentFileController::class, 'destroy'])->name('destroy_file');
             });
 
         });

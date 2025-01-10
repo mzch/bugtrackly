@@ -31,6 +31,7 @@
     </AuthenticatedLayout>
     <ModalDeleteResponse/>
     <ModalDeleteBug/>
+    <ModalDeleteFile/>
 </template>
 
 <script setup>
@@ -43,6 +44,7 @@ import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";
 import ModalDeleteBug from "@/Pages/Bug/partial/ModalDeleteBug.vue";
 import {formatDate} from "../../Helpers/date.js";
 import Card from "@/Components/ui/Card.vue";
+import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 
 const props = defineProps({
     project: {

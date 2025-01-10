@@ -4,6 +4,7 @@ export default {
     state: {
         bugResponseToDelete: null,
         bugToDelete: null,
+        fileToDelete: null,
     },
     mutations: {
         setBugResponseToDelete(state, item) {
@@ -12,6 +13,9 @@ export default {
         setBugToDelete(state, item) {
             state.bugToDelete = item;  // Change la valeur de showMobileNav
         },
+        setFileToDelete(state, item) {
+            state.fileToDelete = item;  // Change la valeur de showMobileNav
+        },
     },
     getters: {
         bugResponseToDelete(state) {
@@ -19,6 +23,9 @@ export default {
         },
         bugToDelete(state) {
             return state.bugToDelete;
+        },
+        fileToDelete(state) {
+            return state.fileToDelete;
         },
     }
 };

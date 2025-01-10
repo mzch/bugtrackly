@@ -20,6 +20,24 @@ class BugCommentFile extends Model
         return $this->belongsTo(BugComment::class);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        // Suppression de tous les fichiers liés au bug
+        static::deleting(function ($bugCommentFile) {
+            $path = $bugCommentFile->file_path;
+            if (Storage::disk('local')->exists($path)) {
+                Storage::disk('local')->delete($path);
+            }
+
+            // Vérifier si le répertoire est vide et le supprimer s'il l'est
+            $directory = dirname($path); // Récupérer le chemin du répertoire
+            if (Storage::disk('local')->exists($directory) && empty(Storage::disk('local')->files($directory))) {
+                Storage::disk('local')->deleteDirectory($directory);
+            }
+        });
+    }
+
     public static function getUniqueFileName($directory, $originalName)
     {
         $fileName = pathinfo($originalName, PATHINFO_FILENAME); // Nom du fichier sans extension

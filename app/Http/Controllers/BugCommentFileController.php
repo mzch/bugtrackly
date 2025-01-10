@@ -23,6 +23,13 @@ class BugCommentFileController extends Controller
         return Storage::disk('local')->download($filePath);
     }
 
+    public function destroy(Request $request, Project $project, Bug $bug, BugComment $bugComment, BugCommentFile $file)
+    {
+        $file->delete();
+        return response()->json(["success" => true]);
+
+    }
+
     /**
      * Si des fichiers sont fournis, on les uploads
      * @param Request $request

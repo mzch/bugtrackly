@@ -10,7 +10,9 @@
                 <br>
                 <span class="text-sm text-secondary">{{file.size_human_readable}}</span>
             </div>
-            <button type="button" class="btn btn-sm btn-link text-danger btn-with-icon" v-if="hasRole('admin')">
+            <button type="button"
+                    @click="store.commit('bug/setFileToDelete', file)"
+                    class="btn btn-sm btn-link text-danger btn-with-icon" v-if="hasRole('admin')">
                 <TrashIcon class="size-1"/></button>
         </li>
     </ul>
@@ -22,7 +24,8 @@
     import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
     import {computed} from "vue";
     import {usePage} from "@inertiajs/vue3";
-
+    import {useStore} from "vuex";
+    const store = useStore();
     const props = defineProps({
         comment:{
           type:Object,
