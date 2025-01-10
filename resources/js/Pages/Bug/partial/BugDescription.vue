@@ -36,18 +36,20 @@
     </div>
     <MarkdownRenderer v-if="!editing_bug_description" :markdown="first_bug_comment.content"/>
     <template v-else>
-        <FormField class="form-floating">
-            <TextInput v-model="form.title"
-                       class="form-control-lg"
-                       :class="{'is-invalid' :form.errors.title}"
-                       placeholder="Titre du bug"
-                       autofocus
-                       required
-                       maxlength="255"/>
-            <InputLabel for="bug_title" value="Titre du bug"/>
-            <InputError :message="form.errors.title"/>
-        </FormField>
-        <FormField class="form-floating">
+        <div class="row">
+            <div class="col-md-7 d-flex flex-column">
+                <FormField class="form-floating">
+                    <TextInput v-model="form.title"
+                               class="form-control-lg"
+                               :class="{'is-invalid' :form.errors.title}"
+                               placeholder="Titre du bug"
+                               autofocus
+                               required
+                               maxlength="255"/>
+                    <InputLabel for="bug_title" value="Titre du bug"/>
+                    <InputError :message="form.errors.title"/>
+                </FormField>
+                <FormField class="form-floating">
                     <TextArea
                         id="bug_desc"
                         placeholder="Description"
@@ -55,9 +57,15 @@
                         required
                         style="height: 200px"
                         :class="{'is-invalid' :form.errors.content}"/>
-            <InputLabel for="bug_desc" value="Description"/>
-            <InputError :message="form.errors.content"/>
-        </FormField>
+                    <InputLabel for="bug_desc" value="Description"/>
+                    <InputError :message="form.errors.content"/>
+                </FormField>
+            </div>
+            <div class="col-md-5">
+                <BugUploadFiles ref="file_uploader" v-model="form.files"/>
+            </div>
+        </div>
+
         <div class="mb-3">
             <SecondaryButton class="btn-sm me-2"
                              type="button"
@@ -102,6 +110,7 @@ import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import {getFileName} from "../../../Helpers/filename.js";
 import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
+import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
 const store = useStore();
 const props = defineProps({
     bug: {
@@ -129,6 +138,7 @@ const first_bug_comment = computed(() => props.bug.bug_comments[0] ?? false);
 const form = useForm({
     title: props.bug.title,
     content: first_bug_comment.value.content,
+    files:[],
 })
 
 const editing_bug_description = ref(false);
@@ -154,15 +164,27 @@ const card_title = computed(() => {
 
 const canModifyBug = computed(() => hasRole('admin'));
 const canDeleteBug = computed(() => hasRole('admin'));
-
+const file_uploader = ref(null);
 const cancelEditingBugHandler = () => {
     editing_bug_description.value = false;
     form.reset();
 }
 const editBugHandler = () => {
-    axios.put(route('projects.bug.update', [props.project.slug, props.bug.id]), {
-        title: form.title,
-        content: form.content,
+    const formDataToSend = new FormData();
+    formDataToSend.append('title', form.title);
+    formDataToSend.append('content', form.content);
+    if(form.files.length){
+        form.files.forEach((file, index) => {
+            formDataToSend.append('files[]', file);
+        });
+    }else{
+        formDataToSend.append('files', '');
+    }
+
+    axios.post(route('projects.bug.update', [props.project.slug, props.bug.id]), formDataToSend, {
+        headers:{
+            'Content-Type': 'multipart/form-data'
+        }
     })
         .then(response => {
             router.reload({
@@ -175,6 +197,7 @@ const editBugHandler = () => {
                         content: first_bug_comment.value.content,
                     })
                     form.reset();
+                    file_uploader.value.resetFileInput();
                 },
             })
         })

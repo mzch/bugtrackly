@@ -129,7 +129,12 @@ class BugController extends Controller
 
     public function update(UpdateBugRequest $request, Project $project, Bug $bug): JsonResponse{
         $bug->update($request->validated());
-        $bug->bug_comments()->first()->update($request->validated());
+
+        $bugComment = $bug->bug_comments()->first();
+        $bugComment->update($request->validated());
+
+        BugCommentFileController::do_upload_files($request, $bugComment);
+
         return response()->json(["success" => true]);
     }
 

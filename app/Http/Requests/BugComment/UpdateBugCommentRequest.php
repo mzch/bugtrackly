@@ -16,6 +16,8 @@ class UpdateBugCommentRequest extends FormRequest
     {
         return [
             'content' => ['required', 'string'],
+            'files' => 'nullable|array',
+            'files.*' => 'file|max:2048',
         ];
     }
 }

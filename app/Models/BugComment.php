@@ -41,6 +41,13 @@ class BugComment extends Model
             $bugComment->bug->project->touch();
         });
 
+        static::deleting(function (BugComment $bugComment) {
+            $directory = "bug_comments/{$bugComment->id}";
+            if (Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->deleteDirectory($directory);
+            }
+        });
+
 
     }
 
