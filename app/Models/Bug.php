@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 
 class Bug extends Model
@@ -58,7 +60,7 @@ class Bug extends Model
             }
         });
 
-        // Lors de la création d'un bug, on met à jour updated_at du projet
+        // Lors de la création d'un bug, on met à jour "updated_at" du projet
         static::created(function (Bug $bug) {
             $bug->project->touch();
         });
@@ -66,10 +68,21 @@ class Bug extends Model
         static::updated(function (Bug $bug) {
             $bug->project->touch();
         });
+
+
+        // Suppression de tous les fichiers liés au bug
+        static::deleting(function ($bug) {
+            foreach ($bug->bug_comments as $comment) {
+                $directory = "bug_comments/{$comment->id}";
+                if (Storage::disk('local')->exists($directory)) {
+                    Storage::disk('local')->deleteDirectory($directory);
+                }
+            }
+        });
     }
 
     /**
-     * Get the post that owns the comment.
+     * Get the project that owns the bug.
      */
     public function project(): BelongsTo
     {

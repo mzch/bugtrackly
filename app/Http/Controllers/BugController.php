@@ -16,6 +16,7 @@ use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
 
 class BugController extends Controller
@@ -52,6 +53,23 @@ class BugController extends Controller
         // Enregistrement du bug et de son premier commentaire
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);
+
+        // Associer les fichiers
+        if (!empty($request->validated("files"))) {
+            foreach ($request->validated("files") as $file) {
+                // Dossier basé sur l'ID du commentaire
+                $directory = "bug_comments/{$bugComment->id}";
+
+                // Générer un nom de fichier unique
+                $uniqueFileName = $this->getUniqueFileName($directory, $file->getClientOriginalName());
+
+                // Stocker le fichier
+                $path = $file->storeAs($directory, $uniqueFileName);
+
+                // Créer une entrée pour le fichier
+                $bugComment->files()->create(['file_path' => $path]);
+            }
+        }
 
         // Log de l'action dans l'historique du bug
         self::logAction(
@@ -159,5 +177,21 @@ class BugController extends Controller
     {
         $bug->update($request->validated());
         return response()->json(["success" => true]);
+    }
+
+    private function getUniqueFileName($directory, $originalName)
+    {
+        $fileName = pathinfo($originalName, PATHINFO_FILENAME); // Nom du fichier sans extension
+        $extension = pathinfo($originalName, PATHINFO_EXTENSION); // Extension du fichier
+        $counter = 1;
+
+        // Vérifier si le fichier existe déjà
+        $newFileName = $fileName . '.' . $extension;
+        while (Storage::exists("$directory/$newFileName")) {
+            $newFileName = $fileName . '-' . $counter . '.' . $extension;
+            $counter++;
+        }
+
+        return $newFileName;
     }
 }

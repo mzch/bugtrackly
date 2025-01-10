@@ -19,6 +19,8 @@ class StoreBugRequest extends FormRequest
             'priority' => 'required|integer|between:1,5',
             'status' => 'required|integer|between:1,7',
             'assigned_user_id' => 'nullable|integer|exists:users,id',
+            'files' => 'array',
+            'files.*' => 'file|max:2048',
         ];
     }
 }

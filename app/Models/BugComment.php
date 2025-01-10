@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BugComment extends Model
 {
@@ -37,6 +39,8 @@ class BugComment extends Model
             $bugComment->bug->touch();
             $bugComment->bug->project->touch();
         });
+
+
     }
 
 
@@ -48,5 +52,10 @@ class BugComment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function files():HasMany
+    {
+        return $this->hasMany(BugCommentFile::class);
     }
 }

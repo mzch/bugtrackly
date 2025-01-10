@@ -125,6 +125,7 @@ const nb_col_infos_bug = computed(() => hasRole('admin') ? "col-md-4" : "col-md-
 
 const createBugHandler = () => {
     form.post(route('projects.bug.store', props.project.slug), {
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => form.reset(),
         onError: () => {
