@@ -72,21 +72,7 @@
     </template>
     <p class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
     <template #cardFooter v-if="first_bug_comment.files.length">
-        <p class="fw-semibold mb-0">
-            <template v-if="first_bug_comment.files.length > 1">Fichiers liés</template>
-            <template v-else>Fichier lié</template>
-        </p>
-        <ul class="list-group mt-1 mb-0">
-            <li v-for="file in first_bug_comment.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <a :href="route('projects.bug.download_file', [project.slug, bug.id, first_bug_comment.id, file.id])" target="_blank">{{getFileName(file.file_path)}}</a>
-                    <br>
-                    <span class="text-sm text-secondary">{{file.size_human_readable}}</span>
-                </div>
-                <button type="button" class="btn btn-sm btn-link text-danger btn-with-icon" v-if="hasRole('admin')">
-                    <TrashIcon class="size-1"/></button>
-            </li>
-        </ul>
+        <RelatedFiles  :comment="first_bug_comment"/>
     </template>
 </Card>
 </template>
@@ -115,6 +101,7 @@ import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import {getFileName} from "../../../Helpers/filename.js";
+import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
 const store = useStore();
 const props = defineProps({
     bug: {
