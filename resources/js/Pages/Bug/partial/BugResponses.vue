@@ -5,7 +5,8 @@
                                class="mb-4" :class="{'my-card': response.user?.id === current_user.id}"
                                :response="response"/>
 
-            <Card class="my-card">
+
+            <Card class="my-card" :class="{'disabled-card' : editing_bug_part !== false}">
                 <div class="d-flex align-items-center text-secondary mb-3">
                     <Avatar :user="current_user" class="bordered me-1"/>
                     <span class="fw-semibold me-1">{{ current_user.full_name }}</span>
@@ -13,19 +14,19 @@
                 <div class="row">
                     <div class="col-md-7 d-flex flex-column">
                         <FormField class="form-floating flex-grow-1 mb-2" no-margin-bottom>
-                            <TextArea
-                               id="bug_desc"
-                               placeholder="Nouvelle note"
-                               v-model.trim="form.content"
-                               autofocus
-                               style="height: 100%; min-height: 200px"
-                               :class="{'is-invalid' :form.errors.content}"/>
+                        <TextArea
+                            id="bug_desc"
+                            placeholder="Nouvelle note"
+                            v-model.trim="form.content"
+                            autofocus
+                            style="height: 100%; min-height: 200px"
+                            :class="{'is-invalid' :form.errors.content}"/>
                             <InputLabel for="bug_desc" value="Nouvelle note"/>
                             <InputError :message="form.errors.content"/>
                         </FormField>
                     </div>
                     <div class="col-md-5">
-                        <BugUploadFiles ref="file_uploader" v-model="form.files"/>
+                        <BugUploadFiles ref="file_uploader" v-model="form.files" :authorize-paste-when-editing="false"/>
                     </div>
                 </div>
 
@@ -81,6 +82,8 @@
                     </PrimaryButton>
                 </div>
             </Card>
+
+
         </div>
     </Card>
 </template>
@@ -103,7 +106,9 @@ import {getStatusObject} from "@/Helpers/bug.js";
 import TransitionExpand from "@/Components/transitions/TransitionExpand.vue";
 import {hasRole} from "@/Helpers/users.js";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
+import {useStore} from "vuex";
 
+const store = useStore()
 const props = defineProps({
     bugResponses: {
         type: Array,
@@ -111,6 +116,7 @@ const props = defineProps({
         defaults: []
     }
 })
+const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
 const file_uploader = ref(null);
 const show_change_bug_props_form = ref(false);
 const cancel_show_change_bug_props_form = () => {
@@ -122,6 +128,7 @@ const cancel_show_change_bug_props_form = () => {
     })
     form.isDirty = false;
     form.reset();
+    form.clearErrors();
     show_change_bug_props_form.value = false;
 }
 const bug = computed(() => usePage().props.bug)

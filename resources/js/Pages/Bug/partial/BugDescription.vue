@@ -62,7 +62,7 @@
                 </FormField>
             </div>
             <div class="col-md-5">
-                <BugUploadFiles ref="file_uploader" v-model="form.files"/>
+                <BugUploadFiles ref="file_uploader" v-model="form.files" authorize-paste-when-editing="description"/>
             </div>
         </div>
 
@@ -88,7 +88,7 @@
 <script setup>
 
 import Card from "@/Components/ui/Card.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {router, useForm} from "@inertiajs/vue3";
 import BadgePriorityBug from "@/Components/ui/bug/BadgePriorityBug.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
@@ -112,6 +112,7 @@ import {getFileName} from "../../../Helpers/filename.js";
 import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
 const store = useStore();
+const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
 const props = defineProps({
     bug: {
         type: Object,
@@ -147,6 +148,7 @@ const editing_bug_description = ref(false);
 const click_edit_bug_handler = () => {
     editing_bug_description.value = true;
     show_bug_submenu.value = false;
+    store.commit('bug/setEditingBug', 'description');
 }
 
 const click_delete_bug_handler = () => {
@@ -166,8 +168,10 @@ const canModifyBug = computed(() => hasRole('admin'));
 const canDeleteBug = computed(() => hasRole('admin'));
 const file_uploader = ref(null);
 const cancelEditingBugHandler = () => {
+    store.commit('bug/setEditingBug', false);
     editing_bug_description.value = false;
     form.reset();
+    form.clearErrors();
 }
 const editBugHandler = () => {
     const formDataToSend = new FormData();
@@ -205,4 +209,10 @@ const editBugHandler = () => {
             forEach(er.response.data.errors, (value, key) =>  form.setError(key, value[0]))
         })
 }
+watch(editing_bug_part , newValue => {
+    if(newValue !== 'description' && editing_bug_description.value){
+        editing_bug_description.value = false;
+        form.reset();
+    }
+})
 </script>

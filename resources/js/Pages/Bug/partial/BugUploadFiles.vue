@@ -32,11 +32,20 @@
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import {ArrowUpTrayIcon} from "@heroicons/vue/24/outline/index.js";
 import SecondaryButton from "@/Components/ui/form/SecondaryButton.vue";
-import {onBeforeUnmount, onMounted, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {useStore} from "vuex";
 
 // Définir la prop pour les fichiers
 const model = defineModel({ required: true,default: [] })
+const store = useStore();
+const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
+const props = defineProps({
+    authorizePasteWhenEditing:{
+        type:[String,Boolean],
+        required:true
+    }
+})
 
 // Réréfence au champ input file
 const fileInput = ref(null);
@@ -103,6 +112,9 @@ const handleDrop = (event) => {
  * Gérer l'événement paste pour gérer les fichiers copiés/collés
  */
 const handlePaste = (event) => {
+    if(editing_bug_part.value!== props.authorizePasteWhenEditing){
+        return;
+    }
     const clipboardItems = event.clipboardData.items; // Récupérer les éléments collés
     const files = [];
 

@@ -5,6 +5,7 @@
         <template #headerActions>
             <BagdeStatusBug class="mt-1" :bug="bug"/>
         </template>
+
         <BugDescription :bug="bug" :project="project"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 

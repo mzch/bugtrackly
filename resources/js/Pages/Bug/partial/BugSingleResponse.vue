@@ -43,7 +43,7 @@
                 </FormField>
             </div>
             <div class="col-md-5">
-                <BugUploadFiles ref="file_uploader" v-model="form.files"/>
+                <BugUploadFiles ref="file_uploader" v-model="form.files" :authorize-paste-when-editing="`comment_${response.id}`"/>
             </div>
         </div>
         <div class="mb-3">
@@ -71,7 +71,7 @@
 import Card from "@/Components/ui/Card.vue";
 import {formatDate} from "@/Helpers/date.js";
 import Avatar from "@/Components/ui/user/avatar.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {hasRole} from "@/Helpers/users.js";
 import {router, useForm, usePage} from "@inertiajs/vue3";
 import SecondaryButton from "@/Components/ui/form/SecondaryButton.vue";
@@ -115,12 +115,17 @@ const hideBugSubMenuHandler = () => {
 
 const editingResponse = ref(false);
 
-const updateResponseHandler = () => editingResponse.value = true
+const updateResponseHandler = () => {
+    editingResponse.value = true,
+    store.commit('bug/setEditingBug', `comment_${props.response.id}`)
+}
 
 
 const cancelEditingResponseHandler = () => {
     editingResponse.value = false;
     form.reset();
+    form.clearErrors();
+    store.commit('bug/setEditingBug', false)
 }
 const submitEditResponseHandler = () => {
     const urlParams = route().params;
@@ -178,5 +183,12 @@ const canDeleteSingleResponse = computed(() => hasRole('admin'))
  */
 const hasCardFooter = computed(() => {
     return canUpdateResponse.value || canDeleteSingleResponse.value
+})
+const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
+watch(editing_bug_part , newValue => {
+    if(newValue !== `comment_${props.response.id}` && editingResponse.value){
+        editingResponse.value = false;
+        form.reset();
+    }
 })
 </script>
