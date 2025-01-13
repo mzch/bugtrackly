@@ -13,6 +13,7 @@ use App\Repositories\Users\UserRepositoryInterface;
 use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BugCommentController extends Controller
 {
