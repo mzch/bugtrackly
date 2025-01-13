@@ -8,10 +8,18 @@ Un bug a été soumis.
 @if($bug->assigned_user_id)
 - Assignée à : **{{$bug->assigned_user->full_name}}**
 @endif
+@if($files && count($files) > 0)
+@if(count($files) > 1)
+- {{count($files)}} fichiers joints
+@else
+- 1 fichier joint :
+@endif
+@foreach($files as $file)
+    - {{$file}}
+@endforeach
+@endif
 ---
 Titre :  **{{$bug->title}}**
-
-Description :<br>
 <div class="markdown">
     {!! Str::markdown($bugComment->content, [
         'html_input' => 'strip',

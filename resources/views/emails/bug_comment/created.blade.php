@@ -6,17 +6,8 @@
 **{{$dataMail['note_author']->full_name}}** vient de modifier le bug.
 @endif
 
-@if($dataMail['new_comment'])
-Note :<br>
-<div class="markdown">
-{!! Str::markdown($dataMail['new_comment']->content, [
-    'html_input' => 'strip',
-    'allow_unsafe_links' => false,
-]) !!}
-</div>
-@endif
-
 ---
+- Bug : **{{$bug->title}}**
 @if($dataMail['new_comment'])
 - Noté crée le {{\Carbon\Carbon::parse($dataMail['new_comment']->created_at)->translatedFormat('j F Y à H\hi')}}
 @else
@@ -35,7 +26,28 @@ Note :<br>
 - Assignée à : **Aucun**
 @endif
 @endif
+@if($dataMail['files'] && count($dataMail['files']) > 0)
+@if(count($dataMail['files']) > 1)
+- {{count($dataMail['files'])}} fichiers joints
+@else
+- 1 fichier joint :
+@endif
+@foreach($dataMail['files'] as $file)
+    - {{$file}}
+@endforeach
+@endif
 ---
+
+@if($dataMail['new_comment'])
+<div class="markdown">
+{!! Str::markdown($dataMail['new_comment']->content, [
+    'html_input' => 'strip',
+    'allow_unsafe_links' => false,
+]) !!}
+</div>
+@endif
+
+
 
 <x-mail::button :url="route('projects.bug.show', ['project' => $project->slug, 'bug'=>$bug->id])">
     Voir le bug
