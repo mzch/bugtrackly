@@ -40,6 +40,7 @@ class BugCommentFileController extends Controller
      * @return void
      */
     public static function do_upload_files(Request $request, BugComment $bugComment){
+        $files = [];
         if (!empty($request->validated("files"))) {
             foreach ($request->validated("files") as $file) {
                 // Dossier basé sur l'ID du commentaire
@@ -57,7 +58,9 @@ class BugCommentFileController extends Controller
                     'size' => $file->getSize(),
                     'size_human_readable' => FileSizeHelper::formatFileSize($file->getSize(), true),
                 ]);
+                $files[] = basename($path);
             }
         }
+        return $files;
     }
 }

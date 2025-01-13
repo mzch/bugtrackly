@@ -6,7 +6,7 @@
 <img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo">
 @else
 
-<img src="{{ asset('images/bugtrackly-logo.png') }}" class="logo" alt="Laravel Logo">
+<img src="{{ asset('images/bugtrackly-logo.png') }}" class="logo" alt="">
 
 @endif
 </a>
