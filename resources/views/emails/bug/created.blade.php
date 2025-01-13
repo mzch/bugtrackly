@@ -12,7 +12,12 @@ Un bug a été soumis.
 Titre :  **{{$bug->title}}**
 
 Description :<br>
->{!! nl2br($bugComment->content) !!}
+<div class="markdown">
+    {!! Str::markdown($bugComment->content, [
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]) !!}
+</div>
 <x-mail::button :url="route('projects.bug.show', ['project' => $project->slug, 'bug'=>$bug->id])">
     Voir le bug
 </x-mail::button>

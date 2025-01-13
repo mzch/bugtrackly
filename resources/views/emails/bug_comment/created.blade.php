@@ -8,7 +8,12 @@
 
 @if($dataMail['new_comment'])
 Note :<br>
->{!! nl2br($dataMail['new_comment']->content) !!}
+<div class="markdown">
+{!! Str::markdown($dataMail['new_comment']->content, [
+    'html_input' => 'strip',
+    'allow_unsafe_links' => false,
+]) !!}
+</div>
 @endif
 
 ---
