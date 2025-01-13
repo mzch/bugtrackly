@@ -159,6 +159,11 @@ class Bug extends Model
         return $query->where('status', '!=', 6);
     }
 
+    public function scopeBugOpened(Builder $query): Builder
+    {
+        return $query->where('status', '!=', 6);
+    }
+
     /**
      * Scope pour filtrer sur les prioritées des bugs
      * @param Builder $query

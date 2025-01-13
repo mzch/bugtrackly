@@ -27,7 +27,15 @@ class ProjectRepository implements ProjectRepositoryInterface
 
     public function getProjectsForCurrentUser(Request $request): Collection
     {
-        return $request->user()->projects()->orderBy('updated_at', 'desc')->get();;
+        return $request->user()
+            ->projects()
+            ->withCount([
+                'bugs as bugs_count' => function ($query) {
+                    $query->bugOpened();
+                }
+            ])
+            ->orderBy('updated_at', 'desc')
+            ->get();;
     }
 
     /**

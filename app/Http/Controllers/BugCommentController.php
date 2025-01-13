@@ -13,6 +13,7 @@ use App\Repositories\Users\UserRepositoryInterface;
 use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class BugCommentController extends Controller
@@ -80,20 +81,33 @@ class BugCommentController extends Controller
             );
         }
         if(array_key_exists("assigned_user_id", $change)){
-            $old_user = $this->user_repository->getUserById($original["assigned_user_id"]);
-            $new_user = $this->user_repository->getUserById($change["assigned_user_id"]);
+            $old_user = null;
+            if($original["assigned_user_id"]){
+                $old_user = $this->user_repository->getUserById($original["assigned_user_id"]);
+            }
+            $new_user = null;
+            if($change["assigned_user_id"]){
+                $new_user = $this->user_repository->getUserById($change["assigned_user_id"]);
+            }
             $dataMail['assigned_user'] = ['old' => $old_user, 'new' => $new_user];
+            if($old_user && $new_user){
+                $str = $old_user->full_name . " => " . $new_user->full_name;
+            }elseif ($old_user === null && $new_user){
+                $str = " => " . $new_user->full_name;
+            }else{
+                $str = $old_user->full_name . " => (aucun)";
+            }
             self::logAction(
                 $bug->id,
                 auth()->id(),
                 "Assigné à",
-                $old_user->full_name . " => " . $new_user->full_name
+                $str,
             );
         }
 
         // email notif
         $usersToNotify = $project->users->where('role_id', 1); // les admins sur le projets
-        if($dataMail['assigned_user']){
+        if($dataMail['assigned_user'] && $dataMail['assigned_user']['new']){
             $usersToNotify->push($dataMail['assigned_user']['new']);
         }
         $usersToNotify = $usersToNotify->unique('id');
