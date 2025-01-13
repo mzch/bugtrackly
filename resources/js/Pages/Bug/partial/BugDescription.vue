@@ -11,7 +11,7 @@
                 <Avatar :user="bug.user" class="bordered me-1"/>
                 <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
             </div>
-            <div :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
+            <div v-if="canModifyBug || canModifyBug" :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
                 <button class="btn btn-link  btn-sm btn-with-icon px-1 text-secondary"
                         :disabled="editing_bug_description"
                         >

@@ -29,7 +29,11 @@ Note :<br>
 - Priorité changée de **{{$dataMail['priority']['old']['label']}}**  à **{{$dataMail['priority']['new']['label']}}**
 @endif
 @if($dataMail['assigned_user'])
+@if($dataMail['assigned_user']['new'] !== null)
 - Assignée à : **{{$dataMail['assigned_user']['new']->full_name}}**
+@else
+- Assignée à : **Aucun**
+@endif
 @endif
 ---
 
