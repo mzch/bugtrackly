@@ -17,7 +17,12 @@ class BugCreatedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected Project $project, protected Bug $bug, protected BugComment $bugComment, protected array $status, protected array $priority)
+    public function __construct(protected Project $project,
+                                protected Bug $bug,
+                                protected BugComment $bugComment,
+                                protected array $status,
+                                protected array $priority,
+                                protected array $files)
     {
         //
     }
@@ -46,6 +51,7 @@ class BugCreatedNotification extends Notification
                 'status' => $this->status,
                 'priority' => $this->priority,
                 'bugComment' => $this->bugComment,
+                'files' => $this->files,
             ]);
     }
 

@@ -54,7 +54,7 @@ class BugController extends Controller
         $bug->bug_comments()->save($bugComment);
 
         // Associer les fichiers
-        BugCommentFileController::do_upload_files($request, $bugComment);
+        $files = BugCommentFileController::do_upload_files($request, $bugComment);
 
 
         // Log de l'action dans l'historique du bug
@@ -105,7 +105,7 @@ class BugController extends Controller
         foreach ($usersToNotify as $user) {
             $status = $this->bug_infos_repository->getBugStatusById($bug->status);
             $priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
-            $user->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority));
+            $user->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority, $files));
         }
 
 

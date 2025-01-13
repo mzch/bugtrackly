@@ -44,6 +44,7 @@ class BugCommentController extends Controller
             'priority' => false,
             'status' => false,
             'assigned_user' => false,
+            'files' => [],
         ];
         if(!blank($request->input("content")) ){
             $bugComment = new BugComment($request->validated());
@@ -54,7 +55,7 @@ class BugCommentController extends Controller
                 auth()->id(),
                 "Nouvelle note"
             );
-            BugCommentFileController::do_upload_files($request, $bugComment);
+            $dataMail['files'] = BugCommentFileController::do_upload_files($request, $bugComment);
         }
 
         $change = $bug->getChanges();
