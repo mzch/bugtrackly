@@ -1,3 +1,7 @@
 .card.my-card{
     background: $light;
 }
+.card.disabled-card{
+    opacity: .5;
+    pointer-events: none;
+}

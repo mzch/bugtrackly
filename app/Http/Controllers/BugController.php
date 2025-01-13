@@ -53,6 +53,10 @@ class BugController extends Controller
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);
 
+        // Associer les fichiers
+        BugCommentFileController::do_upload_files($request, $bugComment);
+
+
         // Log de l'action dans l'historique du bug
         self::logAction(
             $bug->id,
@@ -125,7 +129,12 @@ class BugController extends Controller
 
     public function update(UpdateBugRequest $request, Project $project, Bug $bug): JsonResponse{
         $bug->update($request->validated());
-        $bug->bug_comments()->first()->update($request->validated());
+
+        $bugComment = $bug->bug_comments()->first();
+        $bugComment->update($request->validated());
+
+        BugCommentFileController::do_upload_files($request, $bugComment);
+
         return response()->json(["success" => true]);
     }
 

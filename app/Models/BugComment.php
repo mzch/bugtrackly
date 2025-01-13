@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BugComment extends Model
 {
@@ -14,7 +16,8 @@ class BugComment extends Model
      * @var array
      */
     protected $with = [
-        'user'
+        'user',
+        'files'
     ];
 
     protected $fillable = [
@@ -37,6 +40,15 @@ class BugComment extends Model
             $bugComment->bug->touch();
             $bugComment->bug->project->touch();
         });
+
+        static::deleting(function (BugComment $bugComment) {
+            $directory = "bug_comments/{$bugComment->id}";
+            if (Storage::disk('public')->exists($directory)) {
+                Storage::disk('public')->deleteDirectory($directory);
+            }
+        });
+
+
     }
 
 
@@ -48,5 +60,10 @@ class BugComment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function files():HasMany
+    {
+        return $this->hasMany(BugCommentFile::class);
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BugCommentController;
+use App\Http\Controllers\BugCommentFileController;
 use App\Http\Controllers\BugController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -62,18 +63,21 @@ Route::prefix('projets')
 
             Route::middleware(['can:view-bug,project,bug'])->group(function () {
                 Route::get('/{project:slug}/bug/{bug}', [BugController::class, 'show'])->name('show');
-                Route::put('/{project:slug}/bug/{bug}/update', [BugController::class, 'update'])->name('update');
+                Route::post('/{project:slug}/bug/{bug}/update', [BugController::class, 'update'])->name('update');
                 Route::put('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
                 Route::put('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
                 Route::post('/{project:slug}/bug/{bug}/responses', [BugCommentController::class, 'store'])->name('store-response');
                 Route::delete('/{project:slug}/bug/{bug}', [BugController::class, 'destroy'])->name('destroy');
 
-                Route::put('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'update'])
+                Route::post('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'update'])
                     ->middleware(['can:view-bug-comment,bug,bugComment'])
                     ->name('update-response');
                 Route::delete('/{project:slug}/bug/{bug}/responses/{bugComment}', [BugCommentController::class, 'destroy'])
                     ->middleware(['can:view-bug-comment,bug,bugComment'])
                     ->name('delete-response');
+
+                Route::get('/{project:slug}/bug/{bug}/responses/{bugComment}/file/{file}', [BugCommentFileController::class, 'download'])->name('download_file');
+                Route::delete('/{project:slug}/bug/{bug}/responses/{bugComment}/file/{file}', [BugCommentFileController::class, 'destroy'])->name('destroy_file');
             });
 
         });

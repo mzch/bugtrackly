@@ -5,6 +5,7 @@
         <template #headerActions>
             <BagdeStatusBug class="mt-1" :bug="bug"/>
         </template>
+
         <BugDescription :bug="bug" :project="project"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
@@ -31,6 +32,7 @@
     </AuthenticatedLayout>
     <ModalDeleteResponse/>
     <ModalDeleteBug/>
+    <ModalDeleteFile/>
 </template>
 
 <script setup>
@@ -43,6 +45,7 @@ import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";
 import ModalDeleteBug from "@/Pages/Bug/partial/ModalDeleteBug.vue";
 import {formatDate} from "../../Helpers/date.js";
 import Card from "@/Components/ui/Card.vue";
+import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 
 const props = defineProps({
     project: {

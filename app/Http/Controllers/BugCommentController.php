@@ -32,6 +32,7 @@ class BugCommentController extends Controller
      * @return JsonResponse
      */
     public function store(StoreBugCommentRequest $request, Project $project, Bug $bug): JsonResponse{
+
         $original = $bug->getOriginal();
         $bug->update($request->validated());
 
@@ -51,6 +52,7 @@ class BugCommentController extends Controller
                 auth()->id(),
                 "Nouvelle note"
             );
+            BugCommentFileController::do_upload_files($request, $bugComment);
         }
 
         $change = $bug->getChanges();
@@ -113,6 +115,8 @@ class BugCommentController extends Controller
     public function update(UpdateBugCommentRequest $request,  Project $project, Bug $bug, BugComment $bugComment): JsonResponse
     {
         $bugComment->update($request->validated());
+        BugCommentFileController::do_upload_files($request, $bugComment);
+
         return response()->json(["success" => true]);
     }
 

@@ -16,6 +16,8 @@ class UpdateBugRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
+            'files' => 'nullable|array',
+            'files.*' => 'file|max:2048',
         ];
     }
 }
