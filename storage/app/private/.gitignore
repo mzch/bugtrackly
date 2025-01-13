@@ -1,2 +1,7 @@
 *
+!roles-permissions/
+!roles-permissions/*
+!bug_comments/
+!bugs/
+!bugs/*
 !.gitignore

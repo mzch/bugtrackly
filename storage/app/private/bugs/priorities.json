@@ -1,0 +1,39 @@
+{
+    "priorities": [
+        {
+            "id": 1,
+            "weight" : 0,
+            "slug": "none",
+            "label" : "Aucune",
+            "extended_label" : "Aucune priorité"
+        },
+        {
+            "id": 2,
+            "weight" : 10,
+            "slug": "low",
+            "label" : "Basse",
+            "extended_label" :  "Priorité basse"
+        },
+        {
+            "id": 3,
+            "weight" : 20,
+            "slug": "normal",
+            "label" : "Normale",
+            "extended_label" :  "Priorité normale"
+        },
+        {
+            "id": 4,
+            "weight" : 30,
+            "slug": "hight",
+            "label" : "Haute",
+            "extended_label" :  "Priorité haute"
+        },
+        {
+            "id": 5,
+            "weight" : 40,
+            "slug": "immediate",
+            "label" : "Immédiate",
+            "extended_label" :  "Priorité immédiate"
+        }
+    ]
+}

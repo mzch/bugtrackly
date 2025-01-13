@@ -1,0 +1,123 @@
+//option
+$enable-dark-mode: false;
+$enable-shadows: true;
+$enable-negative-margins: true;
+
+
+$grid-gutter-width: 2.5rem;
+
+//font -size
+$font-family-sans-serif: "Inter", "Helvetica Neue", Arial, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-size-base: .875rem; //14px
+$font-size-sm: .75rem; // 14px
+$font-size-lg: $font-size-base * 1.25; // 20px
+$small-font-size: $font-size-base *.8125;
+$code-font-size:$font-size-base;
+
+$colors: ();
+$grays: ();
+$white:#FFFFFF;
+$primary: #1b84ff;
+$purple:#7339ea;
+$danger: #f82859;
+$success: #17c653;
+$secondary: #4b5675;
+$dark: #111217;
+//$light: #f8f9fa;
+$light:#f5f7fb;
+$gray: #636674;
+
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "danger": $danger,
+    "dark": $dark,
+    "gray": $gray,
+    "purple": $purple,
+    "light": $light,
+    "priority-0" : #B0B0B0,
+    "priority-10" : #8BC34A,
+    "priority-20" : #2196F3,
+    "priority-30" : #FF9800,
+    "priority-40" : #F44336,
+    "status-new": #9C27B0,
+    "status-accepted": #03A9F4,
+    "status-rejected": #757575,
+    "status-in_progress": #FFEB3B,
+    "status-resolved": #4CAF50,
+    "status-closed": #212121,
+    "status-reopened": #E91E63,
+);
+$headings-color: $dark;
+$btn-color: #FFFFFF;
+$btn-font-size: .8125rem;
+$btn-font-weight: 500;
+$min-contrast-ratio: 2;
+
+$pagination-font-size:1rem;
+$pagination-font-size-sm:.75rem;
+
+// Links
+$link-decoration: none ;
+$link-hover-decoration: underline ;
+
+//
+$breadcrumb-divider-color: #c4cada;
+$breadcrumb-active-color:$dark;
+
+//form
+$btn-box-shadow:none;
+$input-box-shadow: none;
+$form-select-box-shadow: none;
+$input-placeholder-color: #dee2e;
+$form-label-font-size: .8125rem;
+$input-font-size: .8125rem;
+$form-label-margin-bottom: .25rem;
+
+// close
+$btn-close-bg: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='currentColor' class='size-6'><path stroke-linecap='round' stroke-linejoin='round' d='M6 18 18 6M6 6l12 12' /></svg>");
+
+//alert
+$alert-padding-x: .5rem;
+$alert-padding-y: .5rem;
+
+//card
+$card-box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, .03);
+$card-border-color: #f1f1f4;
+$card-cap-bg:$white;
+$card-border-radius: .75rem;
+$card-cap-padding-y:1.2rem;
+$card-cap-padding-x:1.2rem;
+$card-spacer-x:1.5rem;
+$card-spacer-y:1.5rem;
+
+//table
+$table-border-color:#f1f1f4;
+//$table-bg:blue;
+$table-hover-bg:none;
+// Brand
+$brand-logo-width: 2rem;
+$brand-logo-height: 2rem;
+$guest-brand-logo-height: 6rem;
+
+// Navigation
+$mobile-top-bar-height: 3.75rem;
+$main-nav-bar-width: 270px;
+$main-nav-icon-size: 1.125rem;
+$main-nav-icon-margin: .5rem;
+
+// Modals
+$modal-content-border-width: 0 !default;
+$modal-header-border-width: 1px !default;
+$modal-footer-border-width: 1px !default;
+$modal-content-color:$dark;
+$modal-xl: 1140px !default;
+$modal-lg: 900px !default;
+$modal-md: 600px !default;
+$modal-sm: 400px !default;
+$modal-transition: transform .25s ease-out !default;
+
+//list group
+$list-group-item-padding-x:.5rem;
+$list-group-item-padding-y:.25rem;

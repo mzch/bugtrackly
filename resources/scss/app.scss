@@ -1,0 +1,74 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "~bootstrap/scss/functions";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+// 2. Include any default variable overrides here
+@import "variables";
+
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+@import "~bootstrap/scss/variables";
+//@import "~bootstrap/scss/variables-dark";
+
+
+//$theme-colors: map-remove($theme-colors, "info", "light", "warning" ,"dark");
+
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/helpers";
+@import "~bootstrap/scss/transitions";
+
+@import "~bootstrap/scss/alert";
+@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/card";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/tables";
+@import "~bootstrap/scss/forms";
+@import "~bootstrap/scss/badge";
+@import "~bootstrap/scss/pagination";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/modal";
+
+
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "~bootstrap/scss/utilities/api";
+
+// 8. Add additional custom code here
+@import "body";
+@import "sizes";
+@import "components/vue_select";
+@import "components/markdown";
+@import "components/cards";
+@import "components/bug";
+@import "components/actions_bug";
+@import "components/mobileTopBar";
+@import "components/guestWrapper";
+@import "components/mainWrapper";
+@import "components/userAvatar";
+@import "components/userMenu";
+@import "components/tables";
+@import "components/table-sortable";
+@import "components/buttons";
+@import "components/transition";
+@import "components/project_photo";
+@import "components/datatable-footer";
+@import "components/navigationSideBar";
+@import "components/contentWrapper";
+div.phpdebugbar{
+    left: auto;
+    right: 0;
+}

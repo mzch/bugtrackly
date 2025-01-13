@@ -1,0 +1,18 @@
+{
+    "roles" : [
+        {
+            "id" : 1,
+            "name" : "Administrateur",
+            "internal_name" : "admin",
+            "weight" : 255,
+            "permissions" : [1,20,50, 100]
+        },
+        {
+            "id" : 2,
+            "name" : "Rapporteur",
+            "internal_name" : "reporter",
+            "weight" : 200,
+            "permissions" : [100]
+        }
+    ]
+}

@@ -1,0 +1,23 @@
+.markdown{
+    pre{
+        background: #2a2c2d;
+        color: $white;
+        padding: 1rem;
+        border-radius: .5rem;
+    }
+    blockquote{
+        position: relative;
+        &:after{
+            content:'';
+            display: block;
+            height: 100%;
+            width: 4px;
+            background: $primary;
+            position: absolute;
+            left: 0;
+            top:0;
+            border-radius: 4px;
+        }
+        padding-left: .5rem;
+    }
+}

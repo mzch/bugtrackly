@@ -1,0 +1,11 @@
+.actions_bug{
+    position: absolute;
+    top: 27px;
+    right: 0;
+    min-width: 170px;
+    background: $white;
+    border: 1px solid $card-border-color;
+    border-radius: $card-border-radius;
+    padding: .75rem;
+    box-shadow: $card-box-shadow;
+}

@@ -1,2 +1,9 @@
 *
 !.gitignore
+
+# Ne pas ignorer les répertoires
+!*/
+
+# Ne pas ignorer les fichiers .gitkeep
+!*.gitkeep
+

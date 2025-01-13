@@ -1,0 +1,24 @@
+{
+    "permissions" : [
+        {
+            "id" : 1,
+            "name" : "Gérer les utilisateurs",
+            "internal_name" : "manage-users"
+        },
+        {
+            "id" : 20,
+            "name" : "Accéder aux paramètres",
+            "internal_name" : "access-settings"
+        },
+        {
+            "id" : 50,
+            "name" : "Gérer les projets",
+            "internal_name" : "manage-projects"
+        },
+        {
+            "id" : 100,
+            "name" : "Signaler un bogue",
+            "internal_name" : "report-bug"
+        }
+    ]
+}

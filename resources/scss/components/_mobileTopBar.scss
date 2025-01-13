@@ -1,0 +1,41 @@
+#top-mobile-bar{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $secondary;
+    background-color: $dark;
+    height: $mobile-top-bar-height;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    >svg{
+        height: 40px;
+        width: auto;
+        transform: translateX(-5px);
+    }
+    button.btn.btn-outline-light{
+        border: 1px solid transparent;
+        box-shadow:none;
+        color: $secondary;
+        padding: 6px;
+        display: flex;
+        >svg{
+            width: 16px;
+            height: 16px;
+            border: 1px solid $secondary;
+            border-radius: 5px;
+            transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        }
+        &:hover{
+            background-color: $white;
+            >svg{
+                color: darken($secondary, 20%);
+                border-color: darken($secondary, 20%);
+            }
+        }
+    }
+    @include media-breakpoint-up(lg) {
+        display: none;
+    }
+}

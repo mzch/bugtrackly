@@ -1,0 +1,39 @@
+.project-photo{
+    border-radius: .5rem;
+    overflow: hidden;
+    span{
+        width: 100%;
+        aspect-ratio: 16/9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $gray;
+        background-size: cover;
+        background-position: center center;
+        &.default{
+            background: $light;
+        }
+    }
+    img{
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+    }
+}
+
+.project-card{
+    img, span.illustration-default{
+        width: 100%;
+        aspect-ratio: 16/9;
+        object-fit: cover;
+    }
+    span.illustration-default{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $gray;
+        background-size: cover;
+        background-position: center center;
+        background: $light;
+    }
+}

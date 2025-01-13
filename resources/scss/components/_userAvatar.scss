@@ -1,0 +1,43 @@
+.user-avatar{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    text-align: center;
+    border-radius: 50%;
+    overflow: hidden;
+    font-weight: $font-weight-semibold;
+    font-size: .6875rem;
+    letter-spacing:.5px;
+    img{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+    &.user-avatar-initials{
+        background: $dark;
+        color: $white;
+    }
+    &.bordered{
+        border: 1px solid $light;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    }
+    &.size-3{
+        font-size: 1rem;
+    }
+    &.size-4{
+        font-size: 1.4375rem;
+    }
+    &.size-5{
+        font-size: 2.375rem;
+    }
+    &.active{
+        border-color: $success;
+    }
+    span{
+        background-size: cover;
+        object-fit: cover;
+        background-position: center center;
+    }
+}
