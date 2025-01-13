@@ -1,6 +1,8 @@
 <?php
 return [
     'baseline'   => env('BUGTRACKLY_BASELINE', 'Traquez les bugs, boostez la qualité'),
+
+    'support_email' => env('BUGTRACKLY_SUPPORT_EMAIL', 'support@bugtrackly.deefuse.fr'),
     /*
     |--------------------------------------------------------------------------
     | Storage path for the profile photo

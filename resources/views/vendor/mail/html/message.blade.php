@@ -22,6 +22,8 @@
 <x-slot:footer>
 <x-mail::footer>
 © {{ date('Y') }} {{ config('app.name') }}. {{ __('All rights reserved.') }}
+Cet e-mail a été généré automatiquement. Merci de ne pas y répondre directement. Pour toute question,
+veuillez nous contacter à l'adresse <a href="mailto:{{config("bugtrackly.support_email")}}">{{config("bugtrackly.support_email")}}</a>.
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>
