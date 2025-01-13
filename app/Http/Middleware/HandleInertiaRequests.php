@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'app_url' => config('app.url'),
             'baseline' => config('bugtrackly.baseline'),
+            'app_version' => config('app.version'),
             'admin_user_id' => function () use ($request) {
                 if($request->session()->get('admin_user_id')){
                     return User::find($request->session()->get('admin_user_id'));
