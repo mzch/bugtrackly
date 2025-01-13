@@ -290,7 +290,14 @@ img {
 }
 
 /* Utilities */
-
+ul,ol, ul li,ol li{font-size: 14px;}
+hr{
+    box-sizing: border-box;
+    margin: 16px 0;
+    color:#718096;
+    border:0;
+    border-top:1px solid #c7c8c9;
+}
 .break-all {
     word-break: break-all;
 }
