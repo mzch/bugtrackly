@@ -5,9 +5,11 @@ import InputLabel from '@/Components/ui/form/InputLabel.vue';
 import PrimaryButton from '@/Components/ui/form/PrimaryButton.vue';
 import TextInput from '@/Components/ui/form/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import FormField from "@/Components/ui/form/FormField.vue";
 
 const form = useForm({
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     password_confirmation: '',
@@ -25,77 +27,79 @@ const submit = () => {
         <Head title="Register" />
 
         <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-
+            <FormField class="form-floating">
                 <TextInput
-                    id="name"
+                    id="first_name"
                     type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
+                    placeholder="Prénom"
+                    :class="{'is-invalid' : form.errors.first_name}"
+                    v-model="form.first_name"
                     required
                     autofocus
-                    autocomplete="name"
+                    autocomplete="first_name"
                 />
-
-                <InputError :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
+                <InputLabel for="first_name" value="Prénom" />
+                <InputError :message="form.errors.first_name" />
+            </FormField>
+            <FormField class="form-floating">
+                <TextInput
+                    id="last_name"
+                    type="text"
+                    placeholder="Nom"
+                    :class="{'is-invalid' : form.errors.last_name}"
+                    v-model="form.last_name"
+                    required
+                    autocomplete="last_name"
+                />
+                <InputLabel for="last_name" value="Nom" />
+                <InputError :message="form.errors.last_name" />
+            </FormField>
+            <FormField class="form-floating">
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    placeholder="Adresse email"
                     v-model="form.email"
+                    :class="{'is-invalid' : form.errors.email}"
                     required
                     autocomplete="username"
                 />
-
+                <InputLabel for="email" value="Adresse email" />
                 <InputError :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
+            </FormField>
+            <FormField class="form-floating">
                 <TextInput
                     id="password"
                     type="password"
-                    class="mt-1 block w-full"
+                    placeholder="Mot de passe"
+                    :class="{'is-invalid' : form.errors.password}"
                     v-model="form.password"
                     required
                     autocomplete="new-password"
                 />
-
+                <InputLabel for="password" value="Mot de passe" />
                 <InputError :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
+            </FormField>
+            <FormField class="form-floating">
                 <TextInput
                     id="password_confirmation"
                     type="password"
-                    class="mt-1 block w-full"
+                    placeholder="Confirmation du mot de passe"
+                    :class="{'is-invalid' : form.errors.password_confirmation}"
                     v-model="form.password_confirmation"
                     required
                     autocomplete="new-password"
                 />
+                <InputLabel for="password_confirmation" value="Confirmation du mot de passe" />
+                <InputError :message="form.errors.password_confirmation"/>
+            </FormField>
 
-                <InputError :message="form.errors.password_confirmation"
-                />
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
+            <div class="d-flex align-items-center justify-content-between">
                 <Link
                     :href="route('login')"
                     class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                    Already registered?
+                    Déjà inscrit ?
                 </Link>
 
                 <PrimaryButton
