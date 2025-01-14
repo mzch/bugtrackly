@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 use function MongoDB\BSON\toJSON;
 
@@ -76,7 +77,11 @@ class ProjectController extends SettingsController
         if ($photo = $request->validated("photo")) {
             $project->updateProjectPhoto($photo);
         }
-        return to_route('settings.projects.index');
+        $flash_notification = [
+            "title" => "Projet crée",
+            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été créé."
+        ];
+        return to_route('settings.projects.index')->with('success', $flash_notification);
     }
 
     /**
@@ -115,7 +120,13 @@ class ProjectController extends SettingsController
             $project->deleteProjectPhoto();
         }
 
-        return to_route('settings.projects.show', ['project' => $project]);
+        $flash_notification = [
+            "title" => "Projet modifié",
+            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été modifié."
+        ];
+        return to_route('settings.projects.index')->with('success', $flash_notification);
+
+        //return to_route('settings.projects.show', ['project' => $project]);
     }
 
     /**
@@ -124,7 +135,12 @@ class ProjectController extends SettingsController
     public function destroy(DeleteProjectRequest $request, Project $project)
     {
         $project->delete();
-        return to_route('settings.projects.index')->with('success');
+        $flash_notification = [
+            "title" => "Projet supprimé",
+            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été supprimé."
+        ];
+        Log::info($flash_notification);
+        return to_route('settings.projects.index')->with('success', $flash_notification);
     }
 
     public function create_slug(Request $request): JsonResponse

@@ -16,7 +16,7 @@
         <p class="text-sm text-secondary mb-0">{{project.short_desc}}</p>
         <template #cardFooter>
             <div class="d-flex justify-content-between align-items-center">
-                <spa class="badge text-bg-secondary">{{str_nb_bug(project)}}</spa>
+                <span class="badge text-bg-secondary">{{str_nb_bug(project)}}</span>
                 <Link :href="route('projects.show', project.slug)" class="fw-semibold">Voir</Link>
             </div>
         </template>

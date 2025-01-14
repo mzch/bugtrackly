@@ -84,7 +84,12 @@ class UserController extends SettingsController
             $user->notify(new UserCreatedNotification($validated['password']));
         }
 
-        return to_route('settings.users.index');
+        $flash_notification = [
+            "title" => "Utilisateur créé",
+            "text" => "L'utilisateur <strong>" . e($user->full_name) . "</strong> a bien été créé."
+        ];
+
+        return to_route('settings.users.index')->with('success', $flash_notification);;
 
     }
 
@@ -129,8 +134,12 @@ class UserController extends SettingsController
             $user->deleteProfilePhoto();
         }
 
+        $flash_notification = [
+            "title" => "Utilisateur modifié",
+            "text" => "L'utilisateur <strong>" . e($user->full_name) . "</strong> a bien été modifié."
+        ];
 
-        return to_route('settings.users.index');
+        return to_route('settings.users.index')->with('success', $flash_notification);;;
     }
 
     /**
@@ -144,7 +153,7 @@ class UserController extends SettingsController
         $user->delete();
         $flashSuccess = [
             "title" => "Utilisateur supprimé",
-            "text"  => $user->full_name . " a bien été supprimé."
+            "text"  => "L'utilisateur <strong>" . e($user->full_name) . "</strong> a bien été supprimé."
         ];
         return to_route('settings.users.index')->with('success', $flashSuccess);
     }
@@ -161,6 +170,11 @@ class UserController extends SettingsController
         Auth::login($newUser);
         session()->put('admin_user_id', $adminUserId);
         //return redirect()->route('admin.dashboard');
-        return to_route('dashboard');
+        $flashSuccess = [
+            "title" => "Connecté !",
+            "text"  => "Vous êtes maintenant connecté en tant que <strong>" . e($newUser->full_name) . "</strong>."
+        ];
+
+        return to_route('dashboard')->with('warning', $flashSuccess);
     }
 }
