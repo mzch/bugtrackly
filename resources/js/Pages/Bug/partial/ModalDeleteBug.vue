@@ -12,7 +12,6 @@
                         <small class="text-secondary">
                             L'ensemble des notes et documents joints à celui-ci seront également supprimés.
                         </small>
-                        <pre>{{form}}</pre>
                     </p>
                 </div>
                 <div class="modal-footer">
