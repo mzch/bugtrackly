@@ -108,8 +108,11 @@ class BugController extends Controller
             $user->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority, $files));
         }
 
-
-        return to_route('projects.show', $project);
+        $flash_notification = [
+            "title" => "Bug créé",
+            "text" => "Le bug <strong>" . e($bug->id) . "</strong> a bien été créé."
+        ];
+        return to_route('projects.show', $project)->with('success', $flash_notification);
     }
 
     public function show(Project $project, Bug $bug): Response
@@ -138,10 +141,16 @@ class BugController extends Controller
         return response()->json(["success" => true]);
     }
 
-    public function destroy(Request $request, Project $project, Bug $bug): JsonResponse
+
+
+    public function destroy(Request $request, Project $project, Bug $bug): RedirectResponse
     {
         $bug->delete();
-        return response()->json(["success" => true]);
+        $flash_notification = [
+            "title" => "Bug supprimé",
+            "text" => "Le bug <strong>" . e($bug->id) . "</strong> a bien été supprimé."
+        ];
+        return to_route('projects.show', $project)->with('success', $flash_notification);
     }
 
     /**
