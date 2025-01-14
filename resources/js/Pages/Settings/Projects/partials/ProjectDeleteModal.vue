@@ -33,7 +33,6 @@ const showSuppressModal = computed( () => itemToDelete.value !== null )
 const closeSupressModal = () => store.commit('projectsManagement/setProjectToDelete', null);
 
 const submitDeleteHandler = () => {
-    console.log("submit modal delete project");
     formDeleteProcessing.value = true;
     router.delete(route('settings.projects.destroy', itemToDelete.value.id), {
         onSuccess: page => {

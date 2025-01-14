@@ -1,0 +1,18 @@
+.my-notification {
+    margin: 0 5px 5px;
+    padding: 10px;
+    font-size: .85rem;
+    color: #ffffff;
+    background: #3b7ddd;
+    border-radius: .3rem;
+    &.info {background: #3b7ddd;}
+    &.success {background: #1cbb8c;}
+    &.warning {background: #fcb92c;}
+    &.error {background: #dc3545;}
+    .notification-title{
+        font-size: .9rem;
+    }
+    .notification-content{
+        font-size: .8rem;
+    }
+}

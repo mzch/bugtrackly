@@ -34,7 +34,7 @@
                             <InputLabel for="password" value="Mot de passe du compte" required/>
                             <InputError :message="form.errors.password"/>
                         </FormField>
-                        <button class="btn btn-secondary mb-2" @click="generateNewPassword">Générer un autre mot de
+                        <button type="button" class="btn btn-secondary mb-2" @click="generateNewPassword">Générer un autre mot de
                             passe
                         </button>
                         <FormCheck id="sendPassword"

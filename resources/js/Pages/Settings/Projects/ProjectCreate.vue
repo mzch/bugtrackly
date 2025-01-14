@@ -47,9 +47,9 @@ const form = useForm({
 const submitButtonDisabled = computed(() => form.processing || !form.isDirty);
 
 const createProjectFormHandler = () => {
+    console.log("creation de projets");
     form.post(route('settings.projects.store')), {
-        forceFormData:true,
-        onFinish: () => console.log("ok"),
+        forceFormData:true
     }
 }
 </script>
