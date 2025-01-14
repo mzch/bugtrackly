@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Settings\Users\BackToUserAdminRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -56,7 +55,7 @@ class AuthenticatedSessionController extends Controller
     }
 
     /**
-     * @param BackToUserAdminRequest $request
+     * @param Request $request
      * @return RedirectResponse
      */
     public function backToAdminUser(Request $request): RedirectResponse
@@ -66,8 +65,17 @@ class AuthenticatedSessionController extends Controller
             $newUser = User::find($adminUserId);
             session()->flush();
             Auth::login($newUser);
-            return to_route('settings.users.index');
+
+            $flashSuccess = [
+                "title" => "Connecté !",
+                "text"  => "Bon retour <strong>" . e($newUser->full_name) . "</strong>."
+            ];
+
+            return to_route('settings.users.index')->with('success', $flashSuccess);;
         }
+
+
+
         return redirect()->back();
     }
 }

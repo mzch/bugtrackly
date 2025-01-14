@@ -4,7 +4,8 @@ import './bootstrap';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
-import Notifications from '@kyvg/vue3-notification'
+import Notifications from '@kyvg/vue3-notification';
+import velocity from 'velocity-animate';
 import { router } from '@inertiajs/vue3'
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
@@ -22,7 +23,7 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(Notifications)
+            .use(Notifications, {velocity})
             .use(store) // Utiliser Vuex store
             .use(ZiggyVue)
             .component("v-select", vSelect)

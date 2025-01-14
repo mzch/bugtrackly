@@ -5,8 +5,9 @@
     color: #ffffff;
     background: #3b7ddd;
     border-radius: .3rem;
+    &.info {background: #3b7ddd;}
     &.success {background: #1cbb8c;}
-    &.warn {background: #fcb92c;}
+    &.warning {background: #fcb92c;}
     &.error {background: #dc3545;}
     .notification-title{
         font-size: .9rem;

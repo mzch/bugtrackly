@@ -5,6 +5,7 @@
         <NavigationSideBar/>
         <div id="content-wrapper">
             <div class="container-lg px-4 d-flex flex-column h-100">
+
                 <header class="mt-4 mt-lg-5 d-flex align-items-center mb-3">
                     <div class="flex-grow-1">
                         <h1 class="fs-4 fw-semibold mb-@1">
@@ -27,7 +28,7 @@
                 </footer>
             </div>
         </div>
-        <notifications classes="my-notification" position="bottom right"/>
+        <FlashNotification/>
     </div>
 </template>
 
@@ -36,7 +37,7 @@ import NavigationSideBar from "@/Components/layout/NavigationSideBar.vue";
 import MobileTopBar from "@/Components/layout/MobileTopBar.vue";
 import {Head, usePage} from '@inertiajs/vue3';
 import Breadcrumb from "@/Components/layout/Breadcrumb.vue";
-
+import FlashNotification from "@/Components/layout/FlashNotification.vue";
 defineProps({
     pageTitle: {
         type: String,
