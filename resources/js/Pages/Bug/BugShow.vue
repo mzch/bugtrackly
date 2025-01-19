@@ -5,14 +5,16 @@
             <button type="button"
                     title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
                     class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
-                    @click="followBug(true)">
+                    @click="toggleFollowBug()"
+                    v-if="!isFollowing">
                 <PlusIcon class="size-1 me-1"/>
                 Suivre ce bug
             </button>
             <button type="button"
-                    title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
+                    title="Ne plus suivre ce bug"
                     class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
-                    @click="followBug(false)">
+                    @click="toggleFollowBug()"
+                    v-else>
                 <CheckIcon class="size-1 me-1"/>
                 Bug suivi
             </button>
@@ -62,6 +64,7 @@ import {formatDate} from "../../Helpers/date.js";
 import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 import {CheckIcon, PlusIcon} from "@heroicons/vue/24/outline/index.js";
+import {useForm} from "@inertiajs/vue3";
 
 const props = defineProps({
     project: {
@@ -79,6 +82,10 @@ const props = defineProps({
     bug_status: {
         type: Array,
         required: true,
+    },
+    isFollowing: {
+        type: Boolean,
+        required: true,
     }
 })
 
@@ -88,13 +95,11 @@ const bug_responses = computed(() => {
     }
     return [];
 })
-
-const followBug = (b) => {
-    if(b){
-        console.log("Requête pour suivre le bug");
-    }else{
-        console.log("Requête pour ne plus suivre le bug");
-    }
+const form = useForm({
+    followBug:!props.isFollowing,
+})
+const toggleFollowBug = () => {
+    console.log(form.followBug);
 }
 
 </script>

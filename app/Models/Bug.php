@@ -98,6 +98,11 @@ class Bug extends Model
         return $this->belongsTo(User::class, 'assigned_user_id');
     }
 
+    public function user_followers()
+    {
+        return $this->belongsToMany(User::class, 'followed_bug_user');
+    }
+
     public function bug_comments() : HasMany
     {
         return $this->hasMany(BugComment::class)->orderBy('created_at');
