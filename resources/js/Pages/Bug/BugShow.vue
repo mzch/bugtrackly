@@ -1,9 +1,24 @@
 <template>
     <AuthenticatedLayout :page-title="bug.title">
-        <template #header>{{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
+        <template #header>
+            {{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
+            <button type="button"
+                    title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
+                    class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
+                    @click="followBug(true)">
+                <PlusIcon class="size-1 me-1"/>
+                Suivre ce bug
+            </button>
+            <button type="button"
+                    title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
+                    class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
+                    @click="followBug(false)">
+                <CheckIcon class="size-1 me-1"/>
+                Bug suivi
+            </button>
         </template>
         <template #headerActions>
-            <BagdeStatusBug class="mt-1" :bug="bug"/>
+            <BagdeStatusBug class="mt-2" :bug="bug"/>
         </template>
 
         <BugDescription :bug="bug" :project="project"/>
@@ -46,6 +61,7 @@ import ModalDeleteBug from "@/Pages/Bug/partial/ModalDeleteBug.vue";
 import {formatDate} from "../../Helpers/date.js";
 import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
+import {CheckIcon, PlusIcon} from "@heroicons/vue/24/outline/index.js";
 
 const props = defineProps({
     project: {
@@ -72,5 +88,13 @@ const bug_responses = computed(() => {
     }
     return [];
 })
+
+const followBug = (b) => {
+    if(b){
+        console.log("Requête pour suivre le bug");
+    }else{
+        console.log("Requête pour ne plus suivre le bug");
+    }
+}
 
 </script>

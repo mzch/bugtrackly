@@ -6,9 +6,9 @@
         <div id="content-wrapper">
             <div class="container-lg px-4 d-flex flex-column h-100">
 
-                <header class="mt-4 mt-lg-5 d-flex align-items-center mb-3">
+                <header class="mt-4 mt-lg-5 d-flex align-items-start mb-3">
                     <div class="flex-grow-1">
-                        <h1 class="fs-4 fw-semibold mb-@1">
+                        <h1 class="fs-4 fw-semibold mb-@1 d-flex align-items-center">
                             <slot name="header">&lt;template #header&gt;</slot>
                         </h1>
                         <Breadcrumb/>
