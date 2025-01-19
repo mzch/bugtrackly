@@ -113,7 +113,7 @@ class BugController extends Controller
             "title" => "Bug créé",
             "text"  => "Le bug <strong>" . e($bug->id) . "</strong> a bien été créé."
         ];
-        return to_route('projects.show', $project)->with('success', $flash_notification);
+        return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
     }
 
     public function show(Project $project, Bug $bug): Response
@@ -183,5 +183,37 @@ class BugController extends Controller
     {
         $bug->update($request->validated());
         return response()->json(["success" => true]);
+    }
+
+    /**
+     * Toggle follow bug
+     * @param Request $request
+     * @param Project $project
+     * @param Bug $bug
+     * @return RedirectResponse
+     */
+    public function toggleFollowBug(Request $request, Project $project, Bug $bug): RedirectResponse
+    {
+        $request->validate([
+            'followBug' => ['required', 'boolean']
+        ]);
+
+        if($request->get('followBug')) {
+            $flash_notification = [
+                "title" => "Suivi de bug activé",
+                "text"  => "Vous recevrez dorénavant des notifications pour ce bug.",
+            ];
+            $bug->user_followers()->attach(auth()->id());
+            return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
+        }else{
+            $flash_notification = [
+                "title" => "Suivi de bug désactivé",
+                "text"  => "Vous ne recevrez plus de notification pour ce bug.",
+            ];
+            $bug->user_followers()->detach(auth()->id());
+            return to_route('projects.bug.show', [$project, $bug])->with('warning', $flash_notification);
+        }
+
+
     }
 }

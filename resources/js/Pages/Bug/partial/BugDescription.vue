@@ -2,6 +2,7 @@
 <Card :card-title="card_title" class="mb-4">
     <template #cardHeaderAction>
         <div class="col-auto ms-auto">
+            <BagdeStatusBug class="me-1" :bug="bug"/>
             <BadgePriorityBug :extended-label="true" :bug="bug"/>
         </div>
     </template>
@@ -111,6 +112,7 @@ import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import {getFileName} from "../../../Helpers/filename.js";
 import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
+import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 const store = useStore();
 const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
 const props = defineProps({
