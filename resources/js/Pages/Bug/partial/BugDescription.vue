@@ -1,5 +1,5 @@
 <template>
-<Card :card-title="card_title" class="mb-4">
+<Card :card-title="card_title" :card-icon="card_icon" card-icon-class="text-status-in_progress" class="mb-4">
     <template #cardHeaderAction>
         <div class="col-auto ms-auto">
             <BagdeStatusBug class="me-1" :bug="bug"/>
@@ -104,12 +104,10 @@ import {forEach} from "lodash";
 import {formatDate} from "@/Helpers/date.js";
 import {useStore} from "vuex";
 import {hasRole} from "@/Helpers/users.js";
-import {format_text} from "@/Helpers/bug.js";
 import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
+import {StarIcon} from "@heroicons/vue/24/solid/index.js";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
-import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
-import {getFileName} from "../../../Helpers/filename.js";
 import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
@@ -124,6 +122,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    isFollowing: {
+        type: Boolean,
+        required: true,
+    }
 })
 
 const show_bug_submenu = ref(false);
@@ -164,6 +166,13 @@ const card_title = computed(() => {
     }else{
         return form.title;
     }
+})
+
+const card_icon = computed(() => {
+    if(props.isFollowing){
+        return StarIcon;
+    }
+    return null;
 })
 
 const canModifyBug = computed(() => hasRole('admin'));

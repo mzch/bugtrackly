@@ -29,7 +29,7 @@
             </Link>
         </template>
 
-        <BugDescription :bug="bug" :project="project"/>
+        <BugDescription :bug="bug" :project="project" :is-following="isFollowing"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
         <Card card-title="Historique" remove-body-padding>
@@ -61,7 +61,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {computed, watch} from "vue";
-import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import BugDescription from "@/Pages/Bug/partial/BugDescription.vue";
 import BugResponses from "@/Pages/Bug/partial/BugResponses.vue";
 import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";

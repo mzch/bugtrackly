@@ -59,7 +59,8 @@
                     </td>
                     <td class="align-middle">
                         <p class="mb-0 d-flex flex-column align-items-start">
-                            <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold bug_title">
+                            <Link :href="route('projects.bug.show', [project.slug, bug.id])" class="fw-bold bug_title d-flex align-items-center">
+                                <StarIcon class="size-1 text-status-in_progress me-1" v-if="bug.is_followed_by_me"/>
                                 {{ bug.title }}
                             </Link>
                             <small class="text-secondary">{{ getPriorityObject(bug.priority)?.extended_label}}</small>
@@ -109,6 +110,7 @@ import {sortingClass} from "@/Helpers/datatable.js";
 import {pickBy, throttle} from "lodash";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
+import {StarIcon} from "@heroicons/vue/24/solid/index.js";
 import {getPriorityObject, nb_notes} from "../../Helpers/bug.js";
 
 const props = defineProps({

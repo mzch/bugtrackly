@@ -35,10 +35,10 @@ class ProjectController extends Controller
 
         $this->addBreadcrumb($project->name, false);
 
-
+        $bugs = $this->bug_repository->getAllBugsPaginatedForProject($project, $request, 20);
         $data = [
             'project'        => $project,
-            'bugs'           => $this->bug_repository->getAllBugsPaginatedForProject($project, $request, 20),
+            'bugs'           => $bugs,
             'filters'        => [
                 'direction' => $request->get('direction', 'desc'),
                 'field'     => $request->get('field', 'date'),
