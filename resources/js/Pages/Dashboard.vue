@@ -49,7 +49,8 @@
               </div>
 
           </template>
-          <table class="table table-bordered table-hover mb-0 caption-top" v-if="followed_bugs.data.length">
+          <div class="table-responsive" v-if="followed_bugs.data.length">
+            <table class="table table-bordered table-hover mb-0 caption-top" >
               <thead>
                   <tr>
                       <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
@@ -97,6 +98,7 @@
                   </tr>
               </tbody>
           </table>
+          </div>
           <div class="p-5" v-else>
               <p class="mb-0 text-center">{{ no_result }}</p>
           </div>
