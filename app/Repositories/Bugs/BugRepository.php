@@ -44,4 +44,22 @@ class BugRepository implements BugRepositoryInterface
     }
 
 
+    public function getAllFollowedBugsPaginated(Request $request, int $nb_per_page = 10): LengthAwarePaginator
+    {
+        $query = Bug::with(['project'])
+            ->whereHas('user_followers', function ($q) {
+                $q->where('user_id', auth()->id());
+            })
+            ->bugSearch($request)
+            ->filterByStatus($request)
+            ->filterByPriority($request)
+            ->filterByProjectSlug($request)
+            ->bugOrderBy($request);
+
+        // Récupère la liste paginée des bugs
+        $bugs = $query->paginate($nb_per_page)->withQueryString();
+
+
+        return $bugs;
+    }
 }

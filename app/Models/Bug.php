@@ -196,6 +196,16 @@ class Bug extends Model
         return $query;
     }
 
+    public function scopeFilterByProjectSlug(Builder $query,  Request $request): Builder
+    {
+        if ($request->has(['project'])) {
+            $query->whereHas('project', function ($q) use ($request) {
+                $q->where('slug', $request->get('project'));
+            });
+        }
+        return $query;
+    }
+
     /**
      * Scope pour ordonner les bugs
      * @param Builder $query
@@ -209,6 +219,15 @@ class Bug extends Model
                 case "date" :
                     $sortField = 'updated_at';
                     break;
+                case "project" :
+                    // Tri par nom de projet via une sous-requête
+                    $query->orderBy(
+                        Project::select('name')
+                            ->whereColumn('projects.id', 'bugs.project_id') // Liaison
+                            ->limit(1),
+                        $request->direction
+                    );
+                    return $query;
                 default :
                     $sortField = $request->field;
             }
