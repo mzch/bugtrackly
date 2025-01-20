@@ -100,4 +100,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(BugComment::class);
     }
+
+    public function followed_bugs()
+    {
+        return $this->belongsToMany(Bug::class, 'followed_bug_user');
+    }
 }

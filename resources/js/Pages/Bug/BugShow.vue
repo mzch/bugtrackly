@@ -1,12 +1,35 @@
 <template>
     <AuthenticatedLayout :page-title="bug.title">
-        <template #header>{{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
+        <template #header>
+            {{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
+            <button type="button"
+                    title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
+                    class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
+                    @click="toggleFollowBug()"
+                    :disabled="form.processing"
+                    v-if="!isFollowing">
+                <PlusIcon class="size-1 me-1"/>
+                Suivre ce bug
+            </button>
+            <button type="button"
+                    title="Ne plus suivre ce bug"
+                    class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
+                    @click="toggleFollowBug()"
+                    :disabled="form.processing"
+                    v-else>
+                <CheckIcon class="size-1 me-1"/>
+                Bug suivi
+            </button>
+
         </template>
         <template #headerActions>
-            <BagdeStatusBug class="mt-1" :bug="bug"/>
+            <Link :href="route('projects.bug.create', project.slug)" class="btn btn-primary btn-with-icon btn-sm">
+                <PlusCircleIcon class="size-1 me-1"/>
+                Rapporter un nouveau bug
+            </Link>
         </template>
 
-        <BugDescription :bug="bug" :project="project"/>
+        <BugDescription :bug="bug" :project="project" :is-following="isFollowing"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
         <Card card-title="Historique" remove-body-padding>
@@ -37,8 +60,7 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {computed} from "vue";
-import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
+import {computed, watch} from "vue";
 import BugDescription from "@/Pages/Bug/partial/BugDescription.vue";
 import BugResponses from "@/Pages/Bug/partial/BugResponses.vue";
 import ModalDeleteResponse from "@/Pages/Bug/partial/ModalDeleteResponse.vue";
@@ -46,6 +68,8 @@ import ModalDeleteBug from "@/Pages/Bug/partial/ModalDeleteBug.vue";
 import {formatDate} from "../../Helpers/date.js";
 import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
+import {CheckIcon, PlusIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
+import {router, useForm, Link} from "@inertiajs/vue3";
 
 const props = defineProps({
     project: {
@@ -63,6 +87,10 @@ const props = defineProps({
     bug_status: {
         type: Array,
         required: true,
+    },
+    isFollowing: {
+        type: Boolean,
+        required: true,
     }
 })
 
@@ -71,6 +99,23 @@ const bug_responses = computed(() => {
         return props.bug.bug_comments.slice(1);
     }
     return [];
+})
+const form = useForm({
+    followBug:!props.isFollowing,
+})
+const toggleFollowBug = () => {
+    const urlParams = route().params;
+    form.post(route('projects.bug.toggleFollowBug', [urlParams.project, urlParams.bug]))
+}
+
+watch(() => props.isFollowing, (newValue) => {
+    console.log(newValue);
+    if(newValue === false){
+        form.defaults('followBug', true);
+    }else{
+        form.defaults('followBug', false);
+    }
+    form.reset();
 })
 
 </script>

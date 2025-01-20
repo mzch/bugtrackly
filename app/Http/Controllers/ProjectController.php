@@ -28,17 +28,17 @@ class ProjectController extends Controller
     {
         $request->validate([
             'direction' => 'in:asc,desc',
-            'field'     => 'in:id,title,date,priority',
+            'field'     => 'in:id,title,date,priority,status',
             'priority'  => 'in:none,low,normal,hight,immediate',
             'status'    => 'in:all,new,accepted,rejected,in_progress,resolved,closed,reopened',
         ]);
 
         $this->addBreadcrumb($project->name, false);
 
-
+        $bugs = $this->bug_repository->getAllBugsPaginatedForProject($project, $request, 20);
         $data = [
             'project'        => $project,
-            'bugs'           => $this->bug_repository->getAllBugsPaginatedForProject($project, $request, 20),
+            'bugs'           => $bugs,
             'filters'        => [
                 'direction' => $request->get('direction', 'desc'),
                 'field'     => $request->get('field', 'date'),

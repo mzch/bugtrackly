@@ -2,8 +2,12 @@
     <Card>
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center text-secondary mb-3">
-                <Avatar :user="response.user" class="bordered me-1"/>
-                <span class="fw-semibold me-1">{{ response.user?.full_name || "Utilisateur supprimé" }}</span>
+                <Avatar :user="response.user" class="bordered me-2"/>
+                <div class="d-flex flex-column">
+                    <span class="fw-semibold me-1">{{ response.user?.full_name || "Utilisateur supprimé" }}</span>
+                    <span class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(response.created_at, "d MMMM yyyy à HH'h'mm") }}</span>
+                </div>
+
             </div>
 
             <div v-if="hasCardFooter" :style="{pointerEvents:!editingResponse ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
@@ -58,8 +62,6 @@
                            @click="submitEditResponseHandler">Valider</PrimaryButton>
         </div>
         </template>
-        <p class="text-sm text-secondary mb-0 opacity-75">
-            {{ formatDate(response.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
         <template #cardFooter v-if="response.files.length">
             <RelatedFiles :comment="response"/>
         </template>
