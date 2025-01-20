@@ -3,7 +3,7 @@
         <slot name="cardImg"/>
         <div class="card-header d-flex align-items-center justify-content-between" v-if="$slots.cardHeaderAction || props.cardTitle">
             <h3 class="mb-0 txt_16 fw-medium d-flex align-items-center" v-if="props.cardTitle || props.cardIcon">
-                <component :is="cardIcon" v-if="props.cardIcon" class="size-1 me-1"/>
+                <component :is="cardIcon" v-if="props.cardIcon" class="size-1 me-1" :class="cardIconClass"/>
                 {{cardTitle}}
             </h3>
             <div class="ms-auto flex-grow-1" v-if="$slots.cardHeaderAction">
@@ -31,7 +31,11 @@
             required:false,
         },
         cardIcon:{
-            type:Object,
+            type:[Object, Function],
+            required:false
+        },
+        cardIconClass:{
+            type:String,
             required:false
         },
         removeBodyPadding:{

@@ -12,7 +12,8 @@
         <template #cardFooter>
             <Pagination :items="allUsers" item-singular-name="utilisateur" item-plural-name="utilisateurs"/>
         </template>
-        <table class="table table-bordered table-hover mb-0 caption-top" v-if="allUsers.data.length">
+        <div class="table-responsive" v-if="allUsers.data.length">
+        <table class="table table-bordered table-hover mb-0 caption-top" >
             <thead>
             <tr>
                 <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
@@ -60,6 +61,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
         <div class="p-5" v-else>
             <p class="mb-0 text-center">{{ no_result }}</p>
         </div>

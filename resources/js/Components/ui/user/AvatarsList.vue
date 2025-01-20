@@ -1,12 +1,17 @@
 <template>
-    <div class="avatar-container">
+    <div class="avatar-container" :class="sizeAvatar">
         <div
             v-for="(user, index) in visibleUsers"
             :key="user.id"
             class="avatar"
             :style="{ zIndex: visibleUsers.length - index, left: `${index * overlap}px` }"
         >
-            <Avatar class="size-3" :bordered="true" :user="user"/>
+            <Avatar :class="sizeAvatar"
+                    :bordered="true"
+                    :user="user"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    :data-bs-title="user.full_name"/>
         </div>
         <div v-if="hiddenCount > 0" class="avatar more" :style="{ left: `${visibleUsers.length * overlap}px` }">
             ...
@@ -15,9 +20,10 @@
 </template>
 
 <script setup>
-import {computed} from "vue";
+import {computed, onMounted, onUnmounted, ref} from "vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
-
+import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
+const tooltipList = ref([]);
 const props = defineProps({
     items :{
         type:Array,
@@ -31,16 +37,24 @@ const props = defineProps({
         type: Number,
         default: 20, // Décalage entre les avatars
     },
+    sizeAvatar:{
+        type:String,
+        required:false,
+        default:"size-3"
+    }
 })
 
 const visibleUsers = computed(() => props.items.slice(0, props.maxVisible))
 const hiddenCount = computed(() => props.items.length - props.maxVisible)
+
+onMounted(() => enableToolTips(tooltipList))
+onUnmounted(() => disposeToolTips(tooltipList))
 </script>
 <style type="scss" scoped>
 .avatar-container {
     display: flex;
     position: relative;
-    height: 50px;
+    width: auto !important;
 }
 .avatar {
     width: 2.5rem;

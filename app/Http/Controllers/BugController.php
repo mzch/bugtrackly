@@ -21,6 +21,7 @@ use Inertia\Response;
 class BugController extends Controller
 {
     use HasBugLogMethods;
+
     public function __construct(
         protected BugInfosRepositoryInterface $bug_infos_repository,
     )
@@ -41,7 +42,7 @@ class BugController extends Controller
         return $this->render('Bug/BugCreate', $data);
     }
 
-    public function store(StoreBugRequest $request , Project $project): RedirectResponse
+    public function store(StoreBugRequest $request, Project $project): RedirectResponse
     {
         // Nouveau bug
         $bug = new Bug($request->validated());
@@ -73,8 +74,8 @@ class BugController extends Controller
             " => " . $new_priority['label']
         );
 
-        if($bug->status !== 1){
-            $new_status= $this->bug_infos_repository->getBugStatusById($bug->status);
+        if ($bug->status !== 1) {
+            $new_status = $this->bug_infos_repository->getBugStatusById($bug->status);
             self::logAction(
                 $bug->id,
                 auth()->id(),
@@ -85,7 +86,7 @@ class BugController extends Controller
 
         // log de l'utilisateur assigné si renseigné
         $assignedUser = false;
-        if($request->validated('assigned_user_id')){
+        if ($request->validated('assigned_user_id')) {
             $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
             self::logAction(
                 $bug->id,
@@ -97,8 +98,11 @@ class BugController extends Controller
 
 
         // email notif
-        $usersToNotify = $project->users->where('role_id', 1); // les admins sur le projets
-        if($assignedUser){
+        $usersToNotify = $project
+            ->users
+            ->where('role_id', 1)
+            ->where('id', '!=', auth()->id()); // les admins sur le projets autre que celui-connecté
+        if ($assignedUser) {
             $usersToNotify->push($assignedUser);
         }
         $usersToNotify = $usersToNotify->unique('id');
@@ -110,27 +114,33 @@ class BugController extends Controller
 
         $flash_notification = [
             "title" => "Bug créé",
-            "text" => "Le bug <strong>" . e($bug->id) . "</strong> a bien été créé."
+            "text"  => "Le bug <strong>" . e($bug->id) . "</strong> a bien été créé."
         ];
-        return to_route('projects.show', $project)->with('success', $flash_notification);
+        return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
     }
 
     public function show(Project $project, Bug $bug): Response
     {
         $project->load('users');
-        $bug->load(['bug_comments', 'bug_logs']);
+        $bug->load(['bug_comments', 'bug_logs', 'user_followers']);
         $this->addBreadcrumb($project->name, route('projects.show', $project));
-        $this->addBreadcrumb('Bug n°'.$bug->bug_id_formatted, route('projects.show', $project));
+        $this->addBreadcrumb('Bug n°' . $bug->bug_id_formatted, route('projects.show', $project));
+
+        // Vérifie si l'utilisateur connecté suit ce bug
+        $isFollowing = $bug->user_followers->contains(auth()->id());
+
         $data = [
             'project'        => $project,
-            'bug'        => $bug,
+            'bug'            => $bug,
+            'isFollowing'    => $isFollowing,
             'bug_status'     => $this->bug_infos_repository->getAllBugStatus(),
             'bug_priorities' => $this->bug_infos_repository->getAllBugPriorities()
         ];
         return $this->render('Bug/BugShow', $data);
     }
 
-    public function update(UpdateBugRequest $request, Project $project, Bug $bug): JsonResponse{
+    public function update(UpdateBugRequest $request, Project $project, Bug $bug): JsonResponse
+    {
         $bug->update($request->validated());
 
         $bugComment = $bug->bug_comments()->first();
@@ -142,13 +152,12 @@ class BugController extends Controller
     }
 
 
-
     public function destroy(Request $request, Project $project, Bug $bug): RedirectResponse
     {
         $bug->delete();
         $flash_notification = [
             "title" => "Bug supprimé",
-            "text" => "Le bug <strong>" . e($bug->id) . "</strong> a bien été supprimé."
+            "text"  => "Le bug <strong>" . e($bug->id) . "</strong> a bien été supprimé."
         ];
         return to_route('projects.show', $project)->with('success', $flash_notification);
     }
@@ -177,5 +186,37 @@ class BugController extends Controller
     {
         $bug->update($request->validated());
         return response()->json(["success" => true]);
+    }
+
+    /**
+     * Toggle follow bug
+     * @param Request $request
+     * @param Project $project
+     * @param Bug $bug
+     * @return RedirectResponse
+     */
+    public function toggleFollowBug(Request $request, Project $project, Bug $bug): RedirectResponse
+    {
+        $request->validate([
+            'followBug' => ['required', 'boolean']
+        ]);
+
+        if($request->get('followBug')) {
+            $flash_notification = [
+                "title" => "Suivi de bug activé",
+                "text"  => "Vous recevrez dorénavant des notifications pour ce bug.",
+            ];
+            $bug->user_followers()->attach(auth()->id());
+            return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
+        }else{
+            $flash_notification = [
+                "title" => "Suivi de bug désactivé",
+                "text"  => "Vous ne recevrez plus de notification pour ce bug.",
+            ];
+            $bug->user_followers()->detach(auth()->id());
+            return to_route('projects.bug.show', [$project, $bug])->with('warning', $flash_notification);
+        }
+
+
     }
 }

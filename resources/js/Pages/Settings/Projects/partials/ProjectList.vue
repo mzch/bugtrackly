@@ -12,48 +12,43 @@
         <template #cardFooter>
             <Pagination :items="items" item-singular-name="projet" item-plural-name="projets" />
         </template>
-        <table class="table table-bordered table-hover mb-0 caption-top" v-if="items.data.length">
-            <thead>
-            <tr>
-                <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
-                <th>Utilisateurs</th>
-                <th class="date-col" :class="sortingClass('date', params)" @click="sort('date')">Date</th>
-            </tr>
-            </thead>
-            <tbody>
-                <tr v-for="item in items.data" :key="item.id">
-                    <td class="fw-medium">
-                        <div class="d-flex align-items-center">
-                            <Link class="fw-bold" :href="route('settings.projects.show', item.id)">
-                                {{item.name}}
-                            </Link>
-                        </div>
-                        <div class="row-actions">
-                            <Link :href="route('settings.projects.show', item.id)">Modifier</Link>
-                            <span class="mx-1 text-gray">|</span>
-                            <button class="btn btn-sm btn-sm border-0 p-0 btn-link text-danger"
-                                    @click="store.commit('projectsManagement/setProjectToDelete', item)"
-                                    type="button">
-                                Supprimer
-                            </button>
-                        </div>
-                    </td>
-                    <td>
-                        <AvatarsList :items="item.users"/>
-<!--                        <ul class="list-inline mb-0">
-                            <li v-for="user in item.users"
-                                :key="user.id"
-                                class="list-inline-item">
-                                <ButtonUserAvatar :href="route('settings.users.show', user.id)" :user="user" :is-link="true"/>
-                            </li>
-                        </ul>-->
-                    </td>
-                    <td class="text-sm text-secondary">
-                        <InfoProject :project="item"/>
-                    </td>
+        <div class="table-responsive" v-if="items.data.length">
+            <table class="table table-bordered table-hover mb-0 caption-top">
+                <thead>
+                <tr>
+                    <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
+                    <th>Utilisateurs</th>
+                    <th class="date-col" :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                 </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr v-for="item in items.data" :key="item.id">
+                        <td class="fw-medium">
+                            <div class="d-flex align-items-center">
+                                <Link class="fw-bold" :href="route('settings.projects.show', item.id)">
+                                    {{item.name}}
+                                </Link>
+                            </div>
+                            <div class="row-actions">
+                                <Link :href="route('settings.projects.show', item.id)">Modifier</Link>
+                                <span class="mx-1 text-gray">|</span>
+                                <button class="btn btn-sm btn-sm border-0 p-0 btn-link text-danger"
+                                        @click="store.commit('projectsManagement/setProjectToDelete', item)"
+                                        type="button">
+                                    Supprimer
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <AvatarsList :items="item.users"/>
+                        </td>
+                        <td class="text-sm text-secondary">
+                            <InfoProject :project="item"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="p-5" v-else>
             <p class="mb-0 text-center">{{ no_result }}</p>
         </div>
@@ -70,11 +65,10 @@ import {Link, router, usePage} from "@inertiajs/vue3";
 import {pickBy, throttle} from "lodash";
 import Pagination from "@/Components/ui/Pagination.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
-import Avatar from "@/Components/ui/user/avatar.vue";
 import InfoProject from "@/Components/ui/project/InfoProject.vue";
 import {useStore} from "vuex";
-import ButtonUserAvatar from "@/Components/ui/form/ButtonUserAvatar.vue";
-import AvatarsList from "@/Pages/Settings/Projects/partials/AvatarsList.vue";
+import AvatarsList from "@/Components/ui/user/AvatarsList.vue";
+
 const store = useStore();
 const items = computed(()=>usePage().props.projects);
 

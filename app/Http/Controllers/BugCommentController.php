@@ -107,11 +107,15 @@ class BugCommentController extends Controller
         }
 
         // email notif
-        $usersToNotify = $project->users->where('role_id', 1); // les admins sur le projets
+        $usersToNotify = $project
+            ->users->where('role_id', 1)
+            ->where('id', '!=', auth()->id()); // les admins sur le projets autre que le user connecté
         if($dataMail['assigned_user'] && $dataMail['assigned_user']['new']){
             $usersToNotify->push($dataMail['assigned_user']['new']);
         }
+        $usersToNotify = $usersToNotify->concat($bug->user_followers);
         $usersToNotify = $usersToNotify->unique('id');
+
 
         foreach ($usersToNotify as $user) {
             $user->notify(new BugCommentCreatedNotification($project, $bug, $dataMail));

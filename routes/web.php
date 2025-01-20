@@ -63,6 +63,7 @@ Route::prefix('projets')
 
             Route::middleware(['can:view-bug,project,bug'])->group(function () {
                 Route::get('/{project:slug}/bug/{bug}', [BugController::class, 'show'])->name('show');
+                Route::post('/{project:slug}/bug/{bug}/toggle-follow-bug', [BugController::class, 'toggleFollowBug'])->name('toggleFollowBug');
                 Route::post('/{project:slug}/bug/{bug}/update', [BugController::class, 'update'])->name('update');
                 Route::put('/{project:slug}/bug/{bug}/update-status', [BugController::class, 'update_status'])->name('update-status');
                 Route::put('/{project:slug}/bug/{bug}/update-priority', [BugController::class, 'update_priority'])->name('update-priority');
