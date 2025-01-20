@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/achappard/bugtrackly/refs/heads/master/public/images/bugtrackly-logo.png" width="400" alt="BugTrackly Logo"></p>
 <p align="center">
-<img src="https://img.shields.io/github/v/release/achappard/bugtrackly" alt="Release">
-<img src="https://img.shields.io/github/license/achappard/bugtrackly" alt="License">
+<a href="https://github.com/achappard/bugtrackly/releases/latest"><img src="https://img.shields.io/github/v/release/achappard/bugtrackly" alt="Release"></a>
+<a href="https://opensource.org/license/gpl-3-0" target="_blank"><img src="https://img.shields.io/github/license/achappard/bugtrackly" alt="License"></a>
 </p>
 
 ## About BugTrackly
