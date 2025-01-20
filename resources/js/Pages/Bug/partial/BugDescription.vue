@@ -9,8 +9,11 @@
     <div class="text-secondary mb-3" v-if="bug.user">
         <div class="d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center">
-                <Avatar :user="bug.user" class="bordered me-1"/>
-                <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
+                <Avatar :user="bug.user" class="bordered me-2 "/>
+                <div class="d-flex flex-column">
+                    <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
+                    <span class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</span>
+                </div>
             </div>
             <div v-if="canModifyBug || canModifyBug" :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
                 <button class="btn btn-link  btn-sm btn-with-icon px-1 text-secondary"
@@ -79,9 +82,19 @@
                            @click="editBugHandler">Valider</PrimaryButton>
         </div>
     </template>
-    <p class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</p>
-    <template #cardFooter v-if="first_bug_comment.files.length">
-        <RelatedFiles  :comment="first_bug_comment"/>
+    <template #cardFooter v-if="show_card_footer">
+        <div class="row">
+            <div class="col" v-if="first_bug_comment.files.length">
+                <RelatedFiles  :comment="first_bug_comment"/>
+            </div>
+            <div class="col" :class="{'border-start':first_bug_comment.files.length}" v-if="bug.user_followers.length">
+                <BugFollowers :followers="bug.user_followers"/>
+            </div>
+            <div class="col" :class="{'border-start':bug.user_followers.length}" v-if="bug.assigned_user">
+                <BugAssignedUser :user="bug.assigned_user"/>
+            </div>
+        </div>
+
     </template>
 </Card>
 </template>
@@ -111,6 +124,9 @@ import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
+import BugFollowers from "@/Components/ui/bug/BugFollowers.vue";
+import UserAvatar from "@/Pages/Settings/Users/partials/form/UserAvatar.vue";
+import BugAssignedUser from "@/Components/ui/bug/BugAssignedUser.vue";
 const store = useStore();
 const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
 const props = defineProps({
@@ -139,6 +155,10 @@ const hideBugSubMenuHandler = () => {
     timer = setTimeout(() => show_bug_submenu.value = false, 200);
 }
 const first_bug_comment = computed(() => props.bug.bug_comments[0] ?? false);
+
+const show_card_footer = computed(() => {
+    return first_bug_comment.value.files.length || props.bug.user_followers.length || props.bug.assigned_user
+})
 
 const form = useForm({
     title: props.bug.title,

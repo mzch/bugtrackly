@@ -1,7 +1,7 @@
 <template>
     <p class="fw-semibold mb-0">
-        <template v-if="comment.files.length > 1">Fichiers liés</template>
-        <template v-else>Fichier lié</template>
+        <template v-if="comment.files.length > 1">Fichiers liés :</template>
+        <template v-else>Fichier lié :</template>
     </p>
     <ul class="list-group mt-1 mb-0">
         <li v-for="file in comment.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">

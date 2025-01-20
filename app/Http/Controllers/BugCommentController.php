@@ -115,7 +115,7 @@ class BugCommentController extends Controller
         }
         $usersToNotify = $usersToNotify->concat($bug->user_followers);
         $usersToNotify = $usersToNotify->unique('id');
-        
+
 
         foreach ($usersToNotify as $user) {
             $user->notify(new BugCommentCreatedNotification($project, $bug, $dataMail));

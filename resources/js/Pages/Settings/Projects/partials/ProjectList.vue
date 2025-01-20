@@ -70,11 +70,10 @@ import {Link, router, usePage} from "@inertiajs/vue3";
 import {pickBy, throttle} from "lodash";
 import Pagination from "@/Components/ui/Pagination.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
-import Avatar from "@/Components/ui/user/avatar.vue";
 import InfoProject from "@/Components/ui/project/InfoProject.vue";
 import {useStore} from "vuex";
-import ButtonUserAvatar from "@/Components/ui/form/ButtonUserAvatar.vue";
-import AvatarsList from "@/Pages/Settings/Projects/partials/AvatarsList.vue";
+import AvatarsList from "@/Components/ui/user/AvatarsList.vue";
+
 const store = useStore();
 const items = computed(()=>usePage().props.projects);
 
