@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Bug extends Model
 {
+    use HasFactory;
     /**
      * Les attributs qui peuvent être assignés en masse.
      *
@@ -25,6 +27,7 @@ class Bug extends Model
         'title',
         'priority',
         'status',
+        'user_id', //à delete et tester le seeder....
         'assigned_user_id',
     ];
 
@@ -54,7 +57,9 @@ class Bug extends Model
         parent::boot();
 
         static::creating(function (Bug $bug) {
-            $bug->user_id = Auth::id();
+            if(empty($bug->user_id)){
+                $bug->user_id = Auth::id();
+            }
             if (empty($bug->status)) {
                 $bug->status = 1;
             }
