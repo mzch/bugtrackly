@@ -20,7 +20,7 @@ class BugSeeder extends Seeder
             Bug::factory(rand(5, 15))->make()->each(function ($bug) use ($project) {
                 $bug->project_id = $project->id;
                 $bug->user_id = $project->users->random()->id;
-                $bug->assigned_user_id = fake()->boolean(50) ? $project->users->random()->id : null;
+                $bug->assigned_user_id = fake()->boolean(80) ? $project->users->random()->id : null;
                 $bug->save();
             });
         });

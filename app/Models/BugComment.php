@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class BugComment extends Model
 {
+    use HasFactory;
+
     /**
      * The relations to eager load on every query.
      *
@@ -21,7 +24,7 @@ class BugComment extends Model
     ];
 
     protected $fillable = [
-      'content'
+        'content',
     ];
 
     protected static function boot()
@@ -29,7 +32,9 @@ class BugComment extends Model
         parent::boot();
 
         static::creating(function (BugComment $bugComment) {
-            $bugComment->user_id = Auth::id();
+            if(empty($bugComment->user_id)){
+                $bugComment->user_id = Auth::id();
+            }
         });
 
         // Lors de la création d'un bug, on met à jour updated_at du projet
@@ -62,7 +67,7 @@ class BugComment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function files():HasMany
+    public function files(): HasMany
     {
         return $this->hasMany(BugCommentFile::class);
     }
