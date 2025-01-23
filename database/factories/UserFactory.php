@@ -24,12 +24,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $randomNumber = fake()->numberBetween(1, 100);
-        if ($randomNumber <= 5) {
-            $role_id = 1;  // 5% chance d'être admin
-        }  else{
-            $role_id = 2;  // 95% de chance d'être apporteur d'affaire externe
-        }
+
         $firstName = fake()->firstName();
         $lastName = fake()->lastName();
 
@@ -42,7 +37,7 @@ class UserFactory extends Factory
         return [
             'first_name' => $firstName,
             'last_name' => $lastName,
-            'role_id' => $role_id,
+            'role_id' => 2,
             'email' => $email,
             'email_verified_at' => now(),
             'profile_photo_path' => fake()->boolean(40) // 70% des utilisateurs auront une photo
