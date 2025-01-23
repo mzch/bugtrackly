@@ -1,5 +1,5 @@
 .bug_title{
-    width: 500px; /* Définit la largeur maximale de l'élément */
+    width: 450px; /* Définit la largeur maximale de l'élément */
     overflow: hidden; /* Cache le texte qui dépasse la largeur */
     white-space: nowrap; /* Empêche le texte de se répartir sur plusieurs lignes */
     text-overflow: ellipsis; /* Ajoute les points de suspension */
@@ -21,9 +21,8 @@
         }
     }
 }
-.dropZone{
-   /* background: $light;
-    height: 100%;
-    border: 1px solid darken($light, 10%);
-    border-radius: .5rem;*/
+.priority{
+    width: 27px;
+    height: 8px;
+    margin: 0 auto;
 }
