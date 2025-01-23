@@ -47,6 +47,7 @@ class BugRepository implements BugRepositoryInterface
     public function getAllFollowedBugsPaginated(Request $request, int $nb_per_page = 10): LengthAwarePaginator
     {
         $query = Bug::with(['project'])
+            ->withCount('bug_comments')
             ->whereHas('user_followers', function ($q) {
                 $q->where('user_id', auth()->id());
             })

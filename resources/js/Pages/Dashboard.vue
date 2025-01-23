@@ -57,7 +57,8 @@
                       <th :class="sortingClass('project', params)" @click="sort('project')">Projet</th>
                       <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
                       <th :class="sortingClass('status', params)" @click="sort('status')">Statut</th>
-                      <th>Assigné à</th>
+                      <th style="width: 200px">Assigné à</th>
+                      <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
                       <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                   </tr>
               </thead>
@@ -73,13 +74,13 @@
                           {{bug.project.name}}
                           </Link>
                       </td>
-                      <td class="align-middle">
+                      <td >
                           <p class="mb-0 d-flex flex-column align-items-start">
                               <Link :href="route('projects.bug.show', [bug.project.slug, bug.id])" class="fw-bold bug_title d-flex align-items-center">
                                   <StarIcon class="size-1 text-status-in_progress me-1"/>
                                   {{ bug.title }}
                               </Link>
-                              <small class="text-secondary">{{ getPriorityObject(bug.priority)?.extended_label}}</small>
+                              <small class="text-secondary"><ChatBubbleLeftIcon class="size-1"/> {{nb_notes_labels(bug)}}</small>
                           </p>
                       </td>
                       <td class="align-middle">
@@ -91,6 +92,14 @@
                               {{ bug.assigned_user.full_name }}
                           </div>
                           <em class="mb-0 opacity-75" v-else>Non assigné</em>
+                      </td>
+                      <td class="align-middle">
+                          <div class="priority rounded-pill"
+                               data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               :data-bs-title="getPriorityObject(bug.priority)?.extended_label"
+                               :class="bug_priority_class(bug)"></div>
+
                       </td>
                       <td class="text-sm text-secondary">
                           <InfoDateBug :bug="bug"/>
@@ -117,15 +126,17 @@ import {Link, usePage, router} from "@inertiajs/vue3";
 import CardProject from "@/Components/ui/project/CardProject.vue";
 import Pagination from "@/Components/ui/Pagination.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
-import {getPriorityObject} from "@/Helpers/bug.js";
+import {bug_priority_class, getPriorityObject, nb_notes_labels} from "@/Helpers/bug.js";
 import {StarIcon} from "@heroicons/vue/24/solid/index.js";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, onUnmounted, ref, watch} from "vue";
 import {pickBy, throttle} from "lodash";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
+import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
+import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
 
 const props = defineProps({
     projects:{
@@ -206,4 +217,8 @@ watch(params, throttle(function () {
     //request
     router.get(route('dashboard'), my_params, {replace: true, preserveState: true})
 }, 300), {deep: true})
+
+const tooltipList = ref([]);
+onMounted(() => enableToolTips(tooltipList))
+onUnmounted(() => disposeToolTips(tooltipList))
 </script>
