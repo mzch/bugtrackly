@@ -27,8 +27,16 @@ const getStatusObject = (id) => {
     return status
 }
 
-const nb_notes = (nb_responses) => {
-    return nb_responses - 1;
+const nb_notes = (nb_responses) => nb_responses - 1;
+const nb_notes_labels = (bug) => {
+    const nbAddtionalNotes = nb_notes(bug.bug_comments_count);
+    return nbAddtionalNotes > 1 ? `${nbAddtionalNotes} notes` : `${nbAddtionalNotes} note`;
+
+}
+
+const bug_priority_class = (bug) => {
+    const prioObj = getPriorityObject(bug.priority)
+    return `text-bg-priority-${prioObj.weight}`;
 }
 
 const format_text = (text) => {
@@ -37,4 +45,4 @@ const format_text = (text) => {
     return text.replace(/\n/g, '<br>')
 }
 
-export {getPriorityObject, getStatusObject, nb_notes, format_text}
+export {getPriorityObject, getStatusObject, nb_notes,nb_notes_labels, bug_priority_class, format_text}

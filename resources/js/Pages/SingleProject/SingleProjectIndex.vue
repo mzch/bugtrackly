@@ -46,8 +46,8 @@
                         <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
                         <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
                         <th :class="sortingClass('status', params)" @click="sort('status')">Statut</th>
-                        <th>Notes</th>
                         <th>Assigné à</th>
+                        <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
                         <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
                     </tr>
                     </thead>
@@ -64,15 +64,14 @@
                                     <StarIcon class="size-1 text-status-in_progress me-1" v-if="bug.is_followed_by_me"/>
                                     {{ bug.title }}
                                 </Link>
-                                <small class="text-secondary">{{ getPriorityObject(bug.priority)?.extended_label}}</small>
+
+                                <small class="text-secondary"><ChatBubbleLeftIcon class="size-1"/> {{nb_notes_labels(bug)}}</small>
 
                             </p>
                         </td>
                         <td class="align-middle">
                             <BagdeStatusBug :bug="bug"/>
                         </td>
-
-                        <td class="text-secondary text-sm text-center align-middle"><span class="badge text-bg-secondary rounded-pill">{{nb_notes(bug.bug_comments_count)}}</span></td>
                         <td class="text-secondary text-sm text-center align-middle">
                             <div class="d-flex align-items-center" v-if="bug.assigned_user">
                                 <Avatar :user="bug.assigned_user" class="me-1 bordered"/>
@@ -80,7 +79,14 @@
                             </div>
                             <em class="mb-0 opacity-75" v-else>Non assigné</em>
                         </td>
+                        <td class="align-middle">
+                            <div class="priority rounded-pill"
+                                 data-bs-toggle="tooltip"
+                                 data-bs-placement="bottom"
+                                 :data-bs-title="getPriorityObject(bug.priority)?.extended_label"
+                                 :class="bug_priority_class(bug)"></div>
 
+                        </td>
                         <td class="text-sm text-secondary">
                             <InfoDateBug :bug="bug"/>
                         </td>
@@ -101,7 +107,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
-import {computed, ref, watch} from "vue";
+import {computed, onMounted, onUnmounted, ref, watch} from "vue";
 import {router, Link, usePage} from "@inertiajs/vue3";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
@@ -113,7 +119,9 @@ import {pickBy, throttle} from "lodash";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {StarIcon} from "@heroicons/vue/24/solid/index.js";
-import {getPriorityObject, nb_notes} from "../../Helpers/bug.js";
+import {bug_priority_class, getPriorityObject, nb_notes, nb_notes_labels} from "../../Helpers/bug.js";
+import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
+import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
 
 const props = defineProps({
     project: {
@@ -186,6 +194,9 @@ watch(params, throttle(function () {
     //request
     router.get(route('projects.show', props.project.slug), my_params, {replace: true, preserveState: true})
 }, 300), {deep: true})
+const tooltipList = ref([]);
+onMounted(() => enableToolTips(tooltipList))
+onUnmounted(() => disposeToolTips(tooltipList))
 </script>
 
 <style scoped>
