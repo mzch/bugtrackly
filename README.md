@@ -23,3 +23,17 @@ If you discover a security vulnerability within BugTrackly, please send an e-mai
 ## License
 
 The BugTrackly application is open-sourced software licensed under the [GPL-3.0 license](https://opensource.org/license/gpl-3-0).
+
+
+---
+
+## Documentation
+
+- Download or clone the repository : `git clone https://github.com/achappard/bugtrackly.git mbugtrackly-instance`
+- Install php dependencies by running `composer install`
+- Copy the `.env.example` file in a new `.env` file
+- Configure application by editing the `.env` file; in particular, access to the database. All the available configurations are documented in the file `config/bugtrackly.php`
+- Migrate the database with `php artisan migrate` command.
+- Create **the first admin user** by running the interactive command `php artisan bugtrackly:default_user`.
+- Run `npm install`
+- Run `npm run build`
