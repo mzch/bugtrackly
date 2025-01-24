@@ -14,16 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'first_name' => 'Aurélien',
-            'last_name' => 'Chappard',
-            'role_id' => 1,
-            'email' => 'a@a.com',
-            'password' =>  Hash::make('a'),
-        ]);
+        // Générer des utilisateurs et des projets
 
         $this->call([
             UserSeeder::class,
+            ProjectSeeder::class,
+            BugSeeder::class,
+            BugCommentSeeder::class,
         ]);
 
     }

@@ -1,15 +1,29 @@
 <?php
 return [
-    'baseline'   => env('BUGTRACKLY_BASELINE', 'Traquez les bugs, boostez la qualité'),
+    /*
+    |--------------------------------------------------------------------------
+    | Baseline for app. Displayed in the footer
+    |--------------------------------------------------------------------------
+    |
+    */
+    'baseline'                   => env('BUGTRACKLY_BASELINE', 'Traquez les bugs, boostez la qualité'),
 
-    'support_email' => env('BUGTRACKLY_SUPPORT_EMAIL', 'support@bugtrackly.deefuse.fr'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Support email. Will be displayed in the transactional emails
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'support_email'              => env('BUGTRACKLY_SUPPORT_EMAIL', 'support@bugtrackly.deefuse.fr'),
     /*
     |--------------------------------------------------------------------------
     | Storage path for the profile photo
     |--------------------------------------------------------------------------
     |
     */
-    'profile_photo_storage_path'         => env('BUGTRACKLY_USER_AVATAR_STORAGE_PATH', 'profile-photos'),
+    'profile_photo_storage_path' => env('BUGTRACKLY_USER_AVATAR_STORAGE_PATH', 'profile-photos'),
 
     /*
    |--------------------------------------------------------------------------
@@ -17,7 +31,7 @@ return [
    |--------------------------------------------------------------------------
    |
    */
-    'project_photo_storage_path'         => env('BUGTRACKLY_PROJECT_PHOTO_STORAGE_PATH', 'profile-photos'),
+    'project_photo_storage_path' => env('BUGTRACKLY_PROJECT_PHOTO_STORAGE_PATH', 'profile-photos'),
 
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +39,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'profile_photo_disk'   => env('BUGTRACKLY_USER_AVATAR_STORAGE_DISK', 'public'),
+    'profile_photo_disk'         => env('BUGTRACKLY_USER_AVATAR_STORAGE_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -33,7 +47,7 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'profile_project_disk'   => env('BUGTRACKLY_PROJECT_PHOTO_STORAGE_DISK', 'public'),
+    'profile_project_disk'       => env('BUGTRACKLY_PROJECT_PHOTO_STORAGE_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,8 +55,14 @@ return [
     |--------------------------------------------------------------------------
     |
     */
-    'use_gravatar_service' => env('BUGTRACKLY_USER_AVATAR_USE_GRAVATAR', false),
+    'use_gravatar_service'       => env('BUGTRACKLY_USER_AVATAR_USE_GRAVATAR', false),
 
-    'use_initiales_as_avatar' => env('BUGTRACKLY_USER_AVATAR_INITIALS', false),
+    /*
+    |--------------------------------------------------------------------------
+    | Should we use the initiales for user ?
+    |--------------------------------------------------------------------------
+    |
+    */
+    'use_initiales_as_avatar'    => env('BUGTRACKLY_USER_AVATAR_INITIALS', false),
 
 ];
