@@ -2,23 +2,33 @@
     <Card card-title="Utilisateurs du projet">
         <div class="row">
             <div class="col-lg-6">
-                <h3>Utilisateurs pour ce projet :</h3>
-                <ul class="mb-O list-inline">
-                    <li class="list-inline-item" v-for="user in user_for_project" :key="user.id">
-                        <ButtonUserAvatar :user="user" @click="remove_user(user.id)"/>
+                <h5>Administrateurs :</h5>
+                <ul class="mb-O list-inline" v-if="admin_for_project.length">
+                    <li class="list-inline-item" v-for="user in admin_for_project" :key="user.id">
+                        <ButtonUserAvatar :user="user" class="mb-1" @click="remove_user(user.id)"/>
                     </li>
                 </ul>
-
+                <p v-else class="text-secondary text-sm">Aucun administrateur ajouté à ce projet</p>
+                <h5>Rapporteurs :</h5>
+                <ul class="mb-O list-inline" v-if="reporter_for_project.length">
+                    <li class="list-inline-item" v-for="user in reporter_for_project" :key="user.id">
+                        <ButtonUserAvatar :user="user" class="mb-1" @click="remove_user(user.id)"/>
+                    </li>
+                </ul>
+                <p v-else class="text-secondary text-sm">Aucun rapporteur ajouté à ce projet</p>
+                <p class="text-secondary text-sm mb-0" v-if="admin_for_project.length || reporter_for_project.length">
+                    Afin de supprimer un utilisateur du projet, cliquez sur son nom dans la liste ci-dessus.
+                </p>
             </div>
             <div class="col-lg-6">
-                <h3>Liste des utilisateurs</h3>
-                <ul class="mb-0 list-unstyled">
-                    <li class="list-inline-item" v-for="user in all_users" :key="user.id">
-                        <ButtonUserAvatar :user="user"
-                                          :disabled="is_button_disabled(user.id)"
-                                          @click="add_user(user.id)"/>
-                    </li>
-                </ul>
+                <h5>Liste des utilisateurs</h5>
+
+                <UserAvatarVSelect
+                    label="Sélectionnez des utilisateurs pour les ajouter au projet"
+                    id="vs-list-users"
+                    v-model="user_selected"
+                    :users="all_users"
+                    :selectableCondition="selectableUser"/>
             </div>
         </div>
     </Card>
@@ -27,9 +37,10 @@
 <script setup>
 import Card from "@/Components/ui/Card.vue";
 import {usePage} from "@inertiajs/vue3";
-import {computed} from "vue";
+import {computed, nextTick, ref, watch} from "vue";
 import {find} from "lodash";
 import ButtonUserAvatar from "@/Components/ui/form/ButtonUserAvatar.vue";
+import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
 
 const all_users = computed(()=> usePage().props.users);
 const props = defineProps({
@@ -38,16 +49,25 @@ const props = defineProps({
         required: true
     }
 })
+const user_selected = ref(null);
 
-const user_for_project = computed(() => {
-    return props.form.users.map(u => find(all_users.value, user => user.id === u))
-})
+const user_for_project = computed(() => props.form.users.map(u => find(all_users.value, user => user.id === u)))
+const admin_for_project = computed(() => user_for_project.value.filter(u => u.role_id === 1));
+const reporter_for_project = computed(() => user_for_project.value.filter(u => u.role_id === 2));
 
-const add_user = (id) => props.form.users.push(id)
 const remove_user = (idToRemove) =>  props.form.users = props.form.users.filter(id => id !== idToRemove);
 
+// For a user to be selectable, it must not be in the props.form.users list.
+const selectableUser = (user) => !props.form.users.includes(user.id);
 
-const is_button_disabled = (id) => props.form.users.includes(id)
+watch(user_selected, (newUser, oldUser) => {
+    if(newUser){
+        props.form.users.push(newUser);
+        nextTick(() => {
+            user_selected.value = null;
+        })
+    }
+})
 </script>
 <style scoped>
 
