@@ -9,7 +9,7 @@ import velocity from 'velocity-animate';
 import { router } from '@inertiajs/vue3'
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import store from './store/index.js';
+import store from './Store/index.js';
 import  vSelect from "vue-select";
 const appName = import.meta.env.BUGTRACKLY_VITE_APP_NAME || 'Laravel';
 
