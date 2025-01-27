@@ -1,6 +1,6 @@
 <template>
     <div class="upload-zone text-center p-3">
-        <h5 class="fs-6">Ajouter des fichiers</h5>
+        <h5 class="fs-6">{{ trans('bug.form.add_files_label') }}</h5>
         <div class="drop-zone d-flex flex-column align-items-center p-4 mt-3 text-secondary"
              @dragover.prevent="handleDragOver"
              @dragenter.prevent="handleDragEnter"
@@ -9,10 +9,10 @@
             <input type="file" multiple ref="fileInput" class="visually-hidden" id="upload_file" @change="handleFileChange"/>
             <ArrowUpTrayIcon class="size-2 mb-2"/>
             <InputLabel for="upload_file" class="text-secondary text-sm">
-                Joignez les fichiers en les glissant-déposant, en les sélectionnant ou en les collant.
+                {{trans('bug.form.add_files_placeholder')}}
             </InputLabel>
             <SecondaryButton @click="triggerFileInput" outlined class="btn-sm mt-2">
-                {{ model.length ? "Ajouter d'autres fichiers" : "Choisir des fichiers" }}
+                {{ model.length ? trans('bug.form.add_files_btn_choose_other_files') : trans('bug.form.add_files_btn_choose_files') }}
             </SecondaryButton>
         </div>
         <div>
@@ -35,6 +35,7 @@ import SecondaryButton from "@/Components/ui/form/SecondaryButton.vue";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import {TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import {useStore} from "vuex";
+import {trans} from "../../../Helpers/translations.js";
 
 // Définir la prop pour les fichiers
 const model = defineModel({ required: true,default: [] })

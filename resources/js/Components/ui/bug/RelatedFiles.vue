@@ -1,7 +1,6 @@
 <template>
     <p class="fw-semibold mb-0">
-        <template v-if="comment.files.length > 1">Fichiers liés :</template>
-        <template v-else>Fichier lié :</template>
+        {{trans_choice('bug.attachFileTitle', comment.files.length)}}
     </p>
     <ul class="list-group mt-1 mb-0">
         <li v-for="file in comment.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">
@@ -25,6 +24,7 @@
     import {computed} from "vue";
     import {usePage} from "@inertiajs/vue3";
     import {useStore} from "vuex";
+    import {trans_choice} from "../../../Helpers/translations.js";
     const store = useStore();
     const props = defineProps({
         comment:{

@@ -3,13 +3,13 @@
         <template #header>
             {{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
             <button type="button"
-                    title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
+                    :title="trans('bug.show.tracking_desc')"
                     class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
                     @click="toggleFollowBug()"
                     :disabled="form.processing"
                     v-if="!isFollowing">
                 <PlusIcon class="size-1 me-1"/>
-                Suivre ce bug
+                {{ trans('bug.show.tracking_label') }}
             </button>
             <button type="button"
                     title="Ne plus suivre ce bug"
@@ -18,14 +18,14 @@
                     :disabled="form.processing"
                     v-else>
                 <CheckIcon class="size-1 me-1"/>
-                Bug suivi
+                {{ trans('bug.show.tracked_label') }}
             </button>
 
         </template>
         <template #headerActions>
             <Link :href="route('projects.bug.create', project.slug)" class="btn btn-primary btn-with-icon btn-sm">
                 <PlusCircleIcon class="size-1 me-1"/>
-                Rapporter un nouveau bug
+                {{ trans('project.show.report_label') }}
             </Link>
         </template>
 
@@ -70,6 +70,7 @@ import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 import {CheckIcon, PlusIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import {router, useForm, Link} from "@inertiajs/vue3";
+import {trans} from "@/Helpers/translations.js";
 
 const props = defineProps({
     project: {
