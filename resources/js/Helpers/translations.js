@@ -1,7 +1,7 @@
 import {usePage} from "@inertiajs/vue3";
 
 const trans = (key) => {
-    return usePage().props.translations[key];
+    return usePage().props.translations[key] || key;
 }
 const trans_params = (key, ...values) => {
     let trad = trans(key);

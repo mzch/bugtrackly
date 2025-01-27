@@ -13,20 +13,20 @@
                 <li>
                     <NavLink icon="UserCircleIcon"
                              :href="route('profile.edit')">
-                        Mon profil
+                        {{trans('menu.user.profile')}}
                     </NavLink>
                 </li>
                 <template v-if="$page.props.admin_user_id">
                     <li>
                     <NavLink icon="ArrowUturnLeftIcon" :href="route('settings.users.back_to_admin_user')">
-                        Retour Admin
+                        {{ trans('menu.user.back-admin') }}
                     </NavLink>
                     </li>
                 </template>
             </ul>
             <ul class="list-unstyled">
                 <li>
-                    <Link as="button" class="btn btn-link" method="post" :href="route('logout')">Se déconnecter</Link>
+                    <Link as="button" class="btn btn-link" method="post" :href="route('logout')">{{ trans('menu.user.logout') }}</Link>
                 </li>
             </ul>
         </div>
@@ -48,6 +48,7 @@ import Avatar from "@/Components/ui/user/avatar.vue";
 import {Link, usePage} from "@inertiajs/vue3";
 
 import {computed, onMounted, onUnmounted, ref} from "vue";
+import {trans} from "../../../Helpers/translations.js";
 const root = ref(null)
 const showUserMenu = ref(false);
 const current_user = computed(() => usePage().props.auth?.user)
