@@ -1,5 +1,10 @@
 <?php
 return [
+    'auth.email_address'                        => 'Adresse e-mail',
+    'auth.password'                             => 'Mot de passe',
+    'auth.remember_me'                             => 'Se souvenir de moi',
+    'auth.forgotPasswordQuestion'               => 'Mot de passe oublié ?',
+    'auth.connection_label'               => 'Se connecter',
     'menu.home'                                 => 'Accueil',
     'menu.projects'                             => 'Mes projets',
     'menu.settings'                             => 'Paramètres',
