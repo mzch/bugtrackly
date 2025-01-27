@@ -32,19 +32,19 @@
         <BugDescription :bug="bug" :project="project" :is-following="isFollowing"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
-        <Card card-title="Historique" remove-body-padding>
+        <Card :card-title="trans( 'bug.history.title')" remove-body-padding>
             <table class="table table-bordered table-sm text-sm">
                 <thead>
                 <tr>
-                    <th>Date de modification</th>
-                    <th>Utilisateur</th>
-                    <th>Changement</th>
-                    <th>Détail</th>
+                    <th>{{trans( 'bug.history.updated_at')}}</th>
+                    <th>{{trans( 'bug.history.user')}}</th>
+                    <th>{{trans( 'bug.history.change')}}</th>
+                    <th>{{trans( 'bug.history.detail')}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="log in bug.bug_logs" :key="log.id">
-                    <td>{{ formatDate(log.created_at, "d MMMM yyyy à HH'h'mm") }}</td>
+                    <td>{{ formatDate(log.created_at, trans('general.date-with-hour')) }}</td>
                     <td>{{log.user.full_name}}</td>
                     <td>{{log.action}}</td>
                     <td>{{log.details}}</td>

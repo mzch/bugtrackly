@@ -91,5 +91,10 @@ return [
     'bug.notes.change_note_glue'                => ' et ',
     'bug.notes.change_note_end'                 => 'de ce bug',
     'bug.notes.add_my_note'                     => 'Ajouter ma note',
+    'bug.history.title'                         => 'Historique',
+    'bug.history.updated_at'                    => 'Date de modification',
+    'bug.history.user'                          => 'Utilisateur',
+    'bug.history.change'                        => 'Changement',
+    'bug.history.detail'                        => 'Détail',
 
 ];
