@@ -1,10 +1,17 @@
 <?php
 return [
+    'auth.connection_title'                     => 'Sign In',
     'auth.email_address'                        => 'Email address',
     'auth.password'                             => 'Password',
+    'auth.password_confirmation'                => 'Password confirmation',
     'auth.remember_me'                          => 'Remember me',
     'auth.forgotPasswordQuestion'               => 'Forgot your password?',
-    'auth.connection_label'               => 'Sign in',
+    'auth.connection_label'                     => 'Sign in',
+    'auth.forgot_pwd_title'                     => 'Forgot your password?',
+    'auth.forgot_pwd_email_label'               => 'Your email address',
+    'auth.forgot_pwd_submit_label'               => 'Reset my password',
+    'auth.reset_pwd_title'                      => 'Reset password',
+    'auth.forgot_pwd_text'                      => 'Have you forgotten your password? No problem. Just give us your email address and we\'ll send you a link to reset your password.',
     'menu.home'                                 => 'Home',
     'menu.projects'                             => 'My projects',
     'menu.settings'                             => 'Settings',

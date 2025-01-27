@@ -34,7 +34,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Connexion" />
+        <Head :title="trans('auth.connection_title')" />
 
         <AlertSuccess :dismissible="true" v-if="status">{{status}}</AlertSuccess>
 

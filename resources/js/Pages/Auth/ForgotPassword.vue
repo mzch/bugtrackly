@@ -8,6 +8,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import FormField from "@/Components/ui/form/FormField.vue";
 import FormEnd from "@/Components/ui/form/FormEnd.vue";
 import AlertSuccess from "@/Components/ui/AlertSuccess.vue";
+import {trans} from "@/Helpers/translations.js";
 
 defineProps({
     status: {
@@ -26,29 +27,25 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Forgot Password" />
+        <Head :title="trans('auth.forgot_pwd_title')" />
 
-        <p>
-            Vous avez oublié votre mot de passe ?
-            Pas de problème. Indiquez-nous votre adresse email et nous vous enverrons un lien
-            de réinitialisation du mot de passe.
-        </p>
+        <p>{{trans('auth.forgot_pwd_text')}}</p>
 
         <AlertSuccess :dismissible="true" v-if="status">{{status}}</AlertSuccess>
 
         <form @submit.prevent="submit">
-            <FormField>
-                <InputLabel for="email" class="visually-hidden" value="Email" />
+            <FormField class="form-floating">
                 <TextInput
                     id="email"
                     type="email"
                     :class="{'is-invalid' :form.errors.email}"
                     v-model="form.email"
-                    placeholder = "votre adresse email"
+                    :placeholder="trans('auth.forgot_pwd_email_label')"
                     required
                     autofocus
                     autocomplete="username"
                 />
+                <InputLabel for="email" :value="trans('auth.forgot_pwd_email_label')" />
                 <InputError  :message="form.errors.email" />
             </FormField>
 
@@ -59,7 +56,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Réinitliser mon mot de passe
+                    {{trans('auth.forgot_pwd_submit_label') }}
                 </PrimaryButton>
             </FormEnd>
         </form>
