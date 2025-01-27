@@ -12,7 +12,7 @@ return [
     'dashboard.project.no_project'           => 'No projects at present',
     'dashboard.project.create_first_project' => 'Create your first project',
     'dashboard.project.show'                 => 'Show',
-    'dashboard.project.nbBug'                => '{0} No open bugs!|{1} 1 open bug|[2,*] :count open bugs',
+    'dashboard.project.nbBug'                => '{0} No open bugs!|{1} :count open bug|[2,*] :count open bugs',
     'dashboard.followed_bug_title'           => 'List of tracked bugs',
     'dashboard.followed_bug_pagination'      => '{0} tracked bugs!|{1} tracked bug|[2,*] tracked bugs',
     'general.publish'                        => 'Published',
@@ -52,4 +52,9 @@ return [
     'bugs_list.headings.assigned'            => 'Assigned to',
     'bugs_list.headings.priority'            => 'Priority',
     'bugs_list.headings.date'                => 'Date',
+    'bugs_list.not_assigned'                 => 'Not assigned',
+    'bugs_list.nb_notes'                     => '{0} :count notes|{1} 1 note|[2,*] :count notes',
+    'project.show.report_label'              => 'Report a new bug',
+    'project.show.bug_list_title'            => 'Bugs list',
+    'project.bug_list_pagination'            => '{0} bugs|{1} bug|[2,*] bugs',
 ];

@@ -14,7 +14,7 @@ return [
     'dashboard.project.show'                 => 'Voir',
     'dashboard.project.nbBug'                => '{0} Aucun bug ouvert !|{1} 1 bug ouvert|[2,*] :count bugs ouverts',
     'dashboard.followed_bug_title'           => 'Liste des bug suivis',
-    'dashboard.followed_bug_pagination'      => '{0} bug suivi|{1} bug suivi|[2,*] bug suivis',
+    'dashboard.followed_bug_pagination'      => '{0} bug suivi|{1} bug suivi|[2,*] bugs suivis',
     'general.publish'                        => 'Publié',
     'general.lastModification'               => 'Dernière modification',
     'general.date-with-hour'                 => 'd LLL yyyy \'à\' HH\'h\'mm',
@@ -29,7 +29,7 @@ return [
     'bug_status_resolved'                    => 'Résolu',
     'bug_status_closed'                      => 'Fermé',
     'bug_status_reopened'                    => 'Réouvert',
-    'bug_priority_all'                         => 'Toutes',
+    'bug_priority_all'                       => 'Toutes',
     'bug_priority_none'                      => 'Aucune',
     'bug_priority_none_extended'             => 'Aucune priorité',
     'bug_priority_low'                       => 'Basse',
@@ -52,4 +52,10 @@ return [
     'bugs_list.headings.assigned'            => 'Assigné à',
     'bugs_list.headings.priority'            => 'Priorité',
     'bugs_list.headings.date'                => 'Date',
+    'bugs_list.not_assigned'                => 'Non assigné',
+    'bugs_list.nb_notes'                     => '{0} :count note|{1} :count note|[2,*] :count notes',
+    'project.show.report_label'              => 'Rapporter un nouveau bug',
+    'project.show.bug_list_title'            => 'Liste des bugs',
+    'project.bug_list_pagination'            => '{0} bug|{1} bug|[2,*] bugs',
+
 ];

@@ -103,7 +103,8 @@
                                 </Link>
                                 <small class="text-secondary">
                                     <ChatBubbleLeftIcon class="size-1"/>
-                                    {{ nb_notes_labels(bug) }}</small>
+                                    {{trans_choice('bugs_list.nb_notes', nb_notes(bug.bug_comments_count))}}
+                                </small>
                             </p>
                         </td>
                         <td class="align-middle">
@@ -114,7 +115,7 @@
                                 <Avatar :user="bug.assigned_user" class="me-1 bordered"/>
                                 {{ bug.assigned_user.full_name }}
                             </div>
-                            <em class="mb-0 opacity-75" v-else>Non assigné</em>
+                            <em class="mb-0 opacity-75" v-else>{{ trans('bugs_list.not_assigned') }}</em>
                         </td>
                         <td class="align-middle">
                             <div class="priority rounded-pill"
@@ -149,7 +150,7 @@ import {Link, usePage, router} from "@inertiajs/vue3";
 import CardProject from "@/Components/ui/project/CardProject.vue";
 import Pagination from "@/Components/ui/Pagination.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
-import {bug_priority_class, getPriorityObject, nb_notes_labels} from "@/Helpers/bug.js";
+import {bug_priority_class, getPriorityObject, nb_notes, nb_notes_labels} from "@/Helpers/bug.js";
 import {StarIcon} from "@heroicons/vue/24/solid/index.js";
 import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import InfoDateBug from "@/Components/ui/bug/InfoDateBug.vue";
