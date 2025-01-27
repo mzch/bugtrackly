@@ -14,7 +14,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getAll() :Collection
     {
-        return User::all();
+        return User::orderBy('first_name', 'asc')->orderBy('last_name','asc')->get();
     }
 
     public function getUserById($user_id): User
