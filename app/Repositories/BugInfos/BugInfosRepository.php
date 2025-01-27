@@ -22,7 +22,11 @@ class BugInfosRepository implements BugInfosRepositoryInterface
     {
         $jsonContent = Storage::get($this->bugStatusFile);
         $data = json_decode($jsonContent, true);
-        $collection = collect($data['status'] ?? []);
+        $status = $data['status'];
+        foreach ($status as &$s) {
+            $s['label'] = __('bugtrackly.bug_status_' . $s['slug']);
+        }
+        $collection = collect($status ?? []);
         if(!$with_children){
             return $collection;
         }

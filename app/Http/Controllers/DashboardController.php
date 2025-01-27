@@ -27,7 +27,6 @@ class DashboardController extends Controller
             'status'    => 'in:all,new,accepted,rejected,in_progress,resolved,closed,reopened',
         ]);
 
-
         $data = [
             'projects' => $projects,
             'followed_bugs' => $this->bug_repository->getAllFollowedBugsPaginated($request),

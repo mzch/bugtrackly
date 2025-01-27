@@ -9,11 +9,11 @@
               </div>
           </div>
       </Card>
-      <Card card-title="Liste des bug suivis" :remove-body-padding="true" v-if="followed_bugs.data.length || has_filter_active">
+      <Card :card-title="trans('dashboard.followed_bug_title')" :remove-body-padding="true" v-if="followed_bugs.data.length || has_filter_active">
           <template #cardHeaderAction>
               <template v-if="projects_options.length > 2">
               <InputLabel for="project_filter" class="col-auto col-form-label col-form-label-sm">
-                  Projets :
+                  {{trans('bugs_list.filters.projects')}}
               </InputLabel>
               <FormSelect id="project_filter"
                           class="col-auto form-select-sm w-auto me-1"
@@ -22,7 +22,7 @@
                           v-model="params.project"/>
               </template>
               <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                  Priorité :
+                  {{trans('bugs_list.filters.priority')}}
               </InputLabel>
               <FormSelect id="priority_filter"
                           class="col-auto form-select-sm w-auto me-1"
@@ -31,7 +31,7 @@
                           v-model="params.priority"/>
 
               <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                  Status :
+                  {{trans('bugs_list.filters.status')}}
               </InputLabel>
               <FormSelect id="priority_filter"
                           class="col-auto form-select-sm w-auto me-1"
@@ -41,10 +41,10 @@
 
               <InputLabel for="search_user"
                           class="col-form-label col-form-label-sm text-end col-auto">
-                  Rechercher un bug :
+                  {{trans('bugs_list.filters.search')}}
               </InputLabel>
               <div class="col-auto">
-                  <TextInput type="search" id="search_user" v-model="params.search" placeholder="Numéro ou titre"
+                  <TextInput type="search" id="search_user" v-model="params.search" :placeholder="trans('bugs_list.filters.search_placeholder')"
                              class="form-control-sm" autofocus/>
               </div>
 
@@ -54,12 +54,12 @@
               <thead>
                   <tr>
                       <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
-                      <th :class="sortingClass('project', params)" @click="sort('project')">Projet</th>
-                      <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
-                      <th :class="sortingClass('status', params)" @click="sort('status')">Statut</th>
-                      <th style="width: 200px">Assigné à</th>
-                      <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
-                      <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
+                      <th :class="sortingClass('project', params)" @click="sort('project')">{{ trans('bugs_list.headings.project') }}</th>
+                      <th :class="sortingClass('title', params)" @click="sort('title')">{{ trans('bugs_list.headings.title') }}</th>
+                      <th :class="sortingClass('status', params)" @click="sort('status')">{{ trans('bugs_list.headings.status') }}</th>
+                      <th style="width: 200px">{{ trans('bugs_list.headings.assigned') }}</th>
+                      <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">{{ trans('bugs_list.headings.priority') }}</th>
+                      <th :class="sortingClass('date', params)" @click="sort('date')">{{ trans('bugs_list.headings.date') }}</th>
                   </tr>
               </thead>
               <tbody>
@@ -182,7 +182,7 @@ const priorities_options = computed(() => {
 const status_options = computed(() => {
     const status = props.bug_status || [];
     const status_opt = status.map(s => ({id: s.slug, label: s.label}));
-    return [...[{id: 'all', label: 'Tous'}, {id: null, label: 'Ouvert'}], ...status_opt];
+    return [...[{id: 'all', label: trans('bug_status_all')}, {id: null, label: trans('bug_status_opened')}], ...status_opt];
 });
 const no_result = computed(() => filters.value.search !== null ? "Aucun bug suivi trouvé" : "Aucun bug suivi enregistré")
 /**
