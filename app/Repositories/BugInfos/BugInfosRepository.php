@@ -55,7 +55,12 @@ class BugInfosRepository implements BugInfosRepositoryInterface
     {
         $jsonContent = Storage::get($this->bugPrioritiesFile);
         $data = json_decode($jsonContent, true);
-        return collect($data['priorities'] ?? []);
+        $priorities = $data['priorities'];
+        foreach ($priorities as &$p) {
+            $p['label'] = __('bugtrackly.bug_priority_' . $p['slug']);
+            $p['extended_label'] = __('bugtrackly.bug_priority_' . $p['slug'] . '_extended');
+        }
+        return collect($priorities ?? []);
     }
 
     public function getBugPriorityById($id):array
