@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\TranslationHelper;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -31,6 +33,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $current_user = $request->user();
+        $locale = app()->getLocale();
         if($current_user) {
             $current_user->load(['projects' => function ($query) {
                 $query->orderBy('name', 'asc');
@@ -47,6 +50,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $current_user,
             ],
+            'locale' => function () use ($locale) {
+                return $locale;
+            },
+            'translations' => function () use ($locale) {
+                return TranslationHelper::getTranslations($locale); // Charge les traductions
+            },
             'app_url' => config('app.url'),
             'baseline' => config('bugtrackly.baseline'),
             'app_version' => config('app.version'),
