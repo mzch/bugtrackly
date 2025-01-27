@@ -14,10 +14,7 @@ class DashboardController extends Controller
         protected BugRepositoryInterface $bug_repository,
         protected BugInfosRepositoryInterface $bug_status_repository,
     )
-    {
-
-        $this->addBreadcrumb('Gestion des projets', route('settings.projects.index'));
-    }
+    {}
     public function index(Request $request){
         $projects = $this->project_repository->getProjectsForCurrentUser($request);
         $project_slug = $projects->pluck('slug')->toArray();

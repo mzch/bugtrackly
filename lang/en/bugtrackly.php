@@ -8,4 +8,5 @@ return [
     'menu.user.profile'      => 'My profile',
     'menu.user.back-admin'   => 'Back to Admin',
     'menu.user.logout'       => 'Log out',
+    'dashboard.title'       => 'Dashboard',
 ];

@@ -1,6 +1,6 @@
 <template>
   <AuthenticatedLayout page-title="Dashboard">
-    <template #header>Tableau de bord</template>
+    <template #header>{{trans('dashboard.title')}}</template>
 
       <Card class="mb-4">
           <div class="row justify-content-start">
@@ -137,6 +137,7 @@ import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
 import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
+import {trans} from "../Helpers/translations.js";
 
 const props = defineProps({
     projects:{

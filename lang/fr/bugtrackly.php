@@ -8,4 +8,5 @@ return [
     'menu.user.profile'      => 'Mon profil',
     'menu.user.back-admin'   => 'Retour Admin',
     'menu.user.logout'       => 'Se déconnecter',
+    'dashboard.title'       => 'Tableau de bord',
 ];
