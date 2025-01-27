@@ -4,12 +4,15 @@ namespace App\Http\Middleware;
 
 use App\Helpers\TranslationHelper;
 use App\Models\User;
+use App\Repositories\Locales\LocaleRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+
+    public function __construct(protected LocaleRepository $localeRepository){}
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -50,8 +53,11 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $current_user,
             ],
-            'locale' => function () use ($locale) {
+            'current_locale' => function () use ($locale) {
                 return $locale;
+            },
+            'available_locales' => function ()  {
+                return $this->localeRepository->getAllLocales();
             },
             'translations' => function () use ($locale) {
                 return TranslationHelper::getTranslations($locale); // Charge les traductions
