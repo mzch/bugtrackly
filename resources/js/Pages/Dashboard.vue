@@ -135,7 +135,7 @@
                 <p class="mb-0 text-center">{{ no_result }}</p>
             </div>
             <template #cardFooter>
-                <Pagination :items="followed_bugs" item-singular-name="bug suivi" item-plural-name="bugs suivis"/>
+                <Pagination :items="followed_bugs" item-translated-key="dashboard.followed_bug_pagination"/>
             </template>
         </Card>
     </AuthenticatedLayout>
@@ -160,7 +160,7 @@ import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
 import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
-import {trans} from "../Helpers/translations.js";
+import {trans, trans_choice} from "../Helpers/translations.js";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {hasRole} from "@/Helpers/users.js";
 
