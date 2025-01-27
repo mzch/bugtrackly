@@ -3,7 +3,7 @@
     <template #header>{{trans('dashboard.title')}}</template>
 
       <Card class="mb-4">
-          <div class="row justify-content-start">
+          <div class="row justify-content-start g-4">
               <div class="col-lg-4" v-for="project in projects">
                   <CardProject :project="project"/>
               </div>
