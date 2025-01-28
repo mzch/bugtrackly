@@ -18,14 +18,14 @@
             <div class="d-flex align-items-center">
                 <Avatar :user="option" class="me-1 bordered"/>
                 {{ option.full_name }}
-                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">{{ trans('general.administrator_label') }}</span>
+                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">{{ trans('general.admin_label') }}</span>
             </div>
         </template>
         <template #selected-option="option">
             <div class="d-flex align-items-center">
                 <Avatar :user="option" class="me-1 bordered"/>
                 {{ option.full_name }}
-                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">{{ trans('general.administrator_label') }}</span>
+                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">{{ trans('general.admin_label') }}</span>
             </div>
         </template>
     </v-select>

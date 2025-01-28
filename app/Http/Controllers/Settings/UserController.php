@@ -26,7 +26,7 @@ class UserController extends SettingsController
         protected UserRepositoryInterface              $usersRepository)
     {
         parent::__construct();
-        $this->addBreadcrumb('Utilisateurs', route('settings.users.index'));
+        $this->addBreadcrumb(__('bugtrackly.settings.users_title'), route('settings.users.index'));
     }
 
     /**

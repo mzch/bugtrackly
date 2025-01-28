@@ -1,25 +1,24 @@
 <template>
-    <Card card-title="Liste des utilisateurs" :remove-body-padding="true">
+    <Card :card-title="trans('settings.users.list_title' )" :remove-body-padding="true">
         <template #cardHeaderAction>
             <InputLabel for="search_user"
                         class="ms-auto col-sm-6 col-lg-8 col-xl-10 col-form-label col-form-label-sm text-end">
-                Rechercher un utilisateur :
+                {{ trans('settings.users.search_label') }}
             </InputLabel>
             <div class="col-sm-6 col-lg-4 col-xl-2">
-                <TextInput type="search" id="search_user" v-model="params.search" placeholder="Nom, prénom ou email" class="form-control-sm" autofocus/>
+                <TextInput type="search" id="search_user" v-model="params.search" :placeholder="trans('settings.users.search_placeholder')" class="form-control-sm" autofocus/>
             </div>
         </template>
         <template #cardFooter>
-            <Pagination :items="allUsers" item-singular-name="utilisateur" item-plural-name="utilisateurs"/>
+            <Pagination item-translated-key="settings.users.pagination" :items="allUsers" item-singular-name="utilisateur" item-plural-name="utilisateurs"/>
         </template>
         <div class="table-responsive" v-if="allUsers.data.length">
         <table class="table table-bordered table-hover mb-0 caption-top" >
             <thead>
             <tr>
-                <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
-                <th :class="sortingClass('email', params)" @click="sort('email')">Email</th>
-                <th :class="sortingClass('role', params)" @click="sort('role')">Rôle</th>
-
+                <th :class="sortingClass('name', params)" @click="sort('name')">{{ trans('settings.users.column.name') }}</th>
+                <th :class="sortingClass('email', params)" @click="sort('email')">{{ trans('settings.users.column.email') }}</th>
+                <th :class="sortingClass('role', params)" @click="sort('role')">{{ trans('settings.users.column.role') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -34,21 +33,21 @@
                                 <Link class="fw-bold" :href="route('settings.users.show', user.id)">
                                     {{ user.full_name }}
                                 </Link>
-                                <small class="ms-1 fw-normal text-secondary text-decoration-none" v-if="user.id === $page.props.auth.user.id">(moi)</small>
+                                <small class="ms-1 fw-normal text-secondary text-decoration-none" v-if="user.id === $page.props.auth.user.id">({{ trans('settings.users.me') }})</small>
                             </div>
                             <div class="row-actions">
-                                <Link :href="route('settings.users.show', user.id)">Modifier</Link>
+                                <Link :href="route('settings.users.show', user.id)">{{ trans('general.modify_action') }}</Link>
 
                                 <template v-if="$page.props.auth.user.id !== user.id">
                                     <span class="mx-1 text-gray">|</span>
                                     <button class="btn btn-sm btn-sm border-0 p-0 btn-link text-danger"
                                             @click="store.commit('usersManagement/setUserToDelete', user)" type="button">
-                                        Supprimer
+                                        {{ trans('general.delete_action') }}
                                     </button>
                                     <span class="mx-1 text-gray">|</span>
                                     <button class="btn btn-sm btn-sm border-0 p-0 btn-link"
                                             @click="store.commit('usersManagement/setUserToConnectAs', user)" type="button">
-                                        Se connecter comme
+                                        {{ trans('settings.users.connect_as') }}
                                     </button>
                                 </template>
                             </div>
@@ -81,6 +80,7 @@ import BadgeRole from "@/Components/ui/user/BadgeRole.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {pickBy, throttle} from "lodash";
 import {useStore} from "vuex";
+import {trans} from "@/Helpers/translations.js";
 const store = useStore();
 
 
