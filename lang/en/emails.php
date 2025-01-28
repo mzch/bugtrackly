@@ -11,4 +11,13 @@ return [
     'welcome.connect_label' => 'Sign in',
     'account.subject' => 'Changes to your :app_name account!',
     'account.msg' => 'Your password has been changed by an administrator; you can now connect to the platform using the following identifiers:',
+    'bug.created.title'         => 'A bug has been submitted.',
+    'bug.created.reported_by'   => 'Reported by:',
+    'bug.created.priority'      => 'Priority:',
+    'bug.created.status'        => 'Status:',
+    'bug.created.assigned_to'   => 'Assigned to:',
+    'bug.created.attachedFiles' => 'attached files:',
+    'bug.created.attachedFile'  => 'attached file:',
+    'bug.created.bug_title'     => 'Title',
+    'bug.created.show_bug'      => 'See the bug',
 ];
