@@ -1,6 +1,8 @@
 <?php
 return [
     'general.politeness' => 'Kind regards,',
+    'general.footer'              => 'This e-mail has been generated automatically. Please do not reply to it directly. If you have any questions, please contact us at :address.',
+    'general.footer_html'         => 'This e-mail has been generated automatically. Please do not reply to it directly. If you have any questions, please contact us at <a href=‘mailto::address’>:address</a>.',
     'welcome.subject' => 'Welcome to :app_name !',
     'welcome.title' => 'Hello :name,',
     'welcome.welcome_mg' => 'Welcome to **:app_name** !',
