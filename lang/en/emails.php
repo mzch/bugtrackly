@@ -20,4 +20,13 @@ return [
     'bug.created.attachedFile'  => 'attached file:',
     'bug.created.bug_title'     => 'Title',
     'bug.created.show_bug'      => 'See the bug',
+    'bug.updated.add_note'        => '**:user** added a note to this bug.',
+    'bug.updated.update_bug'      => '**:user** has just modified the bug.',
+    'bug.updated.bug'             => 'Bug:',
+    'bug.updated.date_format'     => 'j F Y \a\t h:iA',
+    'bug.updated.date_note'       => 'Note created on :date',
+    'bug.updated.date_bug'        => 'Bug modified on :date',
+    'bug.updated.change_status'   => 'Status changed from **:old** to **:new**',
+    'bug.updated.change_priotity' => 'Priority changed from **:old** to **:new**',
+    'bug.updated.no_assigned'     => 'None',
 ];
