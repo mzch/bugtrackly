@@ -23,8 +23,7 @@
                 <footer class="mt-auto text-secondary py-3 text-end">
                     <small>
                         <span class="opacity-75" v-if="usePage().props.baseline">{{ usePage().props.baseline }} - </span>
-                        <LanguageSwitcher/>
-                        -
+                        
                         © 2024 BugTrackly - Version {{ usePage().props.app_version }}
                     </small>
                 </footer>

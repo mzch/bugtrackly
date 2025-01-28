@@ -8,6 +8,7 @@ import FormField from "@/Components/ui/form/FormField.vue";
 import {computed, nextTick} from "vue";
 import Card from "@/Components/ui/Card.vue";
 import FormCard from "@/Components/ui/FormCard.vue";
+import {trans} from "@/Helpers/translations.js";
 
 defineProps({
     mustVerifyEmail: {
@@ -37,21 +38,21 @@ const submitFormHandler = () => {
 </script>
 
 <template>
-    <FormCard :submit-handler-fn-callback="submitFormHandler" card-title="Informations sur le profil">
+    <FormCard :submit-handler-fn-callback="submitFormHandler" :card-title="trans('profile.profil_info.title')">
         <p class="text-secondary">
-            Mettez à jour les informations de profil et l'adresse électronique de votre compte.
+            {{trans('profile.profil_info.desc')}}
         </p>
             <FormField class="form-floating">
                 <TextInput
                     id="first_name"
                     type="text"
-                    placeholder="Votre prénom"
+                    :placeholder="trans('profile.profil_info.first_name')"
                     v-model="form.first_name"
                     required
                     autofocus
                     autocomplete="name"
                     :class="{'is-invalid' :form.errors.first_name}"/>
-                <InputLabel for="first_name" value="Votre prénom" />
+                <InputLabel for="first_name" :value="trans('profile.profil_info.first_name')" />
                 <InputError :message="form.errors.first_name" />
             </FormField>
 
@@ -59,13 +60,13 @@ const submitFormHandler = () => {
                 <TextInput
                     id="last_name"
                     type="text"
-                    placeholder="Votre nom"
+                    :placeholder="trans('profile.profil_info.last_name')"
                     v-model="form.last_name"
                     required
                     autofocus
                     autocomplete="name"
                     :class="{'is-invalid' :form.errors.last_name}"/>
-                <InputLabel for="name" value="Votre nom" />
+                <InputLabel for="name" :value="trans('profile.profil_info.last_name')" />
                 <InputError :message="form.errors.last_name" />
             </FormField>
 
@@ -73,18 +74,18 @@ const submitFormHandler = () => {
                 <TextInput
                     id="email"
                     type="email"
-                    placeholder="Votre adresse email"
+                    :placeholder="trans('profile.profil_info.email')"
                     v-model="form.email"
                     required
                     autocomplete="username"
                     :class="{'is-invalid' :form.errors.email}"/>
-                <InputLabel for="email" value="Votre adresse email" />
+                <InputLabel for="email" :value="trans('profile.profil_info.email')" />
                 <InputError :message="form.errors.email" />
             </FormField>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 mb-0 text-sm text-warning">
-                    <strong>Attention</strong>, votre adresse électronique n'est pas vérifiée.
+                    <strong>{{ trans('profile.profil_info.warning') }}</strong>, {{trans('profile.profil_info.email_not_verified')}}
                     <Link
                         type="button"
                         :href="route('verification.send')"
@@ -92,7 +93,7 @@ const submitFormHandler = () => {
                         as="button"
                         class="btn btn-outline-primary btn-sm"
                     >
-                        Vérifier mon adresse email
+                        {{ trans('profile.profil_info.verify') }}
                     </Link>
                 </p>
 
@@ -100,19 +101,19 @@ const submitFormHandler = () => {
                     v-show="status === 'verification-link-sent'"
                     class="mt-1 mb-2 text-success"
                 >
-                    Un nouveau lien de vérification a été envoyé à votre adresse électronique.
+                    {{ trans('profile.profil_info.verify_msg') }}
                 </div>
             </div>
         <template #cardFooter>
             <div class="d-flex align-items-center justify-content-between">
-                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">{{ trans('general.save_action') }}</PrimaryButton>
                 <Transition
                     enter-active-class="transition-opacity"
                     enter-from-class="opacity-0"
                     leave-active-class="transition-opacity"
                     leave-to-class="opacity-0">
                     <p v-if="form.recentlySuccessful" class="mb-0 text-success fw-bold">
-                        Informations enregistrées !
+                        {{ trans('profile.profil_info.success') }}
                     </p>
                 </Transition>
             </div>

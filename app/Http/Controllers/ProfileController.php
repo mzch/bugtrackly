@@ -18,7 +18,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        $this->addBreadcrumb('Mon profil', false);
+        $this->addBreadcrumb(__('bugtrackly.profile.title'), false);
         $data = [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),

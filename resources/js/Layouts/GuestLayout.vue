@@ -14,7 +14,7 @@ import LanguageSwitcher from "@/Components/ui/LanguageSwitcher.vue";
                 <slot />
             </Card>
             <div class="text-center mt-3">
-                <LanguageSwitcher />
+                <LanguageSwitcher class="w-auto" id="bottom_ls"/>
             </div>
         </main>
     </div>
