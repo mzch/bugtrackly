@@ -3,15 +3,14 @@
         <template v-if="no_modified">{{ trans('general.publish') }}</template>
         <template v-else>{{ trans('general.lastModification') }}</template>
         <br>
-        {{trans('general.onDate')}}
-        {{ formatDate(project.updated_at, trans('general.date-with-hour')) }}
+        {{trans_params('general.onDate', formatDate(project.updated_at, trans('general.date-with-hour')))}}
     </p>
 </template>
 
 <script setup>
 import {computed} from "vue";
 import {formatDate} from "../../../Helpers/date.js";
-import {trans} from "../../../Helpers/translations.js";
+import {trans, trans_params} from "../../../Helpers/translations.js";
 
 const props = defineProps({
     project: {

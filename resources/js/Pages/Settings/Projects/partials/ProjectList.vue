@@ -1,24 +1,24 @@
 <template>
-    <Card card-title="Liste des projets" :remove-body-padding="true">
+    <Card :card-title="trans('settings.projects.list_title')" :remove-body-padding="true">
         <template #cardHeaderAction>
             <InputLabel for="search_user"
                         class="ms-auto col-sm-6 col-lg-8 col-xl-10 col-form-label col-form-label-sm text-end">
-                Rechercher un projet :
+                {{trans('settings.projects.search')}}
             </InputLabel>
             <div class="col-sm-6 col-lg-4 col-xl-2">
-                <TextInput type="search" id="search_user" v-model="params.search" placeholder="Nom du projet" class="form-control-sm" autofocus/>
+                <TextInput type="search" id="search_user" v-model="params.search" :placeholder="trans('settings.projects.search_placeholder')" class="form-control-sm" autofocus/>
             </div>
         </template>
         <template #cardFooter>
-            <Pagination :items="items" item-singular-name="projet" item-plural-name="projets" />
+            <Pagination :items="items" item-translated-key="settings.projects.pagination" />
         </template>
         <div class="table-responsive" v-if="items.data.length">
             <table class="table table-bordered table-hover mb-0 caption-top">
                 <thead>
                 <tr>
-                    <th :class="sortingClass('name', params)" @click="sort('name')">Nom</th>
-                    <th>Utilisateurs</th>
-                    <th class="date-col" :class="sortingClass('date', params)" @click="sort('date')">Date</th>
+                    <th :class="sortingClass('name', params)" @click="sort('name')">{{ trans('settings.projects.column.name') }}</th>
+                    <th>{{ trans('settings.projects.column.users') }}</th>
+                    <th class="date-col" :class="sortingClass('date', params)" @click="sort('date')">{{ trans('settings.projects.column.date') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,12 +30,12 @@
                                 </Link>
                             </div>
                             <div class="row-actions">
-                                <Link :href="route('settings.projects.show', item.id)">Modifier</Link>
+                                <Link :href="route('settings.projects.show', item.id)">{{ trans('general.modify_action') }}</Link>
                                 <span class="mx-1 text-gray">|</span>
                                 <button class="btn btn-sm btn-sm border-0 p-0 btn-link text-danger"
                                         @click="store.commit('projectsManagement/setProjectToDelete', item)"
                                         type="button">
-                                    Supprimer
+                                    {{ trans('general.delete_action') }}
                                 </button>
                             </div>
                         </td>
@@ -68,6 +68,7 @@ import {sortingClass} from "@/Helpers/datatable.js";
 import InfoProject from "@/Components/ui/project/InfoProject.vue";
 import {useStore} from "vuex";
 import AvatarsList from "@/Components/ui/user/AvatarsList.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const store = useStore();
 const items = computed(()=>usePage().props.projects);

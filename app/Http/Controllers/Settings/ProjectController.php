@@ -25,7 +25,7 @@ class ProjectController extends SettingsController
     )
     {
         parent::__construct();
-        $this->addBreadcrumb('Gestion des projets', route('settings.projects.index'));
+        $this->addBreadcrumb(__('bugtrackly.menu.settings.projects'), route('settings.projects.index'));
     }
 
     /**
