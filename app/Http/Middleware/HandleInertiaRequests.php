@@ -2,12 +2,17 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\TranslationHelper;
 use App\Models\User;
+use App\Repositories\Locales\LocaleRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
+
+    public function __construct(protected LocaleRepository $localeRepository){}
     /**
      * The root template that is loaded on the first page visit.
      *
@@ -31,6 +36,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $current_user = $request->user();
+        $locale = app()->getLocale();
         if($current_user) {
             $current_user->load(['projects' => function ($query) {
                 $query->orderBy('name', 'asc');
@@ -47,6 +53,15 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $current_user,
             ],
+            'current_locale' => function () use ($locale) {
+                return $locale;
+            },
+            'available_locales' => function ()  {
+                return $this->localeRepository->getAllLocales();
+            },
+            'translations' => function () use ($locale) {
+                return TranslationHelper::getTranslations($locale); // Charge les traductions
+            },
             'app_url' => config('app.url'),
             'baseline' => config('bugtrackly.baseline'),
             'app_version' => config('app.version'),

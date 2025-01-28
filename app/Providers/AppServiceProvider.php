@@ -6,6 +6,8 @@ use App\Repositories\BugInfos\BugInfosRepository;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
 use App\Repositories\Bugs\BugRepository;
 use App\Repositories\Bugs\BugRepositoryInterface;
+use App\Repositories\Locales\LocaleRepository;
+use App\Repositories\Locales\LocaleRepositoryInterface;
 use App\Repositories\Projects\ProjectRepository;
 use App\Repositories\Projects\ProjectRepositoryInterface;
 use App\Repositories\RolesPersmissions\RolesPermissionsRepository;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProjectRepositoryInterface::class, ProjectRepository::class);
         $this->app->bind(BugInfosRepositoryInterface::class, BugInfosRepository::class);
         $this->app->bind(BugRepositoryInterface::class, BugRepository::class);
+        $this->app->bind(LocaleRepositoryInterface::class, LocaleRepository::class);
     }
 
     /**

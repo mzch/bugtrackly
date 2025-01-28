@@ -1,6 +1,6 @@
 <template>
-    <FormCard card-title="Photo de profil" :submit-handler-fn-callback="submithandler">
-        <p class="form-text text-center">Personnalisez votre image de profil</p>
+    <FormCard :card-title="trans('settings.users.avatar.title')" :submit-handler-fn-callback="submithandler">
+        <p class="form-text text-center">{{ trans('profile.avatar.info') }}</p>
         <p class="text-center">
             <AvatarGravatar class="size-5" :user="fakeUser" :preview-upload-image="dataPhotoPreview"/>
         </p>
@@ -14,17 +14,19 @@
             @change="updatePhotoPreview"/>
         <div class="d-flex justify-content-center">
             <PrimaryButton outlined class="btn-with-icon btn-sm" @click.prevent="selectNewPhotoHandler">
-                <CameraIcon class="size-1 me-1"/>Importer une photo
+                <CameraIcon class="size-1 me-1"/>
+                {{trans('settings.users.avatar.import_photo')}}
             </PrimaryButton>
             <DangerButton outlined class="btn-with-icon btn-sm ms-2"
                           v-if="viewDeleteButton"
                           @click.prevent="removePreviewPhotoHandler">
-                <TrashIcon class="size-1 me-1"/>Supprimer
+                <TrashIcon class="size-1 me-1"/>
+                {{trans('general.delete_action')}}
             </DangerButton>
         </div>
         <template #cardFooter>
             <div class="d-flex align-items-center justify-content-between">
-                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">{{trans('general.save_action')}}</PrimaryButton>
                 <Transition
                     enter-active-class="transition-opacity ease-in-out"
                     enter-from-class="opacity-0"
@@ -49,6 +51,7 @@ import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import DangerButton from "@/Components/ui/form/DangerButton.vue";
 import FormCard from "@/Components/ui/FormCard.vue";
 import {generateInitials} from "@/Helpers/users.js";
+import {trans} from "@/Helpers/translations.js";
 
 const user = computed(() => usePage().props.auth.user);
 const photoInput = ref(null);

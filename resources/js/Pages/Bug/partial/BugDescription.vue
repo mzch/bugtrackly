@@ -12,7 +12,7 @@
                 <Avatar :user="bug.user" class="bordered me-2 "/>
                 <div class="d-flex flex-column">
                     <span class="fw-semibold me-1">{{ bug.user.full_name }}</span>
-                    <span class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, "d MMMM yyyy à HH'h'mm") }}</span>
+                    <span class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(bug.created_at, trans('general.date-with-hour')) }}</span>
                 </div>
             </div>
             <div v-if="canModifyBug || canModifyBug" :style="{pointerEvents:!editing_bug_description ? 'auto' : 'none'}" class="position-relative z-3" @mouseenter="showBugSubMenuHandler" @mouseleave="hideBugSubMenuHandler">
@@ -26,12 +26,12 @@
                 <div v-show="show_bug_submenu" class="actions_bug">
                     <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2 w-100"
                                      @click="click_edit_bug_handler" v-if="canModifyBug">
-                        Modifier le bug
+                        {{trans('bug.show.update_label')}}
                     </SecondaryButton>
                     <DangerButton :disabled="editing_bug_description" class="btn-sm w-100 mt-1"
                                   v-if="canDeleteBug"
                                   @click="click_delete_bug_handler">
-                        Supprimer ce bug
+                        {{trans('bug.show.delete_label')}}
                     </DangerButton>
                 </div>
             </div>
@@ -46,22 +46,22 @@
                     <TextInput v-model="form.title"
                                class="form-control-lg"
                                :class="{'is-invalid' :form.errors.title}"
-                               placeholder="Titre du bug"
+                               :placeholder="trans('bug.form.title_label')"
                                autofocus
                                required
                                maxlength="255"/>
-                    <InputLabel for="bug_title" value="Titre du bug"/>
+                    <InputLabel for="bug_title" :value="trans('bug.form.title_label')"/>
                     <InputError :message="form.errors.title"/>
                 </FormField>
                 <FormField class="form-floating">
                     <TextArea
                         id="bug_desc"
-                        placeholder="Description"
+                        :placeholder="trans('bug.form.desc_label')"
                         v-model.trim="form.content"
                         required
                         style="height: 200px"
                         :class="{'is-invalid' :form.errors.content}"/>
-                    <InputLabel for="bug_desc" value="Description"/>
+                    <InputLabel for="bug_desc" :value="trans('bug.form.desc_label')"/>
                     <InputError :message="form.errors.content"/>
                 </FormField>
             </div>
@@ -75,11 +75,11 @@
                              type="button"
                              outlined
                              @click="cancelEditingBugHandler">
-                Annuler
+                {{ trans('general.cancel_action') }}
             </SecondaryButton>
             <PrimaryButton class="btn-sm"
                            :disabled="!form.isDirty || form.processing"
-                           @click="editBugHandler">Valider</PrimaryButton>
+                           @click="editBugHandler">{{ trans('general.save_action') }}</PrimaryButton>
         </div>
     </template>
     <template #cardFooter v-if="show_card_footer">
@@ -127,6 +127,7 @@ import BagdeStatusBug from "@/Components/ui/bug/BagdeStatusBug.vue";
 import BugFollowers from "@/Components/ui/bug/BugFollowers.vue";
 import UserAvatar from "@/Pages/Settings/Users/partials/form/UserAvatar.vue";
 import BugAssignedUser from "@/Components/ui/bug/BugAssignedUser.vue";
+import {trans} from "../../../Helpers/translations.js";
 const store = useStore();
 const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
 const props = defineProps({

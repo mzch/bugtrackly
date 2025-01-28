@@ -21,7 +21,7 @@ abstract class Controller
      */
     protected function render($component, array $component_data = []): Response
     {
-        array_unshift($this->breadcrumb, ['name' => 'Accueil', 'url' => route('dashboard')]);
+        array_unshift($this->breadcrumb, ['name' => __('bugtrackly.menu.home'), 'url' => route('dashboard')]);
         $additionalData = [
             'breadcrumb' => $this->breadcrumb,
         ];

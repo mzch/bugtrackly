@@ -14,10 +14,7 @@ class DashboardController extends Controller
         protected BugRepositoryInterface $bug_repository,
         protected BugInfosRepositoryInterface $bug_status_repository,
     )
-    {
-
-        $this->addBreadcrumb('Gestion des projets', route('settings.projects.index'));
-    }
+    {}
     public function index(Request $request){
         $projects = $this->project_repository->getProjectsForCurrentUser($request);
         $project_slug = $projects->pluck('slug')->toArray();
@@ -29,7 +26,6 @@ class DashboardController extends Controller
             'project'   => 'in:' . implode(',', $project_slug),
             'status'    => 'in:all,new,accepted,rejected,in_progress,resolved,closed,reopened',
         ]);
-
 
         $data = [
             'projects' => $projects,

@@ -5,7 +5,7 @@
                 <Avatar :user="response.user" class="bordered me-2"/>
                 <div class="d-flex flex-column">
                     <span class="fw-semibold me-1">{{ response.user?.full_name || "Utilisateur supprimé" }}</span>
-                    <span class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(response.created_at, "d MMMM yyyy à HH'h'mm") }}</span>
+                    <span class="text-sm text-secondary mb-0 opacity-75">{{ formatDate(response.created_at, trans('general.date-with-hour')) }}</span>
                 </div>
 
             </div>
@@ -21,11 +21,15 @@
                     <SecondaryButton class="btn-sm w-100"
                                      :disabled="editingResponse"
                                      @click="updateResponseHandler"
-                                     v-if="canUpdateResponse">Modifier la note</SecondaryButton>
+                                     v-if="canUpdateResponse">
+                        {{trans('bug.notes.update_label')}}
+                    </SecondaryButton>
                     <DangerButton class="btn-sm mt-1 w-100"
                                   :disabled="editingResponse"
                                   @click="store.commit('bug/setBugResponseToDelete', response)"
-                                  v-if="canDeleteSingleResponse">Supprimer la note</DangerButton>
+                                  v-if="canDeleteSingleResponse">
+                        {{trans('bug.notes.delete_label')}}
+                    </DangerButton>
                 </div>
             </div>
         </div>
@@ -37,12 +41,12 @@
                 <FormField class="form-floating flex-grow-1 mb-2">
                     <TextArea
                         id="bug_desc"
-                        placeholder="Description"
+                        :placeholder="trans('bug.form.desc_label')"
                         v-model.trim="form.content"
                         required
                         style="height: 100%; min-height: 200px"
                         :class="{'is-invalid' :form.errors.content}"/>
-                    <InputLabel for="bug_desc" value="Description"/>
+                    <InputLabel for="bug_desc" :value="trans('bug.form.desc_label')"/>
                     <InputError :message="form.errors.content"/>
                 </FormField>
             </div>
@@ -55,11 +59,13 @@
                              type="button"
                              outlined
                              @click="cancelEditingResponseHandler">
-                Annuler
+                {{ trans('general.cancel_action') }}
             </SecondaryButton>
             <PrimaryButton class="btn-sm"
                            :disabled="!form.isDirty || form.processing"
-                           @click="submitEditResponseHandler">Valider</PrimaryButton>
+                           @click="submitEditResponseHandler">
+                {{ trans('general.save_action') }}
+            </PrimaryButton>
         </div>
         </template>
         <template #cardFooter v-if="response.files.length">
@@ -89,6 +95,7 @@ import {EllipsisVerticalIcon} from "@heroicons/vue/24/solid/index.js";
 import MarkdownRenderer from "@/Components/ui/MarkdownRenderer.vue";
 import RelatedFiles from "@/Components/ui/bug/RelatedFiles.vue";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
+import {trans} from "../../../Helpers/translations.js";
 
 const store = useStore()
 const props = defineProps({

@@ -1,30 +1,30 @@
 <template>
-    <Card card-title="Utilisateurs du projet">
+    <Card :card-title="trans('settings.projects.form.users_title')">
         <div class="row">
             <div class="col-lg-6">
-                <h5>Administrateurs :</h5>
+                <h5>{{ trans('settings.projects.form.admin_label') }}</h5>
                 <ul class="mb-O list-inline" v-if="admin_for_project.length">
                     <li class="list-inline-item" v-for="user in admin_for_project" :key="user.id">
                         <ButtonUserAvatar :user="user" class="mb-1" @click="remove_user(user.id)"/>
                     </li>
                 </ul>
-                <p v-else class="text-secondary text-sm">Aucun administrateur ajouté à ce projet</p>
-                <h5>Rapporteurs :</h5>
+                <p v-else class="text-secondary text-sm">{{ trans('settings.projects.form.no_admin_alert') }}</p>
+                <h5>{{ trans('settings.projects.form.reporter_label') }}</h5>
                 <ul class="mb-O list-inline" v-if="reporter_for_project.length">
                     <li class="list-inline-item" v-for="user in reporter_for_project" :key="user.id">
                         <ButtonUserAvatar :user="user" class="mb-1" @click="remove_user(user.id)"/>
                     </li>
                 </ul>
-                <p v-else class="text-secondary text-sm">Aucun rapporteur ajouté à ce projet</p>
+                <p v-else class="text-secondary text-sm">{{ trans('settings.projects.form.no_reporter_alert') }}</p>
                 <p class="text-secondary text-sm mb-0" v-if="admin_for_project.length || reporter_for_project.length">
-                    Afin de supprimer un utilisateur du projet, cliquez sur son nom dans la liste ci-dessus.
+                    {{trans('settings.projects.form.user_remove_help')}}
                 </p>
             </div>
             <div class="col-lg-6">
-                <h5>Liste des utilisateurs</h5>
+                <h5>{{ trans('settings.users.list_title') }}</h5>
 
                 <UserAvatarVSelect
-                    label="Sélectionnez des utilisateurs pour les ajouter au projet"
+                    :label="trans('settings.projects.form.select_user')"
                     id="vs-list-users"
                     v-model="user_selected"
                     :users="all_users"
@@ -41,6 +41,7 @@ import {computed, nextTick, ref, watch} from "vue";
 import {find} from "lodash";
 import ButtonUserAvatar from "@/Components/ui/form/ButtonUserAvatar.vue";
 import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const all_users = computed(()=> usePage().props.users);
 const props = defineProps({

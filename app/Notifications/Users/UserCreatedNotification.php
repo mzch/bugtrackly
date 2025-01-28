@@ -35,7 +35,7 @@ class UserCreatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Bienvenue sur BugTrackly !")
+            ->subject(__('emails.welcome.subject', ['app_name' => config('app.name')]))
             ->markdown('emails.user.created', [
                 'notifiable' => $notifiable,
                 'password' => $this->password,

@@ -61,17 +61,19 @@ class AuthenticatedSessionController extends Controller
     public function backToAdminUser(Request $request): RedirectResponse
     {
         $adminUserId = $request->session()->get('admin_user_id', false);
+        $old_locale = session('locale');
         if($adminUserId !== false) {
             $newUser = User::find($adminUserId);
             session()->flush();
+            session()->put('locale', $old_locale);
             Auth::login($newUser);
 
-            $flashSuccess = [
-                "title" => "Connecté !",
-                "text"  => "Bon retour <strong>" . e($newUser->full_name) . "</strong>."
+            $flash_notification = [
+                "title" => __('flash_bugtrackly.user_back_admin_title'),
+                "text"  => __('flash_bugtrackly.user_back_admin_desc', ['user' => $newUser->full_name]),
             ];
 
-            return to_route('settings.users.index')->with('success', $flashSuccess);;
+            return to_route('settings.users.index')->with('success', $flash_notification);;
         }
 
 

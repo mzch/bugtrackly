@@ -1,25 +1,25 @@
 <x-mail::message>
-Un bug a été soumis.
+{{__('emails.bug.created.title')}}
 
 ---
-- Rapportée par: **{{$bug->user->full_name}}**
-- Priorité : **{{$priority['label']}}**
-- Status : **{{$status['label']}}**
+- {{__('emails.bug.created.reported_by')}} **{{$bug->user->full_name}}**
+- {{__('emails.bug.created.priority')}} **{{$priority['label']}}**
+- {{__('emails.bug.created.status')}} **{{$status['label']}}**
 @if($bug->assigned_user_id)
-- Assignée à : **{{$bug->assigned_user->full_name}}**
+- {{__('emails.bug.created.assigned_to')}} **{{$bug->assigned_user->full_name}}**
 @endif
 @if($files && count($files) > 0)
 @if(count($files) > 1)
-- {{count($files)}} fichiers joints
+- {{count($files)}} {{__('emails.bug.created.attachedFiles')}}
 @else
-- 1 fichier joint :
+- 1 {{__('emails.bug.created.attachedFile')}}
 @endif
 @foreach($files as $file)
     - {{$file}}
 @endforeach
 @endif
 ---
-Titre :  **{{$bug->title}}**
+{{__('emails.bug.created.bug_title')}} :  **{{$bug->title}}**
 <div class="markdown">
     {!! Str::markdown($bugComment->content, [
         'html_input' => 'strip',
@@ -27,10 +27,9 @@ Titre :  **{{$bug->title}}**
     ]) !!}
 </div>
 <x-mail::button :url="route('projects.bug.show', ['project' => $project->slug, 'bug'=>$bug->id])">
-    Voir le bug
+    {{__('emails.bug.created.show_bug')}}
 </x-mail::button>
-....
 
-Cordialement,<br>
+{{__('emails.general.politeness')}}<br>
 {{ config('app.name') }}
 </x-mail::message>

@@ -21,5 +21,6 @@
 <script setup>
 import {usePage} from "@inertiajs/vue3";
 import { Link } from '@inertiajs/vue3';
-const breadcrumb = usePage().props.breadcrumb;
+import {computed} from "vue";
+const breadcrumb = computed(() => usePage().props.breadcrumb);
 </script>

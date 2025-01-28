@@ -26,6 +26,8 @@ class StoreProjectRequest extends FormRequest
             'slug' => ['required', 'string', 'max:255'],
             'short_desc' => ['required', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'users' => ['array'],
+            'users.*' => ['integer', 'exists:users,id'],
         ];
     }
 }

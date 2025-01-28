@@ -4,13 +4,13 @@
         <template #headerActions>
             <Link :href="route('projects.bug.create', project.slug)" class="btn btn-primary btn-with-icon btn-sm">
                 <PlusCircleIcon class="size-1 me-1"/>
-                Rapporter un nouveau bug
+                {{ trans('project.show.report_label') }}
             </Link>
         </template>
-        <Card card-title="Liste des bugs" :remove-body-padding="true">
+        <Card :card-title="trans('project.show.bug_list_title')" :remove-body-padding="true">
             <template #cardHeaderAction>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                    Priorité :
+                    {{ trans('bugs_list.filters.priority') }}
                 </InputLabel>
                 <FormSelect id="priority_filter"
                             class="col-auto form-select-sm w-auto me-1"
@@ -19,7 +19,7 @@
                             v-model="params.priority"/>
 
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                    Status :
+                    {{ trans('bugs_list.filters.status') }}
                 </InputLabel>
                 <FormSelect id="priority_filter"
                             class="col-auto form-select-sm w-auto me-1"
@@ -29,26 +29,34 @@
 
                 <InputLabel for="search_user"
                             class="col-form-label col-form-label-sm text-end col-auto">
-                    Rechercher un bug :
+                    {{ trans('bugs_list.filters.search') }}
                 </InputLabel>
                 <div class="col-auto">
-                    <TextInput type="search" id="search_user" v-model="params.search" placeholder="Numéro ou titre"
+                    <TextInput type="search" id="search_user" v-model="params.search" :placeholder="trans('bugs_list.filters.search_placeholder')"
                                class="form-control-sm" autofocus/>
                 </div>
             </template>
             <template #cardFooter>
-                <Pagination :items="bugs" item-singular-name="bug" item-plural-name="bugs"/>
+                <Pagination :items="bugs" item-translated-key="project.bug_list_pagination" />
             </template>
             <div class="table-responsive" v-if="bugs.data.length">
                 <table class="table table-bordered table-hover mb-0 caption-top">
                     <thead>
                     <tr>
                         <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
-                        <th :class="sortingClass('title', params)" @click="sort('title')">Titre</th>
-                        <th :class="sortingClass('status', params)" @click="sort('status')">Statut</th>
-                        <th>Assigné à</th>
-                        <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">Priorité</th>
-                        <th :class="sortingClass('date', params)" @click="sort('date')">Date</th>
+                        <th :class="sortingClass('title', params)" @click="sort('title')">
+                            {{ trans('bugs_list.headings.title') }}
+                        </th>
+                        <th :class="sortingClass('status', params)" @click="sort('status')">
+                            {{ trans('bugs_list.headings.status') }}
+                        </th>
+                        <th>{{ trans('bugs_list.headings.assigned') }}</th>
+                        <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">
+                            {{ trans('bugs_list.headings.priority') }}
+                        </th>
+                        <th :class="sortingClass('date', params)" @click="sort('date')">
+                            {{ trans('bugs_list.headings.date') }}
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -65,7 +73,10 @@
                                     {{ bug.title }}
                                 </Link>
 
-                                <small class="text-secondary"><ChatBubbleLeftIcon class="size-1"/> {{nb_notes_labels(bug)}}</small>
+                                <small class="text-secondary">
+                                    <ChatBubbleLeftIcon class="size-1"/>
+                                    {{trans_choice('bugs_list.nb_notes', nb_notes(bug.bug_comments_count))}}
+                                </small>
 
                             </p>
                         </td>
@@ -77,7 +88,7 @@
                                 <Avatar :user="bug.assigned_user" class="me-1 bordered"/>
                                 {{ bug.assigned_user.full_name }}
                             </div>
-                            <em class="mb-0 opacity-75" v-else>Non assigné</em>
+                            <em class="mb-0 opacity-75" v-else>{{ trans('bugs_list.not_assigned') }}</em>
                         </td>
                         <td class="align-middle">
                             <div class="priority rounded-pill"
@@ -122,6 +133,7 @@ import {StarIcon} from "@heroicons/vue/24/solid/index.js";
 import {bug_priority_class, getPriorityObject, nb_notes, nb_notes_labels} from "../../Helpers/bug.js";
 import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
+import {trans, trans_choice} from "../../Helpers/translations.js";
 
 const props = defineProps({
     project: {

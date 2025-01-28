@@ -1,14 +1,13 @@
 <template>
-    <FormCard card-title="Mot de passe" :submit-handler-fn-callback="updatePassword">
+    <FormCard :card-title="trans('auth.password' )" :submit-handler-fn-callback="updatePassword">
         <p class="text-secondary">
-            Veillez à ce que votre compte utilise un mot de passe long et aléatoire pour rester
-            sécurisé.
+            {{trans('profile.pwd.info')}}
         </p>
         <FormField class="form-floating">
             <TextInput
                 id="current_password"
                 ref="currentPasswordInput"
-                placeholder="Mot de passe actuel"
+                :placeholder="trans('settings.users.security.actual_pwd')"
                 v-model="form.current_password"
                 type="password"
                 autocomplete="current-password"
@@ -16,7 +15,7 @@
                 minlength="8"
                 :class="{'is-invalid' :form.errors.current_password}"
             />
-            <InputLabel for="current_password" value="Mot de passe actuel"/>
+            <InputLabel for="current_password" :value="trans('settings.users.security.actual_pwd')"/>
             <InputError :message="form.errors.current_password"/>
         </FormField>
 
@@ -26,13 +25,13 @@
                 ref="passwordInput"
                 v-model="form.password"
                 type="password"
-                placeholder="Nouveau mot de passe"
+                :placeholder="trans('settings.users.security.new_pwd')"
                 required
                 minlength="8"
                 :class="{'is-invalid' :form.errors.password}"
                 autocomplete="new-password"
             />
-            <InputLabel for="password" value="Nouveau mot de passe"/>
+            <InputLabel for="password" :value="trans('settings.users.security.new_pwd')"/>
             <InputError :message="form.errors.password"/>
         </FormField>
 
@@ -41,25 +40,25 @@
                 id="password_confirmation"
                 v-model="form.password_confirmation"
                 type="password"
-                placeholder="Confirmer le mot de passe"
+                :placeholder="trans('auth.password_confirmation')"
                 required
                 minlength="8"
                 :class="{'is-invalid' :form.errors.password_confirmation}"
                 autocomplete="new-password"
             />
-            <InputLabel for="password_confirmation" value="Confirmer le mot de passe"/>
+            <InputLabel for="password_confirmation" :value="trans('auth.password_confirmation')"/>
             <InputError :message="form.errors.password_confirmation"/>
         </FormField>
         <template #cardFooter>
             <div class="d-flex align-items-center justify-content-between">
-                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">Enregistrer</PrimaryButton>
+                <PrimaryButton type="submit" :disabled="form.processing || !form.isDirty">{{ trans('general.save_action') }}</PrimaryButton>
                 <Transition
                     enter-active-class="transition-opacity ease-in-out"
                     enter-from-class="opacity-0"
                     leave-active-class="transition-opacity ease-in-out"
                     leave-to-class="opacity-0">
                     <p v-if="form.recentlySuccessful" class="mb-0 text-success fw-bold">
-                        Votre nouveau mot de passe a été pris en compte.
+                        {{ trans('profile.pwd.change_info') }}
                     </p>
                 </Transition>
             </div>
@@ -76,6 +75,7 @@ import {useForm} from '@inertiajs/vue3';
 import {ref} from 'vue';
 import FormField from "@/Components/ui/form/FormField.vue";
 import FormCard from "@/Components/ui/FormCard.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);

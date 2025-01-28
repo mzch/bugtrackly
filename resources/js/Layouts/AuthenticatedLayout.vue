@@ -22,7 +22,8 @@
                 </main>
                 <footer class="mt-auto text-secondary py-3 text-end">
                     <small>
-                        <span class="opacity-75" v-if="usePage().props.baseline">{{ usePage().props.baseline }} -</span>
+                        <span class="opacity-75" v-if="usePage().props.baseline">{{ usePage().props.baseline }} - </span>
+                        
                         © 2024 BugTrackly - Version {{ usePage().props.app_version }}
                     </small>
                 </footer>
@@ -38,10 +39,13 @@ import MobileTopBar from "@/Components/layout/MobileTopBar.vue";
 import {Head, usePage} from '@inertiajs/vue3';
 import Breadcrumb from "@/Components/layout/Breadcrumb.vue";
 import FlashNotification from "@/Components/layout/FlashNotification.vue";
+import LanguageSwitcher from "@/Components/ui/LanguageSwitcher.vue";
+
 defineProps({
     pageTitle: {
         type: String,
         required: true
     },
 });
+
 </script>

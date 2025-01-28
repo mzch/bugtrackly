@@ -3,13 +3,13 @@
         <template #header>
             {{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
             <button type="button"
-                    title="En suivant ce bug vous serez notifié par email de la progression de celui-ci"
+                    :title="trans('bug.show.tracking_desc')"
                     class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
                     @click="toggleFollowBug()"
                     :disabled="form.processing"
                     v-if="!isFollowing">
                 <PlusIcon class="size-1 me-1"/>
-                Suivre ce bug
+                {{ trans('bug.show.tracking_label') }}
             </button>
             <button type="button"
                     title="Ne plus suivre ce bug"
@@ -18,33 +18,33 @@
                     :disabled="form.processing"
                     v-else>
                 <CheckIcon class="size-1 me-1"/>
-                Bug suivi
+                {{ trans('bug.show.tracked_label') }}
             </button>
 
         </template>
         <template #headerActions>
             <Link :href="route('projects.bug.create', project.slug)" class="btn btn-primary btn-with-icon btn-sm">
                 <PlusCircleIcon class="size-1 me-1"/>
-                Rapporter un nouveau bug
+                {{ trans('project.show.report_label') }}
             </Link>
         </template>
 
         <BugDescription :bug="bug" :project="project" :is-following="isFollowing"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
-        <Card card-title="Historique" remove-body-padding>
+        <Card :card-title="trans( 'bug.history.title')" remove-body-padding>
             <table class="table table-bordered table-sm text-sm">
                 <thead>
                 <tr>
-                    <th>Date de modification</th>
-                    <th>Utilisateur</th>
-                    <th>Changement</th>
-                    <th>Détail</th>
+                    <th>{{trans( 'bug.history.updated_at')}}</th>
+                    <th>{{trans( 'bug.history.user')}}</th>
+                    <th>{{trans( 'bug.history.change')}}</th>
+                    <th>{{trans( 'bug.history.detail')}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="log in bug.bug_logs" :key="log.id">
-                    <td>{{ formatDate(log.created_at, "d MMMM yyyy à HH'h'mm") }}</td>
+                    <td>{{ formatDate(log.created_at, trans('general.date-with-hour')) }}</td>
                     <td>{{log.user.full_name}}</td>
                     <td>{{log.action}}</td>
                     <td>{{log.details}}</td>
@@ -70,6 +70,7 @@ import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 import {CheckIcon, PlusIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import {router, useForm, Link} from "@inertiajs/vue3";
+import {trans} from "@/Helpers/translations.js";
 
 const props = defineProps({
     project: {

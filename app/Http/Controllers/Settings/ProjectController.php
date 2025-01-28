@@ -25,7 +25,7 @@ class ProjectController extends SettingsController
     )
     {
         parent::__construct();
-        $this->addBreadcrumb('Gestion des projets', route('settings.projects.index'));
+        $this->addBreadcrumb(__('bugtrackly.menu.settings.projects'), route('settings.projects.index'));
     }
 
     /**
@@ -57,8 +57,11 @@ class ProjectController extends SettingsController
      */
     public function create()
     {
-        $this->addBreadcrumb('Création', route('settings.projects.create'));
-        return $this->render('Settings/Projects/ProjectCreate');
+        $this->addBreadcrumb(__('bugtrackly.settings.projects.create.title'), route('settings.projects.create'));
+        $data = [
+            'users'   => $this->user_repository->getAll()->makeHidden('role')
+        ];
+        return $this->render('Settings/Projects/ProjectCreate',$data);
     }
 
     /**
@@ -77,9 +80,10 @@ class ProjectController extends SettingsController
         if ($photo = $request->validated("photo")) {
             $project->updateProjectPhoto($photo);
         }
+        $project->users()->sync($validated['users']);
         $flash_notification = [
-            "title" => "Projet crée",
-            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été créé."
+            "title" => __('flash_bugtrackly.project_created_title'),
+            "text" => __('flash_bugtrackly.project_created_desc', ['project_name' => $project->name]),
         ];
         return to_route('settings.projects.index')->with('success', $flash_notification);
     }
@@ -90,7 +94,7 @@ class ProjectController extends SettingsController
     public function show(Project $project)
     {
         $project->load('users');
-        $this->addBreadcrumb('Édition', route('settings.projects.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.projects.edit.breadcrumb'), route('settings.projects.create'));
         $data = [
             'project' => $project,
             'users'   => $this->user_repository->getAll()->makeHidden('role')
@@ -121,12 +125,10 @@ class ProjectController extends SettingsController
         }
 
         $flash_notification = [
-            "title" => "Projet modifié",
-            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été modifié."
+            "title" => __('flash_bugtrackly.project_updated_title'),
+            "text" => __('flash_bugtrackly.project_updated_desc', ['project_name' => $project->name]),
         ];
         return to_route('settings.projects.index')->with('success', $flash_notification);
-
-        //return to_route('settings.projects.show', ['project' => $project]);
     }
 
     /**
@@ -136,8 +138,8 @@ class ProjectController extends SettingsController
     {
         $project->delete();
         $flash_notification = [
-            "title" => "Projet supprimé",
-            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été supprimé."
+            "title" => __('flash_bugtrackly.project_deleted_title'),
+            "text" => __('flash_bugtrackly.project_deleted_desc', ['project_name' => $project->name]),
         ];
         Log::info($flash_notification);
         return to_route('settings.projects.index')->with('success', $flash_notification);

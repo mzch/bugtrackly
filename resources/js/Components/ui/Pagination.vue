@@ -2,6 +2,7 @@
 import {Link} from "@inertiajs/vue3";
 import {computed} from "vue";
 import {formatNumber} from "@/Helpers/number.js";
+import {trans, trans_choice, trans_params} from "../../Helpers/translations.js";
 
 
 const emit = defineEmits(['paginate']);
@@ -17,6 +18,10 @@ const props = defineProps({
     itemPluralName:{
         type:String,
         required:true
+    },
+    itemTranslatedKey:{
+        type:String,
+        required:false
     }
 });
 const links = computed(() => props.items.links)
@@ -34,9 +39,8 @@ const removePageOneParam = (url) => {
 <template>
     <div class="d-flex align-items-center justify-content-between footer-datatable footer-datatable-sm">
         <div class="text-secondary">
-            Affichage de {{items.from}} à {{items.to}} sur {{items.total}}
-            <template v-if="items.total > 1">{{itemPluralName}}</template>
-            <template v-else>{{itemSingularName}}</template>
+            {{trans_params('general.pagination_display', items.from, items.to, items.total)}}
+            {{trans_choice(itemTranslatedKey, items.total)}}
         </div>
         <nav v-if="showingPagination">
             <ul class="pagination pagination-sm mb-0">

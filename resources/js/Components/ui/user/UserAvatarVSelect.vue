@@ -6,7 +6,7 @@
               label="full_name"
               :disabled="disabled"
               :reduce="user => user.id"
-              placeholder="Sélectionnez un utilisateur"
+              :placeholder="trans('bug.form.select_user')"
               :options="users"
               :selectable="selectableCondition">
         <template #open-indicator="{ attributes }">
@@ -18,14 +18,14 @@
             <div class="d-flex align-items-center">
                 <Avatar :user="option" class="me-1 bordered"/>
                 {{ option.full_name }}
-                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">Administrateur</span>
+                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">{{ trans('general.admin_label') }}</span>
             </div>
         </template>
         <template #selected-option="option">
             <div class="d-flex align-items-center">
                 <Avatar :user="option" class="me-1 bordered"/>
                 {{ option.full_name }}
-                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">Administrateur</span>
+                <span class="badge text-bg-secondary ms-2" v-if="option.role_id === 1">{{ trans('general.admin_label') }}</span>
             </div>
         </template>
     </v-select>
@@ -35,6 +35,7 @@
 
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
+import {trans} from "@/Helpers/translations.js";
 const model = defineModel({
     type: [String,Number, null],
     required: true,

@@ -2,6 +2,7 @@
 <p align="center">
 <a href="https://github.com/achappard/bugtrackly/releases/latest"><img src="https://img.shields.io/github/v/release/achappard/bugtrackly" alt="Release"></a>
 <a href="https://opensource.org/license/gpl-3-0" target="_blank"><img src="https://img.shields.io/github/license/achappard/bugtrackly" alt="License"></a>
+<img src="https://img.shields.io/github/contributors/achappard/bugtrackly" alt="Contributors">
 </p>
 
 ## About BugTrackly

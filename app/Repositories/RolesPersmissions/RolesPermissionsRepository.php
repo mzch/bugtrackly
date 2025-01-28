@@ -67,7 +67,11 @@ class RolesPermissionsRepository implements RolesPersmissionsRepositoryInterface
     {
         $jsonRoleContent = Storage::get($this->rolesFilePath);
         $dataRoles = json_decode($jsonRoleContent, true);
-        return collect($dataRoles['roles'] ?? []);
+        $dataRoles = $dataRoles['roles'] ?? [];
+        foreach ($dataRoles as &$r) {
+            $r['name'] = __('bugtrackly.general.' . $r['internal_name'].'_label');
+        }
+        return collect($dataRoles);
     }
 
     private function getPermissionsCollection()

@@ -5,6 +5,7 @@ use App\Http\Controllers\BugCommentController;
 use App\Http\Controllers\BugCommentFileController;
 use App\Http\Controllers\BugController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController as FrontProjectController;
 use App\Http\Controllers\Settings\ProjectController;
@@ -14,6 +15,7 @@ use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::post('/set-locale', [LocaleController::class, 'setLocale'])->name('set-locale');
 
 Route::prefix('settings')
     ->name('settings.')

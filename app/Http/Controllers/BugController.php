@@ -113,8 +113,8 @@ class BugController extends Controller
         }
 
         $flash_notification = [
-            "title" => "Bug créé",
-            "text"  => "Le bug <strong>" . e($bug->id) . "</strong> a bien été créé."
+            "title" => __('flash_bugtrackly.bug_created_title'),
+            "text"  => __('flash_bugtrackly.bug_created_desc', ['bug_id' => $bug->id])
         ];
         return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
     }
@@ -156,8 +156,8 @@ class BugController extends Controller
     {
         $bug->delete();
         $flash_notification = [
-            "title" => "Bug supprimé",
-            "text"  => "Le bug <strong>" . e($bug->id) . "</strong> a bien été supprimé."
+            "title" => __('flash_bugtrackly.bug_deleted_title'),
+            "text"  => __('flash_bugtrackly.bug_deleted_desc', ['bug_id' => $bug->id]),
         ];
         return to_route('projects.show', $project)->with('success', $flash_notification);
     }
@@ -203,15 +203,15 @@ class BugController extends Controller
 
         if($request->get('followBug')) {
             $flash_notification = [
-                "title" => "Suivi de bug activé",
-                "text"  => "Vous recevrez dorénavant des notifications pour ce bug.",
+                "title" =>  __('flash_bugtrackly.bug_followed_title'),
+                "text"  => __('flash_bugtrackly.bug_followed_desc'),
             ];
             $bug->user_followers()->attach(auth()->id());
             return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
         }else{
             $flash_notification = [
-                "title" => "Suivi de bug désactivé",
-                "text"  => "Vous ne recevrez plus de notification pour ce bug.",
+                "title" =>  __('flash_bugtrackly.bug_unfollowed_title'),
+                "text"  => __('flash_bugtrackly.bug_unfollowed_desc'),
             ];
             $bug->user_followers()->detach(auth()->id());
             return to_route('projects.bug.show', [$project, $bug])->with('warning', $flash_notification);

@@ -35,7 +35,7 @@ class UserPasswordChangedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject("Changement sur votre compte BugTrackly !")
+            ->subject(__('emails.account.subject', ['app_name' => config('app.name')]))
             ->markdown('emails.user.password-changed', [
                 'notifiable' => $notifiable,
                 'password' => $this->password,
