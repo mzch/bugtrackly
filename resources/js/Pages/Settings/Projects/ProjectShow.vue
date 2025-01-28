@@ -1,20 +1,20 @@
 <template>
-    <AuthenticatedLayout page-title="Gestions des projets">
+    <AuthenticatedLayout :page-title="project.name">
         <template #header><span v-html="dynamic_page_title"/></template>
         <template #headerActions>
             <Link :href="route('settings.projects.index')" class="btn btn-primary btn-sm btn-with-icon">
                 <ArrowLeftIcon class="size-1 me-1"/>
-                Retour aux projets
+                {{ trans('settings.projects.edit.back') }}
             </Link>
         </template>
         <FormCard :submit-handler-fn-callback="updateHandler">
             <template #cardFooter>
                 <div class="d-flex justify-content-end">
                     <Link :href="route('settings.projects.index')" class="btn btn-light btn-with-icon me-2">
-                        Retour
+                        {{ trans('general.back_action') }}
                     </Link>
                     <PrimaryButton type="submit" :disabled="submitButtonDisabled">
-                        Enregistrer
+                        {{ trans('general.save_action') }}
                     </PrimaryButton>
                 </div>
             </template>
@@ -37,6 +37,7 @@ import ProjectIdentity from "@/Pages/Settings/Projects/partials/form/ProjectIden
 import {computed} from "vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import ProjectUsers from "@/Pages/Settings/Projects/partials/form/ProjectUsers.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const props = defineProps({
     project: {
@@ -56,7 +57,7 @@ const form = useForm({
 
 const submitButtonDisabled = computed(() => form.processing || !form.isDirty);
 const dynamic_page_title = computed(() => {
-    const start = 'Édition d\'un projet',
+    const start = trans('settings.projects.edit_title'),
         name = form.name ? form.name.toString().trim() : '';
     return (name === "")
         ? start

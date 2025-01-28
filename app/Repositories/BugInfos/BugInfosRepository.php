@@ -22,7 +22,11 @@ class BugInfosRepository implements BugInfosRepositoryInterface
     {
         $jsonContent = Storage::get($this->bugStatusFile);
         $data = json_decode($jsonContent, true);
-        $collection = collect($data['status'] ?? []);
+        $status = $data['status'];
+        foreach ($status as &$s) {
+            $s['label'] = __('bugtrackly.bug_status_' . $s['slug']);
+        }
+        $collection = collect($status ?? []);
         if(!$with_children){
             return $collection;
         }
@@ -51,7 +55,12 @@ class BugInfosRepository implements BugInfosRepositoryInterface
     {
         $jsonContent = Storage::get($this->bugPrioritiesFile);
         $data = json_decode($jsonContent, true);
-        return collect($data['priorities'] ?? []);
+        $priorities = $data['priorities'];
+        foreach ($priorities as &$p) {
+            $p['label'] = __('bugtrackly.bug_priority_' . $p['slug']);
+            $p['extended_label'] = __('bugtrackly.bug_priority_' . $p['slug'] . '_extended');
+        }
+        return collect($priorities ?? []);
     }
 
     public function getBugPriorityById($id):array

@@ -9,6 +9,7 @@ import {useForm, usePage} from '@inertiajs/vue3';
 import {nextTick, ref} from 'vue';
 import FormField from "@/Components/ui/form/FormField.vue";
 import Card from "@/Components/ui/Card.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -42,35 +43,24 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Card card-title="Suppression de mon compte">
-        <p class="text-secondary">
-            Une fois votre compte supprimé, toutes ses ressources et données seront définitivement effacées.
-            Avant de supprimer votre compte, veuillez télécharger toutes les données ou informations que vous souhaitez
-            conserver.
-        </p>
-
-        <DangerButton @click="confirmUserDeletion">Supprimer mon compte</DangerButton>
-
+    <Card :card-title="trans('profile.delete_account.title' )">
+        <p class="text-secondary">{{trans('profile.delete_account.info')}}</p>
+        <DangerButton @click="confirmUserDeletion">{{ trans('profile.delete_account.button') }}</DangerButton>
         <Modal id="deleteAccountModal" :show="confirmingUserDeletion" @close="closeModal">
             <template #title>
-                <strong>Êtes-vous sûr de vouloir supprimer votre compte ?</strong>
+                <strong>{{trans('profile.delete_account.modal.title')}}</strong>
             </template>
             <template #content>
                 <div class="modal-body">
-                    <p>
-                        Une fois que votre compte est supprimé, toutes ses ressources et données
-                        seront définitivement supprimées. Veuillez saisir votre mot de passe pour
-                        confirmer que vous souhaitez supprimer définitivement votre compte.
-                    </p>
+                    <p>{{trans('profile.delete_account.modal.content')}}</p>
                     <form @submit.prevent="deleteUser">
-
                         <TextInput type="text" v-model="user.name" autocomplete="name" class="visually-hidden" readonly
                                    id="username"/>
                         <FormField class="form-floating">
                             <TextInput
                                 id="password"
                                 type="password"
-                                placeholder="Votre mot de passe"
+                                :placeholder="trans('profile.delete_account.modal.password')"
                                 ref="passwordInput"
                                 v-model="form.password"
                                 required
@@ -79,7 +69,7 @@ const closeModal = () => {
                             />
                             <InputLabel
                                 for="password"
-                                value="Votre mot de passe"
+                                :value="trans('profile.delete_account.modal.password')"
                                 class="sr-only"
                             />
                             <InputError :message="form.errors.password"/>
@@ -88,7 +78,7 @@ const closeModal = () => {
 
                         <div class="d-flex align-items-center justify-content-end">
                             <SecondaryButton @click="closeModal">
-                                Annuler
+                                {{ trans('general.cancel_action') }}
                             </SecondaryButton>
 
                             <DangerButton
@@ -97,7 +87,7 @@ const closeModal = () => {
                                 :disabled="form.processing"
                                 @click="deleteUser"
                             >
-                                Oui, supprimez mon compte !
+                                {{ trans('profile.delete_account.modal.button') }}
                             </DangerButton>
                         </div>
                     </form>

@@ -1,11 +1,11 @@
 <template>
-    <Card card-title="Caractéristiques du projet">
+    <Card :card-title="trans('settings.projects.form.charac_title')">
         <div class="row">
             <div class="col-lg-9">
                 <FormField class="form-floating">
                     <TextInput v-model.trim="form.name"
                                type="text"
-                               placeholder="Nom du projet"
+                               :placeholder="trans('settings.projects.form.name')"
                                id="name"
                                maxlength="255"
                                class="form-control-lg"
@@ -14,7 +14,7 @@
                                autofocus
                                required
                     />
-                    <InputLabel for="name" value="Nom du projet" required/>
+                    <InputLabel for="name" :value="trans('settings.projects.form.name')" required/>
                     <InputError :message="form.errors.name"/>
                     <ProjectPermalien v-if="project" class="mt-2" :form="form"/>
                     <ProjectPermalienCreation ref="permalienCreationRef" v-else class="mt-2" :form="form"/>
@@ -24,12 +24,12 @@
                     <TextInput v-model.trim="form.short_desc"
                                type="text"
                                maxlength="255"
-                               placeholder="Courte description"
+                               :placeholder="trans('settings.projects.form.desc')"
                                id="name"
                                :class="{'is-invalid':form.errors.short_desc}"
                                required
                     />
-                    <InputLabel for="name" value="Courte description" required/>
+                    <InputLabel for="name" :value="trans('settings.projects.form.desc')" required/>
                     <InputError :message="form.errors.name"/>
                 </FormField>
             </div>
@@ -53,6 +53,7 @@ import ProjectPhoto from "@/Pages/Settings/Projects/partials/form/ProjectPhoto.v
 import {computed, ref} from "vue";
 import {usePage} from "@inertiajs/vue3";
 import ProjectPermalienCreation from "@/Pages/Settings/Projects/partials/form/ProjectPermalienCreation.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const project = computed(() => usePage().props.project ?? null)
 const props = defineProps({

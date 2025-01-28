@@ -7,6 +7,7 @@ import TextInput from '@/Components/ui/form/TextInput.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 import FormField from "@/Components/ui/form/FormField.vue";
 import FormEnd from "@/Components/ui/form/FormEnd.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const props = defineProps({
     email: {
@@ -35,56 +36,50 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Reset Password" />
+        <Head :title="trans('auth.reset_pwd_title')" />
 
         <form @submit.prevent="submit">
-            <FormField>
-                <InputLabel for="email" value="Email :" />
-
+            <FormField class="form-floating">
                 <TextInput
                     id="email"
                     type="email"
+                    :placeholder="trans('auth.email_address')"
                     v-model="form.email"
                     required
                     autofocus
                     :class="{'is-invalid' :form.errors.email}"
                     autocomplete="username"
                 />
-
+                <InputLabel for="email" :value="trans('auth.email_address')" />
                 <InputError  :message="form.errors.email" />
             </FormField>
 
-            <FormField>
-                <InputLabel for="password" value="Mot de passe :" />
-
+            <FormField class="form-floating">
                 <TextInput
                     id="password"
                     type="password"
+                    :placeholder="trans('auth.password' )"
                     v-model="form.password"
                     required
                     :class="{'is-invalid' :form.errors.password}"
                     autocomplete="new-password"
                 />
-
+                <InputLabel for="password" :value="trans('auth.password')" />
                 <InputError :message="form.errors.password" />
             </FormField>
 
-            <FormField>
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirmation :"
-                />
-
+            <FormField class="form-floating">
                 <TextInput
                     id="password_confirmation"
                     type="password"
                     class="mt-1 block w-full"
+                    :placeholder="trans('auth.password_confirmation')"
                     v-model="form.password_confirmation"
                     required
                     :class="{'is-invalid' :form.errors.password_confirmation}"
                     autocomplete="new-password"
                 />
-
+                <InputLabel for="password_confirmation" :value="trans('auth.password_confirmation')"/>
                 <InputError :message="form.errors.password_confirmation"
                 />
             </FormField>
@@ -96,7 +91,7 @@ const submit = () => {
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
-                    Réinitialiser mon mot de passe
+                    {{ trans('auth.forgot_pwd_submit_label') }}
                 </PrimaryButton>
             </FormEnd>
         </form>

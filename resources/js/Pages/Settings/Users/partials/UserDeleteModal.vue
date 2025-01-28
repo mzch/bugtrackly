@@ -1,18 +1,18 @@
 <template>
     <Modal id="suppress_modal" :show="showSuppressModal" @close="closeSupressModal">
         <template #title>
-            <strong>Suppression d'un utilisateur</strong>
+            <strong>{{trans('settings.users.delete_title')}}</strong>
         </template>
         <template #content>
             <form @submit.prevent="submitDeleteHandler">
                 <div class="modal-body">
                     <p class="mb-0">
-                        Voulez vous vraiment supprimer l'utilisateur <strong v-if="userToDelete">{{ userToDelete.full_name }}</strong> ?
+                        {{ trans('settings.users.delete_desc') }} <strong v-if="userToDelete">{{ userToDelete.full_name }}</strong> ?
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" @click="closeSupressModal" class="btn btn-secondary">Non</button>
-                    <button type="submit" :disabled="formDeleteProcessing" class="btn btn-danger">Supprimer</button>
+                    <button type="button" @click="closeSupressModal" class="btn btn-secondary">{{ trans('general.no_action') }}</button>
+                    <button type="submit" :disabled="formDeleteProcessing" class="btn btn-danger">{{ trans('general.delete_action') }}</button>
                 </div>
             </form>
         </template>
@@ -25,6 +25,7 @@ import Modal from "@/Components/ui/Modal.vue";
 import {useStore} from "vuex";
 import {computed, ref, watch} from "vue";
 import {router} from "@inertiajs/vue3";
+import {trans} from "../../../../Helpers/translations.js";
 
 const store = useStore();
 const itemToDelete = computed(() => store.getters['usersManagement/userToDelete']);

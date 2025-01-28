@@ -15,7 +15,7 @@
                         :href="route('dashboard')"
                         @click.prevent="toogleSubMenu(null)"
                     >
-                        Accueil
+                        {{ trans('menu.home') }}
                     </NavLink>
                 </li>
 
@@ -23,7 +23,7 @@
                     <NavLinkBtn icon="FolderIcon"
                                 @click.prevent="toogleSubMenu('projects')"
                                 :opened="currentSubNavViewed==='projects'">
-                        Mes projets
+                        {{ trans('menu.projects') }}
                     </NavLinkBtn>
 
                     <TransitionExpand key="transition-projects" :duration=".2"
@@ -46,17 +46,17 @@
                     <NavLinkBtn icon="Cog6ToothIcon"
                                 @click.prevent="toogleSubMenu('settings')"
                                 :opened="currentSubNavViewed==='settings'">
-                        Paramètres
+                        {{ trans('menu.settings') }}
                     </NavLinkBtn>
                     <TransitionExpand key="transition-settings" :duration=".2"
                                       :no-duration-on-mounted="page.component.startsWith('Settings')|| currentSubNavViewed==='settings'">
                         <div v-show="currentSubNavViewed==='settings'">
                             <ul class="list-unstyled mb-0 pb-2">
                                 <li v-if="hasPermission('manage-users')" :class="{'active' : page.component.startsWith('Settings/Users') }">
-                                    <SubNavLink :href="route('settings.users.index')">Utilisateurs</SubNavLink>
+                                    <SubNavLink :href="route('settings.users.index')">{{ trans('menu.settings.users') }}</SubNavLink>
                                 </li>
                                 <li v-if="hasPermission('manage-projects')" :class="{'active' : page.component.startsWith('Settings/Projects') }">
-                                    <SubNavLink :href="route('settings.projects.index')">Gestions des projets</SubNavLink>
+                                    <SubNavLink :href="route('settings.projects.index')">{{ trans('menu.settings.projects') }}</SubNavLink>
                                 </li>
                             </ul>
                         </div>
@@ -87,6 +87,7 @@ import {Link, usePage} from '@inertiajs/vue3';
 import ApplicationLogoHrWhite from "@/Components/ui/ApplicationLogoHrWhite.vue";
 import UserMenu from "@/Components/ui/user/UserMenu.vue";
 import {hasPermission, hasRole} from "@/Helpers/users.js";
+import {trans} from "../../Helpers/translations.js";
 
 
 const showMobileNav = computed(() => store.getters['navigation/isMobileNavigationShowed'])

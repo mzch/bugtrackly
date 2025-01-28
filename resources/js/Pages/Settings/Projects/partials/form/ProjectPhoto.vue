@@ -22,14 +22,14 @@
             class="btn btn-outline-primary btn-with-icon btn-sm"
             @click.prevent="selectNewPhotoHandler">
       <CameraIcon class="size-1 me-1"/>
-      Importer une photo
+        {{ trans('settings.users.avatar.import_photo') }}
     </button>
     <button type="button"
             class="btn btn-outline-danger btn-with-icon btn-sm ms-2"
             v-if="viewDeleteButton"
             @click.prevent="removePreviewPhotoHandler">
       <TrashIcon class="size-1 me-1"/>
-      Supprimer
+        {{ trans('general.delete_action') }}
     </button>
   </div>
 </template>
@@ -40,6 +40,7 @@ import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import {usePage} from "@inertiajs/vue3";
 import {ComputerDesktopIcon} from "@heroicons/vue/24/outline/index.js";
 import InputError from "@/Components/ui/form/InputError.vue";
+import {trans} from "../../../../../Helpers/translations.js";
 
 const props = defineProps({
   form: {

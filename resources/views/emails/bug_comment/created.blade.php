@@ -1,36 +1,36 @@
 <x-mail::message>
 
 @if($dataMail['new_comment'])
-**{{$dataMail['note_author']->full_name}}** a ajouté une note à ce bug.
+{{__('emails.bug.updated.add_note', ['user'=>$dataMail['note_author']->full_name])}}
 @else
-**{{$dataMail['note_author']->full_name}}** vient de modifier le bug.
+{{__('emails.bug.updated.update_bug', ['user'=>$dataMail['note_author']->full_name])}}
 @endif
 
 ---
-- Bug : **{{$bug->title}}**
+- {{__('emails.bug.updated.bug')}} **{{$bug->title}}**
 @if($dataMail['new_comment'])
-- Noté crée le {{\Carbon\Carbon::parse($dataMail['new_comment']->created_at)->translatedFormat('j F Y à H\hi')}}
+- {{__('emails.bug.updated.date_note', ['date' => \Carbon\Carbon::parse($dataMail['new_comment']->created_at)->translatedFormat(__('emails.bug.updated.date_format'))])}}
 @else
-- Bug modifié le {{\Carbon\Carbon::parse($bug->updated_at)->translatedFormat('j F Y à H\hi')}}
+- {{__('emails.bug.updated.date_bug', ['date' => \Carbon\Carbon::parse($bug->updated_at)->translatedFormat(__('emails.bug.updated.date_format'))])}}
 @endif
 @if($dataMail['status'])
-- Statut changé de **{{$dataMail['status']['old']['label']}}**  à **{{$dataMail['status']['new']['label']}}**
+- {{__('emails.bug.updated.change_status', ['old' => $dataMail['status']['old']['label'], 'new' => $dataMail['status']['new']['label']])}}
 @endif
 @if($dataMail['priority'])
-- Priorité changée de **{{$dataMail['priority']['old']['label']}}**  à **{{$dataMail['priority']['new']['label']}}**
+- {{__('emails.bug.updated.change_priotity', ['old' => $dataMail['priority']['old']['label'], 'new' => $dataMail['priority']['new']['label']])}}
 @endif
 @if($dataMail['assigned_user'])
 @if($dataMail['assigned_user']['new'] !== null)
-- Assignée à : **{{$dataMail['assigned_user']['new']->full_name}}**
+- {{__('emails.bug.created.assigned_to')}} **{{$dataMail['assigned_user']['new']->full_name}}**
 @else
-- Assignée à : **Aucun**
+- {{__('emails.bug.created.assigned_to')}} **{{__('emails.bug.updated.no_assigned')}}**
 @endif
 @endif
 @if($dataMail['files'] && count($dataMail['files']) > 0)
 @if(count($dataMail['files']) > 1)
-- {{count($dataMail['files'])}} fichiers joints
+- {{count($dataMail['files'])}} {{__('emails.bug.created.attachedFiles')}}
 @else
-- 1 fichier joint :
+- 1 {{__('emails.bug.created.attachedFile')}}
 @endif
 @foreach($dataMail['files'] as $file)
     - {{$file}}
@@ -50,9 +50,9 @@
 
 
 <x-mail::button :url="route('projects.bug.show', ['project' => $project->slug, 'bug'=>$bug->id])">
-    Voir le bug
+    {{__('emails.bug.created.show_bug')}}
 </x-mail::button>
 
-Cordialement,<br>
+{{__('emails.general.politeness')}}<br>
 {{ config('app.name') }}
 </x-mail::message>

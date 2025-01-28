@@ -26,7 +26,7 @@ class UserController extends SettingsController
         protected UserRepositoryInterface              $usersRepository)
     {
         parent::__construct();
-        $this->addBreadcrumb('Utilisateurs', route('settings.users.index'));
+        $this->addBreadcrumb(__('bugtrackly.settings.users_title'), route('settings.users.index'));
     }
 
     /**
@@ -50,7 +50,7 @@ class UserController extends SettingsController
 
     public function create(): Response
     {
-        $this->addBreadcrumb('Création', route('settings.users.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.users.create.title'), route('settings.users.create'));
         $data = [
             'roles' => $this->rolesPermissionsRepository->getAllRoles(),
         ];
@@ -85,8 +85,8 @@ class UserController extends SettingsController
         }
 
         $flash_notification = [
-            "title" => "Utilisateur créé",
-            "text" => "L'utilisateur <strong>" . e($user->full_name) . "</strong> a bien été créé."
+            "title" => __('flash_bugtrackly.user_created_title'),
+            "text" => __('flash_bugtrackly.user_created_desc', ['user' => $user->full_name]),
         ];
 
         return to_route('settings.users.index')->with('success', $flash_notification);;
@@ -101,7 +101,7 @@ class UserController extends SettingsController
      */
     public function show(Request $request, User $user): Response
     {
-        $this->addBreadcrumb('Édition', route('settings.users.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.users.edit.breadcrumb'), route('settings.users.create'));
         $data = [
             'user' => $user,
             'roles' => $this->rolesPermissionsRepository->getAllRoles(),
@@ -135,8 +135,8 @@ class UserController extends SettingsController
         }
 
         $flash_notification = [
-            "title" => "Utilisateur modifié",
-            "text" => "L'utilisateur <strong>" . e($user->full_name) . "</strong> a bien été modifié."
+            "title" => __('flash_bugtrackly.user_updated_title'),
+            "text" => __('flash_bugtrackly.user_updated_desc', ['user' => $user->full_name]),
         ];
 
         return to_route('settings.users.index')->with('success', $flash_notification);;;
@@ -151,11 +151,11 @@ class UserController extends SettingsController
     public function destroy(DeleteUserRequest $request, User $user)
     {
         $user->delete();
-        $flashSuccess = [
-            "title" => "Utilisateur supprimé",
-            "text"  => "L'utilisateur <strong>" . e($user->full_name) . "</strong> a bien été supprimé."
+        $flash_notification = [
+            "title" => __('flash_bugtrackly.user_deleted_title'),
+            "text" => __('flash_bugtrackly.user_deleted_desc', ['user' => $user->full_name]),
         ];
-        return to_route('settings.users.index')->with('success', $flashSuccess);
+        return to_route('settings.users.index')->with('success', $flash_notification);
     }
 
     /**
@@ -166,15 +166,17 @@ class UserController extends SettingsController
     public function switchUser(SwitchUserRequest $request, User $newUser): RedirectResponse
     {
         $adminUserId = auth()->user()->id;
+        $old_locale = session('locale');
         session()->flush();
         Auth::login($newUser);
         session()->put('admin_user_id', $adminUserId);
+        session()->put('locale', $old_locale);
         //return redirect()->route('admin.dashboard');
-        $flashSuccess = [
-            "title" => "Connecté !",
-            "text"  => "Vous êtes maintenant connecté en tant que <strong>" . e($newUser->full_name) . "</strong>."
+        $flash_notification = [
+            "title" => __('flash_bugtrackly.user_connect_as_title'),
+            "text"  => __('flash_bugtrackly.user_connect_as_desc', ['user' => $newUser->full_name]),
         ];
 
-        return to_route('dashboard')->with('warning', $flashSuccess);
+        return to_route('dashboard')->with('warning', $flash_notification);
     }
 }

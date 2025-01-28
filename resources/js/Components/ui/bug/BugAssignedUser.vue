@@ -1,6 +1,6 @@
 <template>
     <p class="fw-semibold mb-2">
-        Assigné à :
+        {{ trans('bug.assignedToTitle') }}
     </p>
     <div class="d-flex align-items-center">
         <Avatar :user="user" class="bordered me-2 "/>
@@ -10,6 +10,7 @@
 
 <script setup>
     import Avatar from "@/Components/ui/user/avatar.vue";
+    import {trans} from "../../../Helpers/translations.js";
     const props = defineProps({
         user:{
             type:Object,

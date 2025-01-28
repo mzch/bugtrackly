@@ -1,13 +1,13 @@
 <template>
     <div class="d-flex align-items-center text-sm">
-            <strong class="me-1">Permalien :</strong>
+            <strong class="me-1">{{ trans('settings.projects.form.permalink') }}</strong>
             <template v-if="!editing_slug">
                 <a :href="route('projects.show', original_slug)" target="_blank">
                     <span>{{ route('projects.index') }}/</span>
                     <strong>{{ form.slug }}</strong>
                 </a>
                 <button type="button" class="btn btn-outline-secondary py-1 btn-sm ms-1" @click="showEditSlug">
-                    Modifier
+                    {{ trans('general.modify_action') }}
                 </button>
             </template>
             <template v-else>
@@ -31,6 +31,7 @@
 import {computed, nextTick, ref} from "vue";
 import {Link, usePage} from '@inertiajs/vue3';
 import TextInput from "@/Components/ui/form/TextInput.vue";
+import {trans} from "../../../../../Helpers/translations.js";
 const editing_slug = ref(false);
 
 const props = defineProps({

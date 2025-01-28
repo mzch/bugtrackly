@@ -3,43 +3,36 @@
         {
             "id": 1,
             "slug": "new",
-            "label" : "Nouveau",
             "children" : [2,3]
         },
         {
             "id": 2,
             "slug": "accepted",
-            "label" : "Accepté",
             "children" : [4]
         },
         {
             "id": 3,
             "slug": "rejected",
-            "label" : "Rejeté",
             "children" : [6,7]
         },
         {
             "id": 4,
             "slug": "in_progress",
-            "label" : "En cours de résolution",
             "children" : [5]
         },
         {
             "id": 5,
             "slug": "resolved",
-            "label" : "Résolu",
             "children" : [6,7]
         },
         {
             "id": 6,
             "slug": "closed",
-            "label" : "Fermé",
             "children" : [7]
         },
         {
             "id": 7,
             "slug": "reopened",
-            "label" : "Réouvert",
             "children" : [2,3]
         }
     ]

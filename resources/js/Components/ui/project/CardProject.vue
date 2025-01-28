@@ -16,8 +16,8 @@
         <p class="text-sm text-secondary mb-0">{{project.short_desc}}</p>
         <template #cardFooter>
             <div class="d-flex justify-content-between align-items-center">
-                <span class="badge text-bg-secondary">{{str_nb_bug(project)}}</span>
-                <Link :href="route('projects.show', project.slug)" class="fw-semibold">Voir</Link>
+                <span class="badge text-bg-secondary">{{trans_choice('dashboard.project.nbBug', project.bugs_count)}}</span>
+                <Link :href="route('projects.show', project.slug)" class="fw-semibold">{{ trans('dashboard.project.show') }}</Link>
             </div>
         </template>
     </Card>
@@ -28,16 +28,11 @@ import Card from "@/Components/ui/Card.vue";
 
 import {ComputerDesktopIcon} from "@heroicons/vue/24/outline/index.js";
 import {Link} from '@inertiajs/vue3';
+import {trans, trans_choice} from "../../../Helpers/translations.js";
 const props = defineProps({
     project:{
         type:Object,
         required:true
     }
 })
-const str_nb_bug = (project) => {
-    if(project.bugs_count === 0){
-        return "Aucun bug ouvert !";
-    }
-    return project.bugs_count > 1 ? `${project.bugs_count} bugs ouverts` : `1 bug ouvert`
-}
 </script>

@@ -1,6 +1,6 @@
 <template>
-    <Card card-title="Photo de profil">
-        <p class="form-text text-center">Personnalisez l'image de profil de cet utilisateur</p>
+    <Card :card-title="trans('settings.users.avatar.title')">
+        <p class="form-text text-center">{{trans( 'settings.users.avatar.desc')}}</p>
         <p class="text-center">
             <AvatarGravatar class="size-5" :user="user" :preview-upload-image="dataPhotoPreview"/>
         </p>
@@ -16,13 +16,15 @@
             <button type="button"
                     class="btn btn-outline-primary btn-with-icon btn-sm"
                     @click.prevent="selectNewPhotoHandler">
-                <CameraIcon class="size-1 me-1"/>Importer une photo
+                <CameraIcon class="size-1 me-1"/>
+                {{ trans('settings.users.avatar.import_photo') }}
             </button>
             <button type="button"
                     class="btn btn-outline-danger btn-with-icon btn-sm ms-2"
                     v-if="viewDeleteButton"
                     @click.prevent="removePreviewPhotoHandler">
-                <TrashIcon class="size-1 me-1"/>Supprimer
+                <TrashIcon class="size-1 me-1"/>
+                {{ trans('general.delete_action') }}
             </button>
         </div>
     </Card>
@@ -34,6 +36,7 @@ import InputError from "@/Components/ui/form/InputError.vue";
 import {computed, ref} from "vue";
 import {CameraIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const props = defineProps({
     form:{

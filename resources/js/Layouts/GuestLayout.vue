@@ -1,6 +1,7 @@
 <script setup>
 import Card from "@/Components/ui/Card.vue";
 import ApplicationLogoHr from "@/Components/ui/ApplicationLogoHr.vue";
+import LanguageSwitcher from "@/Components/ui/LanguageSwitcher.vue";
 </script>
 
 <template>
@@ -12,6 +13,9 @@ import ApplicationLogoHr from "@/Components/ui/ApplicationLogoHr.vue";
             <Card>
                 <slot />
             </Card>
+            <div class="text-center mt-3">
+                <LanguageSwitcher class="w-auto" id="bottom_ls"/>
+            </div>
         </main>
     </div>
 </template>
