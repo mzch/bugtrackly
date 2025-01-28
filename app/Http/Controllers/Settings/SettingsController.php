@@ -9,7 +9,7 @@ use Inertia\Response;
 class SettingsController extends Controller
 {
     public function __construct(){
-        $this->addBreadcrumb('Paramètres', route('settings.index'));
+        $this->addBreadcrumb(__('bugtrackly.menu.settings'), route('settings.index'));
     }
 
     public function index(Request $request): Response
