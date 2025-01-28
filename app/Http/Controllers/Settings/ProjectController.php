@@ -57,7 +57,7 @@ class ProjectController extends SettingsController
      */
     public function create()
     {
-        $this->addBreadcrumb('Création', route('settings.projects.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.projects.create.title'), route('settings.projects.create'));
         return $this->render('Settings/Projects/ProjectCreate');
     }
 

@@ -1,22 +1,22 @@
 <template>
-    <AuthenticatedLayout page-title="Gestions des projets">
-        <template #header>Gestions des projets</template>
+    <AuthenticatedLayout :page-title="trans('settings.projects.create.title')">
+        <template #header>{{ trans('settings.projects.create.title') }}</template>
         <template #headerActions>
             <Link :href="route('settings.projects.index')" class="btn btn-primary btn-sm btn-with-icon">
                 <ArrowLeftIcon class="size-1 me-1"/>
-                Retour aux projets
+                {{ trans('settings.projects.edit.back' ) }}
             </Link>
         </template>
         <FormCard :submit-handler-fn-callback="createProjectFormHandler">
             <template #cardFooter>
                 <div class="d-flex justify-content-end">
                     <Link :href="route('settings.projects.index')" class="btn btn-light btn-with-icon me-2">
-                        Retour
+                        {{ trans('general.back_action') }}
                     </Link>
                     <PrimaryButton type="submit"
                                    class="btn-with-icon"
                                    :disabled="submitButtonDisabled">
-                        Enregistrer
+                        {{ trans('general.save_action') }}
                     </PrimaryButton>
                 </div>
             </template>
@@ -36,6 +36,7 @@ import FormCard from "@/Components/ui/FormCard.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {computed} from "vue";
 import ProjectIdentity from "@/Pages/Settings/Projects/partials/form/ProjectIdentity.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const form = useForm({
     name: null,

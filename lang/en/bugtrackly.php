@@ -82,6 +82,7 @@ return [
     'settings.users.role.select'                 => 'Select a role',
     'settings.projects.add_project_label'        => 'Add a new project',
     'settings.projects.list_title'               => 'List of projects',
+    'settings.projects.create.title'             => 'Creating a project',
     'settings.projects.column.name'              => 'Name',
     'settings.projects.column.users'             => 'Users',
     'settings.projects.column.date'              => 'Date',
