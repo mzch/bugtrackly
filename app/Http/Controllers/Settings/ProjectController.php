@@ -82,8 +82,8 @@ class ProjectController extends SettingsController
         }
         $project->users()->sync($validated['users']);
         $flash_notification = [
-            "title" => "Projet crée",
-            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été créé."
+            "title" => __('flash_bugtrackly.project_created_title'),
+            "text" => __('flash_bugtrackly.project_created_desc', ['project_name' => $project->name]),
         ];
         return to_route('settings.projects.index')->with('success', $flash_notification);
     }
@@ -125,12 +125,10 @@ class ProjectController extends SettingsController
         }
 
         $flash_notification = [
-            "title" => "Projet modifié",
-            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été modifié."
+            "title" => __('flash_bugtrackly.project_updated_title'),
+            "text" => __('flash_bugtrackly.project_updated_desc', ['project_name' => $project->name]),
         ];
         return to_route('settings.projects.index')->with('success', $flash_notification);
-
-        //return to_route('settings.projects.show', ['project' => $project]);
     }
 
     /**
@@ -140,8 +138,8 @@ class ProjectController extends SettingsController
     {
         $project->delete();
         $flash_notification = [
-            "title" => "Projet supprimé",
-            "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été supprimé."
+            "title" => __('flash_bugtrackly.project_deleted_title'),
+            "text" => __('flash_bugtrackly.project_deleted_desc', ['project_name' => $project->name]),
         ];
         Log::info($flash_notification);
         return to_route('settings.projects.index')->with('success', $flash_notification);

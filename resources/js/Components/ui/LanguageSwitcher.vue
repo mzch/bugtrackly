@@ -16,7 +16,7 @@ const form_processing = ref(false);
 watch(locale, (newLocale) => {
     form_processing.value = true;
     axios.post(route('set-locale'),{locale:newLocale})
-        .then(()=>router.reload({only:['current_locale','translations', 'breadcrumb', 'bug_status','bug_priorities']}))
+        .then(()=>router.reload())
         .catch(error => console.error(error))
         .finally(() => form_processing.value = false)
 })

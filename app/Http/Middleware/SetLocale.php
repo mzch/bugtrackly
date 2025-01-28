@@ -22,6 +22,8 @@ class SetLocale
         $locale = $request->getPreferredLanguage($locales) ?? 'en';
         if (session()->has('locale')) {
             $locale = session('locale');
+        }else{
+            session(['locale' => $locale]);
         }
 
         App::setLocale($locale);
