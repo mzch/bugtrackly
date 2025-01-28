@@ -101,7 +101,7 @@ class UserController extends SettingsController
      */
     public function show(Request $request, User $user): Response
     {
-        $this->addBreadcrumb('Édition', route('settings.users.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.users.edit.breadcrumb'), route('settings.users.create'));
         $data = [
             'user' => $user,
             'roles' => $this->rolesPermissionsRepository->getAllRoles(),
