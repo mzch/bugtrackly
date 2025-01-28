@@ -9,4 +9,6 @@ return [
     'welcome.password' => 'Password',
     'welcome.advice' => 'We strongly recommend that you change your password the first time you log in to ensure the security of your account.',
     'welcome.connect_label' => 'Sign in',
+    'account.subject' => 'Changes to your :app_name account!',
+    'account.msg' => 'Your password has been changed by an administrator; you can now connect to the platform using the following identifiers:',
 ];
