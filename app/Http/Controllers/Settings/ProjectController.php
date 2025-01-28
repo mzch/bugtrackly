@@ -58,7 +58,10 @@ class ProjectController extends SettingsController
     public function create()
     {
         $this->addBreadcrumb(__('bugtrackly.settings.projects.create.title'), route('settings.projects.create'));
-        return $this->render('Settings/Projects/ProjectCreate');
+        $data = [
+            'users'   => $this->user_repository->getAll()->makeHidden('role')
+        ];
+        return $this->render('Settings/Projects/ProjectCreate',$data);
     }
 
     /**
@@ -77,6 +80,7 @@ class ProjectController extends SettingsController
         if ($photo = $request->validated("photo")) {
             $project->updateProjectPhoto($photo);
         }
+        $project->users()->sync($validated['users']);
         $flash_notification = [
             "title" => "Projet crée",
             "text" => "Le projet <strong>" . e($project->name) . "</strong> a bien été créé."

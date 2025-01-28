@@ -22,7 +22,8 @@
             </template>
             <div class="row gx-5">
                 <div class="col-12">
-                    <ProjectIdentity :form="form"/>
+                    <ProjectIdentity :form="form" class="mb-4"/>
+                    <ProjectUsers :form="form"/>
                 </div>
             </div>
         </FormCard>
@@ -37,12 +38,14 @@ import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {computed} from "vue";
 import ProjectIdentity from "@/Pages/Settings/Projects/partials/form/ProjectIdentity.vue";
 import {trans} from "@/Helpers/translations.js";
+import ProjectUsers from "@/Pages/Settings/Projects/partials/form/ProjectUsers.vue";
 
 const form = useForm({
     name: null,
     slug: null,
     short_desc: null,
     photo: null,
+    users:[],
 });
 
 const submitButtonDisabled = computed(() => form.processing || !form.isDirty);
