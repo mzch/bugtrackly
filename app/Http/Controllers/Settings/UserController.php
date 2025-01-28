@@ -50,7 +50,7 @@ class UserController extends SettingsController
 
     public function create(): Response
     {
-        $this->addBreadcrumb('Création', route('settings.users.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.users.create.title'), route('settings.users.create'));
         $data = [
             'roles' => $this->rolesPermissionsRepository->getAllRoles(),
         ];
