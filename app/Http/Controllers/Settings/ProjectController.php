@@ -90,7 +90,7 @@ class ProjectController extends SettingsController
     public function show(Project $project)
     {
         $project->load('users');
-        $this->addBreadcrumb('Édition', route('settings.projects.create'));
+        $this->addBreadcrumb(__('bugtrackly.settings.projects.edit.breadcrumb'), route('settings.projects.create'));
         $data = [
             'project' => $project,
             'users'   => $this->user_repository->getAll()->makeHidden('role')

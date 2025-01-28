@@ -2,13 +2,13 @@
 
     <div class="d-flex align-items-center text-sm fixed-height">
         <template v-if="is_visible">
-            <strong class="me-1">Permalien :</strong>
+            <strong class="me-1">{{ trans('settings.projects.form.permalink') }}</strong>
             <span>{{ route('projects.index') }}/</span>
             <template v-if="!editing_slug">
 
                 <strong>{{ slug }}</strong>
                 <button type="button" tabindex="-1" class="btn btn-outline-secondary py-1 btn-sm ms-1" @click="showEditSlug">
-                    Modifier
+                    {{ trans('general.modify_action') }}
                 </button>
             </template>
             <template v-else>
@@ -29,6 +29,7 @@
 <script setup>
 import {computed, nextTick, ref} from "vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
+import {trans} from "@/Helpers/translations.js";
 
 const props = defineProps({
     form: {
