@@ -20,15 +20,9 @@ class BugCommentSeeder extends Seeder
             $bug->load('project');
             $project = $bug->project;
 
-            BugComment::factory(1)->make()->each(function ($comment) use ($project, $bug) {
-                $comment->bug_id = $bug->id;
-                $comment->user_id = $bug->user_id;
-                $comment->save();
-            });
-
 
             if( fake()->boolean(75) ){
-                BugComment::factory(rand(5, 15))->make()->each(function ($comment) use ($project, $bug) {
+                BugComment::factory(rand(2, 10))->make()->each(function ($comment) use ($project, $bug) {
                     $comment->bug_id = $bug->id;
                     $comment->user_id = $project->users->random()->id;
                     $comment->save();

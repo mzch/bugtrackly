@@ -45,7 +45,9 @@ const form = useForm({})
 const submitHandler = () => {
     const urlParams = route().params,
     routeDeleteBug = route('projects.bug.destroy', [urlParams.project, urlParams.bug]);
-    form.delete(routeDeleteBug);
+    form.delete(routeDeleteBug, {
+        onSuccess:() => closeModal()
+    });
 }
 </script>
 

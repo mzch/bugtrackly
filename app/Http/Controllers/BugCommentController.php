@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BugCommentCreated;
 use App\Http\Requests\BugComment\StoreBugCommentRequest;
 use App\Http\Requests\BugComment\UpdateBugCommentRequest;
 use App\Models\Bug;
@@ -13,8 +14,6 @@ use App\Repositories\Users\UserRepositoryInterface;
 use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class BugCommentController extends Controller
 {
@@ -46,17 +45,15 @@ class BugCommentController extends Controller
             'assigned_user' => false,
             'files' => [],
         ];
+        $bugComment = null;
         if(!blank($request->input("content")) ){
             $bugComment = new BugComment($request->validated());
             $bug->bug_comments()->save($bugComment);
             $dataMail['new_comment'] = $bugComment;
-            self::logAction(
-                $bug->id,
-                auth()->id(),
-                "Nouvelle note"
-            );
             $dataMail['files'] = BugCommentFileController::do_upload_files($request, $bugComment);
         }
+        // Trigger the BugCommentCreated event
+        BugCommentCreated::dispatch($bugComment, $bug);
 
         $change = $bug->getChanges();
         if(array_key_exists("priority", $change)){

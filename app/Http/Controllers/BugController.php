@@ -58,41 +58,25 @@ class BugController extends Controller
      */
     public function store(StoreBugRequest $request, Project $project): RedirectResponse
     {
-        // Nouveau bug
+        // New bug
         $bug = new Bug($request->validated());
 
-        // Nouveau commentaire (description du bug)
+        // New comment (bug description)
         $bugComment = new BugComment($request->validated());
 
-        // Enregistrement du bug et de son premier commentaire
+        // Save the bug and its first comment
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);
 
-        // Associer les fichiers
+        // Link files to the bug.
         $files = BugCommentFileController::do_upload_files($request, $bugComment);
 
         $assignedUser = null;
         if ($request->validated('assigned_user_id')) {
             $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
         }
-        // Déclencher l'événement
-        BugCreated::dispatch($bug, $assignedUser);
-
-
-        // email notif
-        $usersToNotify = $project
-            ->users
-            ->where('role_id', 1)
-            ->where('id', '!=', auth()->id()); // les admins sur le projets autre que celui-connecté
-        if ($assignedUser) {
-            $usersToNotify->push($assignedUser);
-        }
-        $usersToNotify = $usersToNotify->unique('id');
-        foreach ($usersToNotify as $user) {
-            $status = $this->bug_infos_repository->getBugStatusById($bug->status);
-            $priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
-            $user->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority, $files));
-        }
+        // Trigger the BugCreated event
+        BugCreated::dispatch($project, $bug, $bugComment, $assignedUser, $files);
 
         $flash_notification = [
             "title" => __('flash_bugtrackly.bug_created_title'),

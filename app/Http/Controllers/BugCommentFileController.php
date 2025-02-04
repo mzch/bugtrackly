@@ -37,7 +37,7 @@ class BugCommentFileController extends Controller
      * Si des fichiers sont fournis, on les uploads
      * @param Request $request
      * @param BugComment $bugComment
-     * @return void
+     * @return array
      */
     public static function do_upload_files(Request $request, BugComment $bugComment){
         $files = [];

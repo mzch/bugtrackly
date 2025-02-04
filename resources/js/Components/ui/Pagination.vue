@@ -11,14 +11,6 @@ const props = defineProps({
         type: Object,
         required: true
     },
-    itemSingularName:{
-        type:String,
-        required:true
-    },
-    itemPluralName:{
-        type:String,
-        required:true
-    },
     itemTranslatedKey:{
         type:String,
         required:false
