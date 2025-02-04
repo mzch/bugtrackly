@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class Bug extends Model
 {
     use HasFactory;
+
     /**
      * Les attributs qui peuvent être assignés en masse.
      *
@@ -27,7 +28,7 @@ class Bug extends Model
         'title',
         'priority',
         'status',
-      //  'user_id', //à delete et tester le seeder....
+        //  'user_id', //à delete et tester le seeder....
         'assigned_user_id',
     ];
 
@@ -48,8 +49,23 @@ class Bug extends Model
         'assigned_user'
     ];
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
     protected $appends = [
-      'bug_id_formatted'
+        'bug_id_formatted'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status'   => 'integer',
+        'priority' => 'integer',
     ];
 
     protected static function boot()
@@ -57,7 +73,7 @@ class Bug extends Model
         parent::boot();
 
         static::creating(function (Bug $bug) {
-            if(empty($bug->user_id)){
+            if (empty($bug->user_id)) {
                 $bug->user_id = Auth::id();
             }
             if (empty($bug->status)) {
@@ -98,6 +114,7 @@ class Bug extends Model
     {
         return $this->belongsTo(User::class);
     }
+
     public function assigned_user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_user_id');
@@ -108,11 +125,12 @@ class Bug extends Model
         return $this->belongsToMany(User::class, 'followed_bug_user');
     }
 
-    public function bug_comments() : HasMany
+    public function bug_comments(): HasMany
     {
         return $this->hasMany(BugComment::class)->orderBy('created_at');
     }
-    public function bug_logs() : HasMany
+
+    public function bug_logs(): HasMany
     {
         return $this->hasMany(BugLog::class)->orderBy('created_at');
     }
@@ -201,7 +219,7 @@ class Bug extends Model
         return $query;
     }
 
-    public function scopeFilterByProjectSlug(Builder $query,  Request $request): Builder
+    public function scopeFilterByProjectSlug(Builder $query, Request $request): Builder
     {
         if ($request->has(['project'])) {
             $query->whereHas('project', function ($q) use ($request) {
@@ -247,11 +265,12 @@ class Bug extends Model
         return $query;
     }
 
-    protected function bugIdFormatted(): Attribute{
+    protected function bugIdFormatted(): Attribute
+    {
 
 
         return new Attribute(
-            get: fn () => str_pad($this->id, 7, '0', STR_PAD_LEFT)
+            get: fn() => str_pad($this->id, 7, '0', STR_PAD_LEFT)
         );
     }
 }

@@ -203,5 +203,7 @@ return [
     'bug.history.user'                           => 'Utilisateur',
     'bug.history.change'                         => 'Changement',
     'bug.history.detail'                         => 'Détail',
+    'log.new_bug_action'                         => 'Création d\'un nouveau bug',
+    'log.new_bug_comment_action'                 => 'Nouvelle note',
 
 ];

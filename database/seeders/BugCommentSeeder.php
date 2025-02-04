@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Events\BugCommentCreated;
 use App\Models\Bug;
 use App\Models\BugComment;
 use App\Models\Project;
@@ -20,19 +21,16 @@ class BugCommentSeeder extends Seeder
             $bug->load('project');
             $project = $bug->project;
 
-            BugComment::factory(1)->make()->each(function ($comment) use ($project, $bug) {
-                $comment->bug_id = $bug->id;
-                $comment->user_id = $bug->user_id;
-                $comment->save();
-            });
-
 
             if( fake()->boolean(75) ){
-                BugComment::factory(rand(5, 15))->make()->each(function ($comment) use ($project, $bug) {
+                BugComment::factory(rand(2, 10))->make()->each(function ($comment) use ($project, $bug) {
+                    $randomUser = $project->users->random();
                     $comment->bug_id = $bug->id;
-                    $comment->user_id = $project->users->random()->id;
+                    $comment->user_id = $randomUser->id;
                     $comment->save();
+                    BugCommentCreated::dispatch($project, $comment, $bug, [],[],$randomUser);
                 });
+
             }
 
         });

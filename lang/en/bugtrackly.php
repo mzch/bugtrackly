@@ -63,7 +63,7 @@ return [
     'general.save_action'                        => 'Save',
     'general.publish'                            => 'Published',
     'general.lastModification'                   => 'Last modified',
-    'general.date-with-hour'                     => 'd LLL yyyy \'at\' hh.mmaaa',
+    'general.date-with-hour'                     => 'LLL d, yyyy \'at\' hh.mm aa',
     'general.pagination_display'                 => 'Displaying %s to %s of %s',
     'general.onDate'                             => 'on %s',
     'settings.users_title'                       => 'Users',
@@ -204,4 +204,6 @@ return [
     'bug.history.user'                           => 'User',
     'bug.history.change'                         => 'Change',
     'bug.history.detail'                         => 'Detail',
+    'log.new_bug_action'                         => 'Creating a new bug',
+    'log.new_bug_comment_action'                 => 'New note',
 ];
