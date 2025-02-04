@@ -2,7 +2,7 @@
 <p align="center">
 <a href="https://github.com/achappard/bugtrackly/releases/latest"><img src="https://img.shields.io/github/v/release/achappard/bugtrackly" alt="Release"></a>
 <a href="https://opensource.org/license/gpl-3-0" target="_blank"><img src="https://img.shields.io/github/license/achappard/bugtrackly" alt="License"></a>
-<img src="https://img.shields.io/github/contributors/achappard/bugtrackly" alt="Contributors">
+<a href="https://github.com/achappard/bugtrackly/graphs/contributors" target="_blank"><img src="https://img.shields.io/github/contributors/achappard/bugtrackly" alt="Contributors"></a>
 </p>
 
 ## About BugTrackly
@@ -30,11 +30,12 @@ The BugTrackly application is open-sourced software licensed under the [GPL-3.0 
 
 ## Documentation
 
-- Download or clone the repository : `git clone https://github.com/achappard/bugtrackly.git mbugtrackly-instance`
+- Download or clone the repository : `git clone https://github.com/achappard/bugtrackly.git my-bugtrackly`
 - Install php dependencies by running `composer install`
 - Copy the `.env.example` file in a new `.env` file
 - Configure application by editing the `.env` file; in particular, access to the database. All the available configurations are documented in the file `config/bugtrackly.php`
 - Migrate the database with `php artisan migrate` command.
 - Create **the first admin user** by running the interactive command `php artisan bugtrackly:default_user`.
+- *(Optionally)* You can add fake data to the database with the command `php artisan db:seed`
 - Run `npm install`
 - Run `npm run build`
