@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'last_name'          => 'Admin',
             'role_id'            => 1,
             'email'              => 'a@a.com',
-            'profile_photo_path' => 'profile-photos/faker/aurelien.jpg',
+            //'profile_photo_path' => 'profile-photos/faker/aurelien.jpg',
             'password'           => Hash::make('a'),
         ]);
         User::factory(29)->create();
