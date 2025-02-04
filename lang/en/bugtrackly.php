@@ -205,4 +205,5 @@ return [
     'bug.history.change'                         => 'Change',
     'bug.history.detail'                         => 'Detail',
     'log.new_bug_action'                         => 'Creating a new bug',
+    'log.new_bug_comment_action'                 => 'New note',
 ];
