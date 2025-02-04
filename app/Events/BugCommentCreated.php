@@ -4,6 +4,8 @@ namespace App\Events;
 
 use App\Models\Bug;
 use App\Models\BugComment;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,15 +15,18 @@ class BugCommentCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public ?BugComment $bugComment;
-    public Bug $bug;
     /**
      * Create a new event instance.
      */
-    public function __construct(?BugComment $bugComment, Bug $bug)
+    public function __construct(
+        public Project $project,
+        public ?BugComment $bugComment,
+        public Bug $bug,
+        public array $original,
+        public array $files,
+        public ?User $cliUser = null,
+    )
     {
-        $this->bugComment = $bugComment;
-        $this->bug = $bug;
     }
 
     /**

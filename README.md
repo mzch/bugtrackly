@@ -36,6 +36,8 @@ The BugTrackly application is open-sourced software licensed under the [GPL-3.0 
 - Configure application by editing the `.env` file; in particular, access to the database. All the available configurations are documented in the file `config/bugtrackly.php`
 - Migrate the database with `php artisan migrate` command.
 - Create **the first admin user** by running the interactive command `php artisan bugtrackly:default_user`.
-- *(Optionally)* You can add fake data to the database with the command `php artisan db:seed`
+- *(Optionally)* You can add fake data to the database with the command `php artisan db:seed`. A default admin user is created withh this credentials :
+  - Email address : `a@a.com`
+  - Password : `a`
 - Run `npm install`
 - Run `npm run build`
