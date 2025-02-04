@@ -141,7 +141,6 @@ class ProjectController extends SettingsController
             "title" => __('flash_bugtrackly.project_deleted_title'),
             "text" => __('flash_bugtrackly.project_deleted_desc', ['project_name' => $project->name]),
         ];
-        Log::info($flash_notification);
         return to_route('settings.projects.index')->with('success', $flash_notification);
     }
 

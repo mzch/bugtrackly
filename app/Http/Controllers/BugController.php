@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\BugCreated;
 use App\Http\Requests\Bug\StoreBugRequest;
 use App\Http\Requests\Bug\UpdateBugPriorityRequest;
 use App\Http\Requests\Bug\UpdateBugRequest;
@@ -12,7 +13,6 @@ use App\Models\Project;
 use App\Models\User;
 use App\Notifications\Bug\BugCreatedNotification;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
-use App\Trait\BugLog\HasBugLogMethods;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,7 +20,6 @@ use Inertia\Response;
 
 class BugController extends Controller
 {
-    use HasBugLogMethods;
 
     public function __construct(
         protected BugInfosRepositoryInterface $bug_infos_repository,
@@ -28,6 +27,11 @@ class BugController extends Controller
     {
     }
 
+    /**
+     * Create bug page
+     * @param Project $project
+     * @return Response
+     */
     public function create(Project $project): Response
     {
         $project->load('users');
@@ -42,75 +46,37 @@ class BugController extends Controller
         return $this->render('Bug/BugCreate', $data);
     }
 
+    /**
+     * Store the bug
+     *  - Store bug title and infos (status, assigned user and more)
+     *  - store first comment
+     *  - Log history
+     *  - Notify concerned user(s)
+     * @param StoreBugRequest $request
+     * @param Project $project
+     * @return RedirectResponse
+     */
     public function store(StoreBugRequest $request, Project $project): RedirectResponse
     {
-        // Nouveau bug
+        // New bug
         $bug = new Bug($request->validated());
 
-        // Nouveau commentaire (description du bug)
+        // New comment (bug description)
         $bugComment = new BugComment($request->validated());
 
-        // Enregistrement du bug et de son premier commentaire
+        // Save the bug and its first comment
         $project->bugs()->save($bug);
         $bug->bug_comments()->save($bugComment);
 
-        // Associer les fichiers
+        // Link files to the bug.
         $files = BugCommentFileController::do_upload_files($request, $bugComment);
 
-
-        // Log de l'action dans l'historique du bug
-        self::logAction(
-            $bug->id,
-            auth()->id(),
-            "Création d'un nouveau bug",
-        );
-
-        // log de la priorité
-        $new_priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
-        self::logAction(
-            $bug->id,
-            auth()->id(),
-            "Priorité",
-            " => " . $new_priority['label']
-        );
-
-        if ($bug->status !== 1) {
-            $new_status = $this->bug_infos_repository->getBugStatusById($bug->status);
-            self::logAction(
-                $bug->id,
-                auth()->id(),
-                "Statut",
-                " => " . $new_status['label']
-            );
-        }
-
-        // log de l'utilisateur assigné si renseigné
-        $assignedUser = false;
+        $assignedUser = null;
         if ($request->validated('assigned_user_id')) {
             $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
-            self::logAction(
-                $bug->id,
-                auth()->id(),
-                "Assigné à",
-                "=> " . $assignedUser->full_name,
-            );
         }
-
-
-        // email notif
-        $usersToNotify = $project
-            ->users
-            ->where('role_id', 1)
-            ->where('id', '!=', auth()->id()); // les admins sur le projets autre que celui-connecté
-        if ($assignedUser) {
-            $usersToNotify->push($assignedUser);
-        }
-        $usersToNotify = $usersToNotify->unique('id');
-        foreach ($usersToNotify as $user) {
-            $status = $this->bug_infos_repository->getBugStatusById($bug->status);
-            $priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
-            $user->notify(new BugCreatedNotification($project, $bug, $bugComment, $status, $priority, $files));
-        }
+        // Trigger the BugCreated event
+        BugCreated::dispatch($project, $bug, $bugComment, $assignedUser, $files);
 
         $flash_notification = [
             "title" => __('flash_bugtrackly.bug_created_title'),
@@ -119,6 +85,12 @@ class BugController extends Controller
         return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
     }
 
+    /**
+     * View the bug page
+     * @param Project $project
+     * @param Bug $bug
+     * @return Response
+     */
     public function show(Project $project, Bug $bug): Response
     {
         $project->load('users');
@@ -139,6 +111,13 @@ class BugController extends Controller
         return $this->render('Bug/BugShow', $data);
     }
 
+    /**
+     * Update the bug
+     * @param UpdateBugRequest $request
+     * @param Project $project
+     * @param Bug $bug
+     * @return JsonResponse
+     */
     public function update(UpdateBugRequest $request, Project $project, Bug $bug): JsonResponse
     {
         $bug->update($request->validated());
@@ -152,6 +131,13 @@ class BugController extends Controller
     }
 
 
+    /**
+     * Destroy the bug
+     * @param Request $request
+     * @param Project $project
+     * @param Bug $bug
+     * @return RedirectResponse
+     */
     public function destroy(Request $request, Project $project, Bug $bug): RedirectResponse
     {
         $bug->delete();
