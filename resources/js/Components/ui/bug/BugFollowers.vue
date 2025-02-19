@@ -1,6 +1,6 @@
 <template>
     <p class="fw-semibold mb-2">
-        {{ trans('bug.followedByTitle') }}
+        {{ trans('ticket.followedByTitle') }}
     </p>
     <AvatarsList size-avatar="size-2" :items="followers" v-if="followers.length > 1"/>
     <div class="d-flex align-items-center" v-else>

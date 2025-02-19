@@ -47,7 +47,7 @@ class HandleBugCreated
         BugLog::create([
             'bug_id'  => $bug->id,
             'user_id' => $bug->user_id,
-            'action'  => __('bugtrackly.log.new_bug_action'), //"",
+            'action'  => __('bugtrackly.log.new_ticket_action'), //"",
         ]);
 
         // We log the bug's priority in the bug history
@@ -55,7 +55,7 @@ class HandleBugCreated
         BugLog::create([
             'bug_id'  => $bug->id,
             'user_id' => $bug->user_id,
-            'action'  => __('bugtrackly.bugs_list.headings.priority'), //"",
+            'action'  => __('bugtrackly.tickets_list.headings.priority'), //"",
             'details' => " => " . $new_priority['label'],
         ]);
 
@@ -65,7 +65,7 @@ class HandleBugCreated
             BugLog::create([
                 'bug_id'  => $bug->id,
                 'user_id' => $bug->user_id,
-                'action'  => __('bugtrackly.bugs_list.headings.status'), //"",
+                'action'  => __('bugtrackly.tickets_list.headings.status'), //"",
                 'details' => " => " . $new_status['label'],
             ]);
         }
@@ -75,7 +75,7 @@ class HandleBugCreated
             BugLog::create([
                 'bug_id'  => $bug->id,
                 'user_id' => $bug->user_id,
-                'action'  => __('bugtrackly.bugs_list.headings.assigned'), //"",
+                'action'  => __('bugtrackly.tickets_list.headings.assigned'), //"",
                 'details' => " => " . $assigned_user->full_name,
             ]);
         }

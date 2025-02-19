@@ -16,7 +16,7 @@
         <p class="text-sm text-secondary mb-0">{{project.short_desc}}</p>
         <template #cardFooter>
             <div class="d-flex justify-content-between align-items-center">
-                <span class="badge text-bg-secondary">{{trans_choice('dashboard.project.nbBug', project.bugs_count)}}</span>
+                <span class="badge text-bg-secondary">{{trans_choice('dashboard.project.nbTicket', project.bugs_count)}}</span>
                 <Link :href="route('projects.show', project.slug)" class="fw-semibold">{{ trans('dashboard.project.show') }}</Link>
             </div>
         </template>

@@ -1,6 +1,6 @@
 <template>
     <div class="upload-zone text-center p-3">
-        <h5 class="fs-6">{{ trans('bug.form.add_files_label') }}</h5>
+        <h5 class="fs-6">{{ trans('ticket.form.add_files_label') }}</h5>
         <div class="drop-zone d-flex flex-column align-items-center p-4 mt-3 text-secondary"
              @dragover.prevent="handleDragOver"
              @dragenter.prevent="handleDragEnter"
@@ -9,10 +9,10 @@
             <input type="file" multiple ref="fileInput" class="visually-hidden" id="upload_file" @change="handleFileChange"/>
             <ArrowUpTrayIcon class="size-2 mb-2"/>
             <InputLabel for="upload_file" class="text-secondary text-sm">
-                {{trans('bug.form.add_files_placeholder')}}
+                {{trans('ticket.form.add_files_placeholder')}}
             </InputLabel>
             <SecondaryButton @click="triggerFileInput" outlined class="btn-sm mt-2">
-                {{ model.length ? trans('bug.form.add_files_btn_choose_other_files') : trans('bug.form.add_files_btn_choose_files') }}
+                {{ model.length ? trans('ticket.form.add_files_btn_choose_other_files') : trans('ticket.form.add_files_btn_choose_files') }}
             </SecondaryButton>
         </div>
         <div>

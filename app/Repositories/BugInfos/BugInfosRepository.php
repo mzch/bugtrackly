@@ -24,7 +24,7 @@ class BugInfosRepository implements BugInfosRepositoryInterface
         $data = json_decode($jsonContent, true);
         $status = $data['status'];
         foreach ($status as &$s) {
-            $s['label'] = __('bugtrackly.bug_status_' . $s['slug']);
+            $s['label'] = __('bugtrackly.ticket_status_' . $s['slug']);
         }
         $collection = collect($status ?? []);
         if(!$with_children){
@@ -57,8 +57,8 @@ class BugInfosRepository implements BugInfosRepositoryInterface
         $data = json_decode($jsonContent, true);
         $priorities = $data['priorities'];
         foreach ($priorities as &$p) {
-            $p['label'] = __('bugtrackly.bug_priority_' . $p['slug']);
-            $p['extended_label'] = __('bugtrackly.bug_priority_' . $p['slug'] . '_extended');
+            $p['label'] = __('bugtrackly.ticket_priority_' . $p['slug']);
+            $p['extended_label'] = __('bugtrackly.ticket_priority_' . $p['slug'] . '_extended');
         }
         return collect($priorities ?? []);
     }
