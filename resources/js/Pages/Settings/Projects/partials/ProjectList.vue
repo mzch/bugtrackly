@@ -89,7 +89,7 @@ const params = ref({
     direction: filters.value.direction
 });
 
-const no_result = computed( () => filters.value.search !== null ? "Aucun projet trouvé" : "Aucun projet enregistré")
+const no_result = computed( () => filters.value.search !== null ? trans('settings.projects.search.none_found') : trans('settings.projects.search.none_saved'))
 
 /**
  * Sort handler on columns header

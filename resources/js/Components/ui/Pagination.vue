@@ -31,8 +31,10 @@ const removePageOneParam = (url) => {
 <template>
     <div class="d-flex align-items-center justify-content-between footer-datatable footer-datatable-sm">
         <div class="text-secondary">
-            {{trans_params('general.pagination_display', items.from, items.to, items.total)}}
-            {{trans_choice(itemTranslatedKey, items.total)}}
+            <template v-if="items.total > 0">
+                {{trans_params('general.pagination_display', items.from, items.to, items.total)}}
+                {{trans_choice(itemTranslatedKey, items.total)}}
+            </template>
         </div>
         <nav v-if="showingPagination">
             <ul class="pagination pagination-sm mb-0">

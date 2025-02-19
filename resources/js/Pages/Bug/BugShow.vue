@@ -1,7 +1,7 @@
 <template>
-    <AuthenticatedLayout :page-title="bug.title">
+    <AuthenticatedLayout :page-title="trans_params('pageTitle.show_ticket', bug.bug_id_formatted)">
         <template #header>
-            {{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
+            {{ project.name }} -&nbsp;<span class="text-secondary">{{trans_params('pageTitle.show_ticket', bug.bug_id_formatted) }}</span>
             <button type="button"
                     :title="trans('ticket.show.tracking_desc')"
                     class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
@@ -70,7 +70,7 @@ import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 import {CheckIcon, PlusIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import {router, useForm, Link} from "@inertiajs/vue3";
-import {trans} from "@/Helpers/translations.js";
+import {trans, trans_params} from "@/Helpers/translations.js";
 
 const props = defineProps({
     project: {

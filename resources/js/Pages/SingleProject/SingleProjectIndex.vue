@@ -184,7 +184,7 @@ const params = ref({
     direction: filters.value.direction
 });
 
-const no_result = computed(() => filters.value.search !== null ? "Aucun bug trouvé" : "Aucun bug enregistré")
+const no_result = computed(() => filters.value.search !== null ? trans('tickets_list.none_found') : trans('tickets_list.none_saved'))
 
 /**
  * Sort handler on columns header

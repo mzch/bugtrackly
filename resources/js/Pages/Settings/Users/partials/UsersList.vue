@@ -102,7 +102,7 @@ const params = ref({
     direction: filters.value.direction
 });
 
-const no_result = computed( () => filters.value.search !== null ? "Aucun utilisateur trouvé" : "Aucun utilisateur enregistré")
+const no_result = computed( () => filters.value.search !== null ? trans('settings.users.search.none_found') : trans('settings.users.search.none_saved'))
 
 
 /**

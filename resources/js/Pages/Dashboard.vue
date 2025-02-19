@@ -213,7 +213,7 @@ const status_options = computed(() => {
         label: trans('ticket_status_opened')
     }], ...status_opt];
 });
-const no_result = computed(() => filters.value.search !== null ? "Aucun bug suivi trouvé" : "Aucun bug suivi enregistré")
+const no_result = computed(() => filters.value.search !== null ? trans('tickets_list.tracked.none_found') : trans('tickets_list.tracked.none_saved'))
 /**
  * Params send to the controller
  * @type {Ref<UnwrapRef<{search, field: *, direction}>>}
