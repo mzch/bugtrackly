@@ -17,12 +17,12 @@
                 </p>
             </div>
         </Card>
-        <Card :card-title="trans('dashboard.followed_bug_title')" :remove-body-padding="true"
+        <Card :card-title="trans('dashboard.followed_ticket_title')" :remove-body-padding="true"
               v-if="followed_bugs.data.length || has_filter_active">
             <template #cardHeaderAction>
                 <template v-if="projects_options.length > 2">
                     <InputLabel for="project_filter" class="col-auto col-form-label col-form-label-sm">
-                        {{ trans('bugs_list.filters.projects') }}
+                        {{ trans('tickets_list.filters.projects') }}
                     </InputLabel>
                     <FormSelect id="project_filter"
                                 class="col-auto form-select-sm w-auto me-1"
@@ -31,7 +31,7 @@
                                 v-model="params.project"/>
                 </template>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                    {{ trans('bugs_list.filters.priority') }}
+                    {{ trans('tickets_list.filters.priority') }}
                 </InputLabel>
                 <FormSelect id="priority_filter"
                             class="col-auto form-select-sm w-auto me-1"
@@ -40,7 +40,7 @@
                             v-model="params.priority"/>
 
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                    {{ trans('bugs_list.filters.status') }}
+                    {{ trans('tickets_list.filters.status') }}
                 </InputLabel>
                 <FormSelect id="priority_filter"
                             class="col-auto form-select-sm w-auto me-1"
@@ -50,11 +50,11 @@
 
                 <InputLabel for="search_user"
                             class="col-form-label col-form-label-sm text-end col-auto">
-                    {{ trans('bugs_list.filters.search') }}
+                    {{ trans('tickets_list.filters.search') }}
                 </InputLabel>
                 <div class="col-auto">
                     <TextInput type="search" id="search_user" v-model="params.search"
-                               :placeholder="trans('bugs_list.filters.search_placeholder')"
+                               :placeholder="trans('tickets_list.filters.search_placeholder')"
                                class="form-control-sm" autofocus/>
                 </div>
 
@@ -65,20 +65,20 @@
                     <tr>
                         <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
                         <th :class="sortingClass('project', params)" @click="sort('project')">
-                            {{ trans('bugs_list.headings.project') }}
+                            {{ trans('tickets_list.headings.project') }}
                         </th>
                         <th :class="sortingClass('title', params)" @click="sort('title')">
-                            {{ trans('bugs_list.headings.title') }}
+                            {{ trans('tickets_list.headings.title') }}
                         </th>
                         <th :class="sortingClass('status', params)" @click="sort('status')">
-                            {{ trans('bugs_list.headings.status') }}
+                            {{ trans('tickets_list.headings.status') }}
                         </th>
-                        <th style="width: 200px">{{ trans('bugs_list.headings.assigned') }}</th>
+                        <th style="width: 200px">{{ trans('tickets_list.headings.assigned') }}</th>
                         <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">
-                            {{ trans('bugs_list.headings.priority') }}
+                            {{ trans('tickets_list.headings.priority') }}
                         </th>
                         <th :class="sortingClass('date', params)" @click="sort('date')">
-                            {{ trans('bugs_list.headings.date') }}
+                            {{ trans('tickets_list.headings.date') }}
                         </th>
                     </tr>
                     </thead>
@@ -103,7 +103,7 @@
                                 </Link>
                                 <small class="text-secondary">
                                     <ChatBubbleLeftIcon class="size-1"/>
-                                    {{trans_choice('bugs_list.nb_notes', nb_notes(bug.bug_comments_count))}}
+                                    {{trans_choice('tickets_list.nb_notes', nb_notes(bug.bug_comments_count))}}
                                 </small>
                             </p>
                         </td>
@@ -115,7 +115,7 @@
                                 <Avatar :user="bug.assigned_user" class="me-1 bordered"/>
                                 {{ bug.assigned_user.full_name }}
                             </div>
-                            <em class="mb-0 opacity-75" v-else>{{ trans('bugs_list.not_assigned') }}</em>
+                            <em class="mb-0 opacity-75" v-else>{{ trans('tickets_list.not_assigned') }}</em>
                         </td>
                         <td class="align-middle">
                             <div class="priority rounded-pill"
@@ -136,7 +136,7 @@
                 <p class="mb-0 text-center">{{ no_result }}</p>
             </div>
             <template #cardFooter>
-                <Pagination :items="followed_bugs" item-translated-key="dashboard.followed_bug_pagination"/>
+                <Pagination :items="followed_bugs" item-translated-key="dashboard.followed_ticket_pagination"/>
             </template>
         </Card>
     </AuthenticatedLayout>
@@ -196,24 +196,24 @@ const has_filter_active = computed(() => {
 const projects_options = computed(() => {
     const projects = props.projects || [];
     const projects_opt = projects.map(p => ({id: p.slug, label: p.name}));
-    return [...[{id: null, label: trans('bugs_list.filters.projects.all')}], ...projects_opt];
+    return [...[{id: null, label: trans('tickets_list.filters.projects.all')}], ...projects_opt];
 })
 
 const priorities_options = computed(() => {
     const priorities = props.bug_priorities || [];
     const priorities_opt = priorities.map(p => ({id: p.slug, label: p.label}));
-    return [...[{id: null, label: trans('bug_priority_all')}], ...priorities_opt];
+    return [...[{id: null, label: trans('ticket_priority_all')}], ...priorities_opt];
 });
 
 const status_options = computed(() => {
     const status = props.bug_status || [];
     const status_opt = status.map(s => ({id: s.slug, label: s.label}));
-    return [...[{id: 'all', label: trans('bug_status_all')}, {
+    return [...[{id: 'all', label: trans('ticket_status_all')}, {
         id: null,
-        label: trans('bug_status_opened')
+        label: trans('ticket_status_opened')
     }], ...status_opt];
 });
-const no_result = computed(() => filters.value.search !== null ? "Aucun bug suivi trouvé" : "Aucun bug suivi enregistré")
+const no_result = computed(() => filters.value.search !== null ? trans('tickets_list.tracked.none_found') : trans('tickets_list.tracked.none_saved'))
 /**
  * Params send to the controller
  * @type {Ref<UnwrapRef<{search, field: *, direction}>>}

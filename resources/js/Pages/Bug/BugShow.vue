@@ -1,15 +1,15 @@
 <template>
-    <AuthenticatedLayout :page-title="bug.title">
+    <AuthenticatedLayout :page-title="trans_params('pageTitle.show_ticket', bug.bug_id_formatted)">
         <template #header>
-            {{ project.name }} - <span class="text-secondary">Bug n°{{ bug.bug_id_formatted }}</span>
+            {{ project.name }} -&nbsp;<span class="text-secondary">{{trans_params('pageTitle.show_ticket', bug.bug_id_formatted) }}</span>
             <button type="button"
-                    :title="trans('bug.show.tracking_desc')"
+                    :title="trans('ticket.show.tracking_desc')"
                     class="btn btn-secondary btn-sm ms-2 btn-with-icon rounded-pill"
                     @click="toggleFollowBug()"
                     :disabled="form.processing"
                     v-if="!isFollowing">
                 <PlusIcon class="size-1 me-1"/>
-                {{ trans('bug.show.tracking_label') }}
+                {{ trans('ticket.show.tracking_label') }}
             </button>
             <button type="button"
                     title="Ne plus suivre ce bug"
@@ -18,7 +18,7 @@
                     :disabled="form.processing"
                     v-else>
                 <CheckIcon class="size-1 me-1"/>
-                {{ trans('bug.show.tracked_label') }}
+                {{ trans('ticket.show.tracked_label') }}
             </button>
 
         </template>
@@ -32,14 +32,14 @@
         <BugDescription :bug="bug" :project="project" :is-following="isFollowing"/>
         <BugResponses :bug-responses="bug_responses" class="mb-4"/>
 
-        <Card :card-title="trans( 'bug.history.title')" remove-body-padding>
+        <Card :card-title="trans( 'ticket.history.title')" remove-body-padding>
             <table class="table table-bordered table-sm text-sm">
                 <thead>
                 <tr>
-                    <th>{{trans( 'bug.history.updated_at')}}</th>
-                    <th>{{trans( 'bug.history.user')}}</th>
-                    <th>{{trans( 'bug.history.change')}}</th>
-                    <th>{{trans( 'bug.history.detail')}}</th>
+                    <th>{{trans( 'ticket.history.updated_at')}}</th>
+                    <th>{{trans( 'ticket.history.user')}}</th>
+                    <th>{{trans( 'ticket.history.change')}}</th>
+                    <th>{{trans( 'ticket.history.detail')}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@ import Card from "@/Components/ui/Card.vue";
 import ModalDeleteFile from "@/Pages/Bug/partial/ModalDeleteFile.vue";
 import {CheckIcon, PlusIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import {router, useForm, Link} from "@inertiajs/vue3";
-import {trans} from "@/Helpers/translations.js";
+import {trans, trans_params} from "@/Helpers/translations.js";
 
 const props = defineProps({
     project: {

@@ -26,12 +26,12 @@
                 <div v-show="show_bug_submenu" class="actions_bug">
                     <SecondaryButton type="button" :disabled="editing_bug_description" class="btn-sm me-2 w-100"
                                      @click="click_edit_bug_handler" v-if="canModifyBug">
-                        {{trans('bug.show.update_label')}}
+                        {{trans('ticket.show.update_label')}}
                     </SecondaryButton>
                     <DangerButton :disabled="editing_bug_description" class="btn-sm w-100 mt-1"
                                   v-if="canDeleteBug"
                                   @click="click_delete_bug_handler">
-                        {{trans('bug.show.delete_label')}}
+                        {{trans('ticket.show.delete_label')}}
                     </DangerButton>
                 </div>
             </div>
@@ -46,22 +46,22 @@
                     <TextInput v-model="form.title"
                                class="form-control-lg"
                                :class="{'is-invalid' :form.errors.title}"
-                               :placeholder="trans('bug.form.title_label')"
+                               :placeholder="trans('ticket.form.title_label')"
                                autofocus
                                required
                                maxlength="255"/>
-                    <InputLabel for="bug_title" :value="trans('bug.form.title_label')"/>
+                    <InputLabel for="bug_title" :value="trans('ticket.form.title_label')"/>
                     <InputError :message="form.errors.title"/>
                 </FormField>
                 <FormField class="form-floating">
                     <TextArea
                         id="bug_desc"
-                        :placeholder="trans('bug.form.desc_label')"
+                        :placeholder="trans('ticket.form.desc_label')"
                         v-model.trim="form.content"
                         required
                         style="height: 200px"
                         :class="{'is-invalid' :form.errors.content}"/>
-                    <InputLabel for="bug_desc" :value="trans('bug.form.desc_label')"/>
+                    <InputLabel for="bug_desc" :value="trans('ticket.form.desc_label')"/>
                     <InputError :message="form.errors.content"/>
                 </FormField>
             </div>

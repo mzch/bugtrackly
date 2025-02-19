@@ -1,6 +1,6 @@
 <template>
     <p class="fw-semibold mb-2">
-        {{ trans('bug.assignedToTitle') }}
+        {{ trans('ticket.assignedToTitle') }}
     </p>
     <div class="d-flex align-items-center">
         <Avatar :user="user" class="bordered me-2 "/>
