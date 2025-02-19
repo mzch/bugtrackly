@@ -83,11 +83,20 @@ class Project extends Model
     }
 
     /**
-     * Get the comments for the blog post.
+     * Get the tickets for the project.
      */
     public function bugs(): HasMany
     {
         return $this->hasMany(Bug::class);
+    }
+
+    /**
+     * Get the ticket categories for the project.
+     * @return HasMany
+     */
+    public function ticket_categories(): HasMany
+    {
+        return $this->hasMany(TicketCategory::class);
     }
 
 }
