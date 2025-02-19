@@ -1,5 +1,5 @@
 <template>
-    <Card :card-title="trans('bug.notes.title')">
+    <Card :card-title="trans('ticket.notes.title')">
         <div>
             <BugSingleResponse v-for="(response, index) in bugResponses" :key="response.id"
                                class="mb-4" :class="{'my-card': response.user?.id === current_user.id}"
@@ -16,11 +16,11 @@
                         <FormField class="form-floating flex-grow-1 mb-2" no-margin-bottom>
                         <TextArea
                             id="bug_desc"
-                            :placeholder="trans('bug.notes.new_note_label')"
+                            :placeholder="trans('ticket.notes.new_note_label')"
                             v-model.trim="form.content"
                             style="height: 100%; min-height: 200px"
                             :class="{'is-invalid' :form.errors.content}"/>
-                            <InputLabel for="bug_desc" :value="trans('bug.notes.new_note_label')"/>
+                            <InputLabel for="bug_desc" :value="trans('ticket.notes.new_note_label')"/>
                             <InputError :message="form.errors.content"/>
                         </FormField>
                     </div>
@@ -43,28 +43,28 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <FormField class="form-floating mt-4">
-                                        <FormSelect :select-label="trans('bug.form.select_new_status')"
+                                        <FormSelect :select-label="trans('ticket.form.select_new_status')"
                                                     :options="bug_status_options"
                                                     :disabled="!user_can_change_bug_statut"
                                                     :class="{'is-invalid' :form.errors.status}"
                                                     v-model="form.status"/>
-                                        <InputLabel for="new_bug_status" :value="trans('bug.form.new_status')"/>
+                                        <InputLabel for="new_bug_status" :value="trans('ticket.form.new_status')"/>
                                         <InputError :message="form.errors.status"/>
                                     </FormField>
                                 </div>
                                 <div class="col-md-4">
                                     <FormField class="form-floating mt-4">
-                                        <FormSelect :select-label="trans('bug.form.select_new_priority')"
+                                        <FormSelect :select-label="trans('ticket.form.select_new_priority')"
                                                     :options="bug_priorities_options"
                                                     :class="{'is-invalid' :form.errors.priority}"
                                                     v-model="form.priority"/>
-                                        <InputLabel for="new_bug_status" :value="trans('bug.form.new_priority')"/>
+                                        <InputLabel for="new_bug_status" :value="trans('ticket.form.new_priority')"/>
                                         <InputError :message="form.errors.priority"/>
                                     </FormField>
                                 </div>
                                 <div class="col-md-4">
                                     <UserAvatarVSelect id="assigned_user"
-                                                       :label="trans('bug.form.assign_user')"
+                                                       :label="trans('ticket.form.assign_user')"
                                                        v-model="form.assigned_user_id"
                                                        :disabled="!user_can_change_bug_assigned_user"
                                                        :users="project.users"/>
@@ -77,7 +77,7 @@
                 <div>
                     <PrimaryButton class="btn-sm"
                                    :disabled="!form.isDirty || form.processing"
-                                   @click="submitResponseHandler">{{trans('bug.notes.add_my_note')}}
+                                   @click="submitResponseHandler">{{trans('ticket.notes.add_my_note')}}
                     </PrimaryButton>
                 </div>
             </Card>
@@ -162,12 +162,12 @@ const user_can_change_bug_assigned_user = computed(() => {
 })
 
 const change_bug_info_label = computed(() => {
-    const label_start = trans('bug.notes.change_note_start'),
-        label_change_status = trans('bug.notes.change_note_status'),
-        label_change_priority = trans('bug.notes.change_note_priority'),
-        label_change_assigned_user = trans('bug.notes.change_note_assigned_user'),
-        label_change_glue = trans('bug.notes.change_note_glue'),
-        label_change_end = trans('bug.notes.change_note_end');
+    const label_start = trans('ticket.notes.change_note_start'),
+        label_change_status = trans('ticket.notes.change_note_status'),
+        label_change_priority = trans('ticket.notes.change_note_priority'),
+        label_change_assigned_user = trans('ticket.notes.change_note_assigned_user'),
+        label_change_glue = trans('ticket.notes.change_note_glue'),
+        label_change_end = trans('ticket.notes.change_note_end');
     let label_parts = [];
     if (user_can_change_bug_statut.value) {
         label_parts.push(label_change_status)

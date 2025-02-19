@@ -22,13 +22,13 @@
                                      :disabled="editingResponse"
                                      @click="updateResponseHandler"
                                      v-if="canUpdateResponse">
-                        {{trans('bug.notes.update_label')}}
+                        {{trans('ticket.notes.update_label')}}
                     </SecondaryButton>
                     <DangerButton class="btn-sm mt-1 w-100"
                                   :disabled="editingResponse"
                                   @click="store.commit('bug/setBugResponseToDelete', response)"
                                   v-if="canDeleteSingleResponse">
-                        {{trans('bug.notes.delete_label')}}
+                        {{trans('ticket.notes.delete_label')}}
                     </DangerButton>
                 </div>
             </div>
@@ -41,12 +41,12 @@
                 <FormField class="form-floating flex-grow-1 mb-2">
                     <TextArea
                         id="bug_desc"
-                        :placeholder="trans('bug.form.desc_label')"
+                        :placeholder="trans('ticket.form.desc_label')"
                         v-model.trim="form.content"
                         required
                         style="height: 100%; min-height: 200px"
                         :class="{'is-invalid' :form.errors.content}"/>
-                    <InputLabel for="bug_desc" :value="trans('bug.form.desc_label')"/>
+                    <InputLabel for="bug_desc" :value="trans('ticket.form.desc_label')"/>
                     <InputError :message="form.errors.content"/>
                 </FormField>
             </div>

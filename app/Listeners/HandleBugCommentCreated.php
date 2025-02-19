@@ -50,7 +50,7 @@ class HandleBugCommentCreated
             BugLog::create([
                 'bug_id'  => $bug->id,
                 'user_id' => $bugComment->user_id,
-                'action'  => __('bugtrackly.log.new_bug_comment_action'),
+                'action'  => __('bugtrackly.log.new_ticket_comment_action'),
             ]);
         }
 
@@ -66,7 +66,7 @@ class HandleBugCommentCreated
             BugLog::create([
                 'bug_id'  => $bug->id,
                 'user_id' => auth()->id(),
-                'action'  => __('bugtrackly.bugs_list.headings.priority'),
+                'action'  => __('bugtrackly.tickets_list.headings.priority'),
                 'details' => $old_priority['label'] . " => " . $new_priority['label']
             ]);
         }
@@ -80,7 +80,7 @@ class HandleBugCommentCreated
             BugLog::create([
                 'bug_id'  => $bug->id,
                 'user_id' => auth()->id(),
-                'action'  => __('bugtrackly.bugs_list.headings.status'),
+                'action'  => __('bugtrackly.tickets_list.headings.status'),
                 'details' => $old_status['label'] . " => " . $new_status['label']
             ]);
         }
@@ -102,12 +102,12 @@ class HandleBugCommentCreated
             } elseif ($old_user === null && $new_user) {
                 $str = " => " . $new_user->full_name;
             } else {
-                $str = $old_user->full_name . " => (" . __('bugtrackly.bugs_list.not_assigned') . ")";
+                $str = $old_user->full_name . " => (" . __('bugtrackly.tickets_list.not_assigned') . ")";
             }
             BugLog::create([
                 'bug_id'  => $bug->id,
                 'user_id' => auth()->id(),
-                'action'  => __('bugtrackly.bugs_list.headings.assigned'),
+                'action'  => __('bugtrackly.tickets_list.headings.assigned'),
                 'details' => $str
             ]);
         }

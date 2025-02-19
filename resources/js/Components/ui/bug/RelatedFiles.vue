@@ -1,6 +1,6 @@
 <template>
     <p class="fw-semibold mb-0">
-        {{trans_choice('bug.attachFileTitle', comment.files.length)}}
+        {{trans_choice('ticket.attachFileTitle', comment.files.length)}}
     </p>
     <ul class="list-group mt-1 mb-0">
         <li v-for="file in comment.files" :key="file.id" class="list-group-item d-flex justify-content-between align-items-center">

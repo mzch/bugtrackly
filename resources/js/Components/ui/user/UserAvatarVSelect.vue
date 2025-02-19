@@ -6,7 +6,7 @@
               label="full_name"
               :disabled="disabled"
               :reduce="user => user.id"
-              :placeholder="trans('bug.form.select_user')"
+              :placeholder="trans('ticket.form.select_user')"
               :options="users"
               :selectable="selectableCondition">
         <template #open-indicator="{ attributes }">

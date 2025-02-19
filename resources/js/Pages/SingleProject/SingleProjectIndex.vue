@@ -7,10 +7,10 @@
                 {{ trans('project.show.report_label') }}
             </Link>
         </template>
-        <Card :card-title="trans('project.show.bug_list_title')" :remove-body-padding="true">
+        <Card :card-title="trans('project.show.ticket_list_title')" :remove-body-padding="true">
             <template #cardHeaderAction>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                    {{ trans('bugs_list.filters.priority') }}
+                    {{ trans('tickets_list.filters.priority') }}
                 </InputLabel>
                 <FormSelect id="priority_filter"
                             class="col-auto form-select-sm w-auto me-1"
@@ -19,7 +19,7 @@
                             v-model="params.priority"/>
 
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
-                    {{ trans('bugs_list.filters.status') }}
+                    {{ trans('tickets_list.filters.status') }}
                 </InputLabel>
                 <FormSelect id="priority_filter"
                             class="col-auto form-select-sm w-auto me-1"
@@ -29,15 +29,15 @@
 
                 <InputLabel for="search_user"
                             class="col-form-label col-form-label-sm text-end col-auto">
-                    {{ trans('bugs_list.filters.search') }}
+                    {{ trans('tickets_list.filters.search') }}
                 </InputLabel>
                 <div class="col-auto">
-                    <TextInput type="search" id="search_user" v-model="params.search" :placeholder="trans('bugs_list.filters.search_placeholder')"
+                    <TextInput type="search" id="search_user" v-model="params.search" :placeholder="trans('tickets_list.filters.search_placeholder')"
                                class="form-control-sm" autofocus/>
                 </div>
             </template>
             <template #cardFooter>
-                <Pagination :items="bugs" item-translated-key="project.bug_list_pagination" />
+                <Pagination :items="bugs" item-translated-key="project.ticket_list_pagination" />
             </template>
             <div class="table-responsive" v-if="bugs.data.length">
                 <table class="table table-bordered table-hover mb-0 caption-top">
@@ -45,17 +45,17 @@
                     <tr>
                         <th :class="sortingClass('id', params)" @click="sort('id')">#</th>
                         <th :class="sortingClass('title', params)" @click="sort('title')">
-                            {{ trans('bugs_list.headings.title') }}
+                            {{ trans('tickets_list.headings.title') }}
                         </th>
                         <th :class="sortingClass('status', params)" @click="sort('status')">
-                            {{ trans('bugs_list.headings.status') }}
+                            {{ trans('tickets_list.headings.status') }}
                         </th>
-                        <th>{{ trans('bugs_list.headings.assigned') }}</th>
+                        <th>{{ trans('tickets_list.headings.assigned') }}</th>
                         <th style="width: 100px" :class="sortingClass('priority', params)" @click="sort('priority')">
-                            {{ trans('bugs_list.headings.priority') }}
+                            {{ trans('tickets_list.headings.priority') }}
                         </th>
                         <th :class="sortingClass('date', params)" @click="sort('date')">
-                            {{ trans('bugs_list.headings.date') }}
+                            {{ trans('tickets_list.headings.date') }}
                         </th>
                     </tr>
                     </thead>
@@ -75,7 +75,7 @@
 
                                 <small class="text-secondary">
                                     <ChatBubbleLeftIcon class="size-1"/>
-                                    {{trans_choice('bugs_list.nb_notes', nb_notes(bug.bug_comments_count))}}
+                                    {{trans_choice('tickets_list.nb_notes', nb_notes(bug.bug_comments_count))}}
                                 </small>
 
                             </p>
@@ -88,7 +88,7 @@
                                 <Avatar :user="bug.assigned_user" class="me-1 bordered"/>
                                 {{ bug.assigned_user.full_name }}
                             </div>
-                            <em class="mb-0 opacity-75" v-else>{{ trans('bugs_list.not_assigned') }}</em>
+                            <em class="mb-0 opacity-75" v-else>{{ trans('tickets_list.not_assigned') }}</em>
                         </td>
                         <td class="align-middle">
                             <div class="priority rounded-pill"
