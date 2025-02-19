@@ -79,8 +79,8 @@ class BugController extends Controller
         BugCreated::dispatch($project, $bug, $bugComment, $assignedUser, $files);
 
         $flash_notification = [
-            "title" => __('flash_bugtrackly.bug_created_title'),
-            "text"  => __('flash_bugtrackly.bug_created_desc', ['bug_id' => $bug->id])
+            "title" => __('flash_bugtrackly.ticket_created_title'),
+            "text"  => __('flash_bugtrackly.ticket_created_desc', ['bug_id' => $bug->id])
         ];
         return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
     }
@@ -142,8 +142,8 @@ class BugController extends Controller
     {
         $bug->delete();
         $flash_notification = [
-            "title" => __('flash_bugtrackly.bug_deleted_title'),
-            "text"  => __('flash_bugtrackly.bug_deleted_desc', ['bug_id' => $bug->id]),
+            "title" => __('flash_bugtrackly.ticket_deleted_title'),
+            "text"  => __('flash_bugtrackly.ticket_deleted_desc', ['bug_id' => $bug->id]),
         ];
         return to_route('projects.show', $project)->with('success', $flash_notification);
     }
@@ -189,15 +189,15 @@ class BugController extends Controller
 
         if($request->get('followBug')) {
             $flash_notification = [
-                "title" =>  __('flash_bugtrackly.bug_followed_title'),
-                "text"  => __('flash_bugtrackly.bug_followed_desc'),
+                "title" =>  __('flash_bugtrackly.ticket_followed_title'),
+                "text"  => __('flash_bugtrackly.ticket_followed_desc'),
             ];
             $bug->user_followers()->attach(auth()->id());
             return to_route('projects.bug.show', [$project, $bug])->with('success', $flash_notification);
         }else{
             $flash_notification = [
-                "title" =>  __('flash_bugtrackly.bug_unfollowed_title'),
-                "text"  => __('flash_bugtrackly.bug_unfollowed_desc'),
+                "title" =>  __('flash_bugtrackly.ticket_unfollowed_title'),
+                "text"  => __('flash_bugtrackly.ticket_unfollowed_desc'),
             ];
             $bug->user_followers()->detach(auth()->id());
             return to_route('projects.bug.show', [$project, $bug])->with('warning', $flash_notification);
