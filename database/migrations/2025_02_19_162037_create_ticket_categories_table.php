@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ticket_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->tinyInteger('order')->unsigned();
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

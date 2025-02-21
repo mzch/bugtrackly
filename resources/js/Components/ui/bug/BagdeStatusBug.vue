@@ -19,6 +19,4 @@ const status = computed(() => getStatusObject(props.bug.status))
 const classes = computed(() => `badge text-bg-status-${status.value.slug}`)
 </script>
 
-<style scoped>
 
-</style>
