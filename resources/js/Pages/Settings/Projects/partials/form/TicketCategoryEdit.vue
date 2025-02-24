@@ -1,7 +1,7 @@
 <template>
     <template v-if="!editMode">
         <TagIcon class="size-1 handle-drag"/>
-        {{ model.label }}
+        {{ model.name }}
         <div class="row-actions d-inline-block">
             <button @click="clickEditHandler"
                     type="button"
@@ -21,7 +21,7 @@
             <span class="input-group-text">
                 <TagIcon class="size-1"/>
             </span>
-            <TextInput v-model="model.label"
+            <TextInput v-model="model.name"
                        ref="inputRef"
                        @keydown.enter.prevent="clickOkHandler"
                        class="form-control-sm"/>

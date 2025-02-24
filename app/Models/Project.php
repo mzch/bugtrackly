@@ -96,7 +96,7 @@ class Project extends Model
      */
     public function ticket_categories(): HasMany
     {
-        return $this->hasMany(TicketCategory::class);
+        return $this->hasMany(TicketCategory::class)->orderBy('order');
     }
 
 }

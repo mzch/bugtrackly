@@ -69,7 +69,6 @@ class ProjectController extends SettingsController
      */
     public function store(StoreProjectRequest $request)
     {
-        //
         $validated = $request->validated();
         $project = Project::create([
             'name'       => $validated['name'],
@@ -80,7 +79,13 @@ class ProjectController extends SettingsController
         if ($photo = $request->validated("photo")) {
             $project->updateProjectPhoto($photo);
         }
+
+        // Associating users to the project
         $project->users()->sync($validated['users']);
+
+        // Associating ticket categories to the project
+        $project->ticket_categories()->createMany($validated['ticket_categories']);
+
         $flash_notification = [
             "title" => __('flash_bugtrackly.project_created_title'),
             "text" => __('flash_bugtrackly.project_created_desc', ['project_name' => $project->name]),

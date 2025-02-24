@@ -4,7 +4,6 @@
         Les catégories de ticket sont un moyen supplémentaire de trier ces derniers.
         Vous pouvez créer autant de catégories que vous le souhaitez.
     </p>
-    <pre>{{form.ticket_categories}}</pre>
     <table class="mb-0 table table-bordered table-hover" v-if="form.ticket_categories.length">
         <draggable v-model="form.ticket_categories"
                    item-key="index"
@@ -30,13 +29,12 @@
     </table>
 
     <template #cardFooter>
-        <div class="row g-3">
-            <div class="col-sm-4">
+        <div class="row">
+            <div class="col-auto">
                 <div class="input-group">
                     <TextInput v-model.trim="newCategoryName" @keydown.enter.prevent="addCategory" />
                     <PrimaryButton type="button" @click.prevent="addCategory" :disabled="newCategoryName===''" :outlined="true">Ajouter la catégorie</PrimaryButton>
                 </div>
-
             </div>
         </div>
     </template>
@@ -67,7 +65,7 @@ const reorder_data = () => {
 const addCategory = (event) => {
     if(newCategoryName.value !== '' && !event.isComposing){
         const order = props.form.ticket_categories.length;
-        props.form.ticket_categories.push({order, label:newCategoryName.value});
+        props.form.ticket_categories.push({order, name:newCategoryName.value});
         newCategoryName.value = '';
     }
 }
