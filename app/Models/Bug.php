@@ -272,6 +272,14 @@ class Bug extends Model
                         $request->direction
                     );
                     return $query;
+                case "category" :
+                    $query->orderBy(
+                        TicketCategory::select('order')
+                        ->whereColumn('ticket_categories.id', 'bugs.ticket_category_id')
+                        ->limit(1),
+                        $request->direction
+                    );
+                    return $query;
                 default :
                     $sortField = $request->field;
             }

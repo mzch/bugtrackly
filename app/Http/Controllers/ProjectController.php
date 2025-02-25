@@ -29,7 +29,7 @@ class ProjectController extends Controller
     {
         $request->validate([
             'direction' => 'in:asc,desc',
-            'field'     => 'in:id,title,date,priority,status',
+            'field'     => 'in:id,title,date,priority,status,category',
             'priority'  => 'in:none,low,normal,hight,immediate',
             'status'    => 'in:all,new,accepted,rejected,in_progress,resolved,closed,reopened',
             'category'    => ['nullable', new ValidCategory()],

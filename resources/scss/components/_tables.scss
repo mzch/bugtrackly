@@ -15,6 +15,9 @@
             > :not(caption) > * > *{
                 padding-left: $card-cap-padding-y;
                 padding-right: $card-cap-padding-y;
+                &.sorting{
+                    padding-right: 1.7rem;
+                }
                 &:first-child{
                     border-left: none;
                 }

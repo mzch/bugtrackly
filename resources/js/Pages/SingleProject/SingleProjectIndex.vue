@@ -11,7 +11,7 @@
             <template #cardHeaderAction>
                 <template v-if="projects_has_tickets_categories">
                     <InputLabel for="category_filter" class="col-auto col-form-label col-form-label-sm">
-                        Category :
+                        {{trans('tickets_list.filters.category') }}
                     </InputLabel>
                     <FormSelect id="category_filter"
                                 class="col-auto form-select-sm w-auto me-1"
@@ -57,7 +57,10 @@
                         <th :class="sortingClass('title', params)" @click="sort('title')">
                             {{ trans('tickets_list.headings.title') }}
                         </th>
-                        <th v-if="projects_has_tickets_categories">Cat</th>
+                        <th v-if="projects_has_tickets_categories"
+                            :class="sortingClass('category', params)" @click="sort('category')">
+                            {{trans('tickets_list.headings.category')}}
+                        </th>
                         <th :class="sortingClass('status', params)" @click="sort('status')">
                             {{ trans('tickets_list.headings.status') }}
                         </th>
@@ -175,19 +178,19 @@ const props = defineProps({
 const projects_has_tickets_categories = computed(() => props.project.ticket_categories.length > 0)
 const tickets_categories_options = computed(() => {
     const ticket_categories = map(props.project.ticket_categories, cat => ({id:cat.id, label:cat.name})) || [];
-    return [{id:null, label:'Toutes'}, ...ticket_categories, {id:'none', label: "Non attribuée"}];
+    return [{id:null, label:trans('ticket_cat_all')}, ...ticket_categories, {id:'none', label: trans('ticket_cat_none')}];
 });
 
 const priorities_options = computed(() => {
     const priorities = props.bug_priorities || [];
     const priorities_opt = priorities.map(p => ({id: p.slug, label: p.label}));
-    return [...[{id: null, label: 'Toutes'}], ...priorities_opt];
+    return [...[{id: null, label: trans('ticket_priority_all')}], ...priorities_opt];
 });
 
 const status_options = computed(() => {
     const status = props.bug_status || [];
     const status_opt = status.map(s => ({id: s.slug, label: s.label}));
-    return [...[{id: 'all', label: 'Tous'}, {id: null, label: 'Ouvert'}], ...status_opt];
+    return [...[{id: 'all', label: trans('ticket_status_all')}, {id: null, label: trans('ticket_status_opened')}], ...status_opt];
 });
 
 /**
