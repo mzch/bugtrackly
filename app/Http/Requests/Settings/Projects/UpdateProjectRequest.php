@@ -29,6 +29,10 @@ class UpdateProjectRequest extends FormRequest
             'delete_old_photo' => ['required', 'boolean'],
             'users' => ['array'],
             'users.*' => ['integer', 'exists:users,id'],
+            'ticket_categories' => ['array'],
+            'ticket_categories.*.id' => ['nullable', 'exists:ticket_categories,id'],
+            'ticket_categories.*.order' => ['required', 'integer', 'min:0'],
+            'ticket_categories.*.name' => ['required', 'string', 'max:255'],
         ];
     }
 

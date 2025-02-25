@@ -1,7 +1,7 @@
 <template>
 <Card card-title="Catégories des tickets">
     <p class="text-secondary" :class="{'mb-0': !form.ticket_categories.length}">
-        Les catégories de ticket sont un moyen supplémentaire de trier ces derniers.
+        Les catégories sont un moyen supplémentaire de trier les tickets.
         Vous pouvez créer autant de catégories que vous le souhaitez.
     </p>
     <table class="mb-0 table table-bordered table-hover" v-if="form.ticket_categories.length">
@@ -64,8 +64,9 @@ const reorder_data = () => {
 
 const addCategory = (event) => {
     if(newCategoryName.value !== '' && !event.isComposing){
-        const order = props.form.ticket_categories.length;
-        props.form.ticket_categories.push({order, name:newCategoryName.value});
+        const order = props.form.ticket_categories.length,
+        id = null;
+        props.form.ticket_categories.push({id,order, name:newCategoryName.value});
         newCategoryName.value = '';
     }
 }
