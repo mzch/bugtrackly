@@ -93,7 +93,8 @@ class BugController extends Controller
      */
     public function show(Project $project, Bug $bug): Response
     {
-        $project->load('users');
+        $project->load('users', 'ticket_categories');
+        $project->ticket_categories->makeHidden(['created_at', 'updated_at', 'project_id']);
         $bug->load(['bug_comments', 'bug_logs', 'user_followers']);
         $this->addBreadcrumb($project->name, route('projects.show', $project));
         $this->addBreadcrumb('Bug n°' . $bug->bug_id_formatted, route('projects.show', $project));

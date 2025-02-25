@@ -36,12 +36,25 @@
                             class="btn btn-link px-0 text-sm">{{ change_bug_info_label }}
                     </button>
                     <button v-else type="button" @click="cancel_show_change_bug_props_form"
-                            class="btn btn-link px-0 text-sm">Annuler les changements
+                            class="btn btn-link px-0 text-sm">{{ trans('ticket.notes.cancel_change') }}
                     </button>
                     <TransitionExpand>
                         <div v-if="show_change_bug_props_form">
-                            <div class="row">
-                                <div class="col-md-4">
+                            <div class="row g-2">
+                                <div class="col-md-3">
+                                    <FormField class="form-floating mt-4">
+                                        <FormSelect id="new_bug_cat"
+                                                    :display-select-label-option="false"
+                                                    :select-label="trans('ticket.form.select_new_cat')"
+                                                    :options="ticket_categories_options"
+                                                    :disabled="!user_can_change_bug_ticket_cat"
+                                                    :class="{'is-invalid' :form.errors.ticket_category_id}"
+                                                    v-model="form.ticket_category_id"/>
+                                        <InputLabel for="new_bug_cat" :value="trans('ticket.form.select_new_cat')"/>
+                                        <InputError :message="form.errors.ticket_category_id"/>
+                                    </FormField>
+                                </div>
+                                <div class="col-md-3">
                                     <FormField class="form-floating mt-4">
                                         <FormSelect :select-label="trans('ticket.form.select_new_status')"
                                                     :options="bug_status_options"
@@ -52,7 +65,7 @@
                                         <InputError :message="form.errors.status"/>
                                     </FormField>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <FormField class="form-floating mt-4">
                                         <FormSelect :select-label="trans('ticket.form.select_new_priority')"
                                                     :options="bug_priorities_options"
@@ -62,10 +75,11 @@
                                         <InputError :message="form.errors.priority"/>
                                     </FormField>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <UserAvatarVSelect id="assigned_user"
                                                        :label="trans('ticket.form.assign_user')"
                                                        v-model="form.assigned_user_id"
+                                                       :show-admin-badge="false"
                                                        :disabled="!user_can_change_bug_assigned_user"
                                                        :users="project.users"/>
 
@@ -98,7 +112,7 @@ import {router, useForm, usePage} from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {computed, ref, watch} from "vue";
-import {forEach} from "lodash";
+import {forEach, map} from "lodash";
 import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import {getStatusObject} from "@/Helpers/bug.js";
@@ -125,6 +139,7 @@ const cancel_show_change_bug_props_form = () => {
         priority: bug.value.priority,
         status: bug.value.status,
         assigned_user_id: bug.value.assigned_user_id,
+        ticket_category_id: bug.value.ticket_category_id,
     })
     form.isDirty = false;
     form.reset();
@@ -142,6 +157,9 @@ const bug_priorities_options = computed(() => (
     })
 ))
 const project = computed(() => usePage().props.project)
+const project_has_ticket_categories = computed(() => {
+    return project.value.ticket_categories.length > 0
+})
 const current_user = computed(() => usePage().props.auth.user)
 const form = useForm({
     content: "",
@@ -149,6 +167,7 @@ const form = useForm({
     status: bug.value.status,
     assigned_user_id: bug.value.assigned_user_id,
     files:[],
+    ticket_category_id:bug.value.ticket_category_id,
 })
 
 const user_can_change_bug_statut = computed(() => {
@@ -160,9 +179,13 @@ const user_can_change_bug_priority = computed(() => {
 const user_can_change_bug_assigned_user = computed(() => {
     return hasRole('admin') || [1, 7].includes(bug.value.status) || [1, 7].includes(form.status);
 })
+const user_can_change_bug_ticket_cat = computed(() => {
+    return hasRole('admin') ;
+})
 
 const change_bug_info_label = computed(() => {
     const label_start = trans('ticket.notes.change_note_start'),
+        label_change_category = trans('ticket.notes.change_note_category'),
         label_change_status = trans('ticket.notes.change_note_status'),
         label_change_priority = trans('ticket.notes.change_note_priority'),
         label_change_assigned_user = trans('ticket.notes.change_note_assigned_user'),
@@ -171,6 +194,9 @@ const change_bug_info_label = computed(() => {
     let label_parts = [];
     if (user_can_change_bug_statut.value) {
         label_parts.push(label_change_status)
+    }
+    if(project_has_ticket_categories.value){
+        label_parts.push(label_change_category)
     }
     if (user_can_change_bug_priority.value) {
         label_parts.push(label_change_priority)
@@ -203,15 +229,19 @@ const bug_status_options = computed(() => {
         })
         return [current, ...available]
     }
-
 })
 
+const ticket_categories_options = computed(() => {
+    const defaults = map(project.value.ticket_categories, cat => ({id:cat.id, label:cat.name})) || []
+    return [{id:null, label:trans('ticket_cat_none')}, ...defaults]
+})
 
 const submitResponseHandler = () => {
     const urlParams = route().params;
     const formDataToSend = new FormData();
     formDataToSend.append('content', form.content);
     formDataToSend.append('priority', form.priority);
+    formDataToSend.append('ticket_category_id', form.ticket_category_id=== null ? '' : form.ticket_category_id);
     formDataToSend.append('status', form.status);
     formDataToSend.append('assigned_user_id', form.assigned_user_id === null ? '' : form.assigned_user_id);
 

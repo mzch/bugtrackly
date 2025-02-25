@@ -28,8 +28,8 @@ class Bug extends Model
         'title',
         'priority',
         'status',
-        //  'user_id', //à delete et tester le seeder....
         'assigned_user_id',
+        'ticket_category_id',
     ];
 
     /**
