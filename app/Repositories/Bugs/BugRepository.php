@@ -28,6 +28,7 @@ class BugRepository implements BugRepositoryInterface
             ->bugSearch($request)
             ->filterByStatus($request)
             ->filterByPriority($request)
+            ->filterByCategory($request)
             ->bugOrderBy($request);
 
         // Récupère la liste paginée des bugs

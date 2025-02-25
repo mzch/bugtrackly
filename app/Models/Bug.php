@@ -46,7 +46,8 @@ class Bug extends Model
      */
     protected $with = [
         'user',
-        'assigned_user'
+        'assigned_user',
+        'ticket_category'
     ];
 
     /**
@@ -108,6 +109,11 @@ class Bug extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function ticket_category(): BelongsTo
+    {
+        return $this->belongsTo(TicketCategory::class, 'ticket_category_id');
     }
 
     public function user(): BelongsTo
@@ -225,6 +231,21 @@ class Bug extends Model
             $query->whereHas('project', function ($q) use ($request) {
                 $q->where('slug', $request->get('project'));
             });
+        }
+        return $query;
+    }
+
+    public function scopeFilterByCategory(Builder $query, Request $request): Builder
+    {
+        if ($request->has(['category'])) {
+            $request_category = $request->get('category');
+            if($request_category === "none"){
+                return $query->whereNull('ticket_category_id');
+            }else{
+
+                $categoryId = (int) $request_category;
+                return $query->where('ticket_category_id', $categoryId);
+            }
         }
         return $query;
     }
