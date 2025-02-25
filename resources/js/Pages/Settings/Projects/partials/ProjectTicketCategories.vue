@@ -1,8 +1,7 @@
 <template>
-<Card card-title="Catégories des tickets">
+<Card :card-title="trans('settings.tickets_cat.title')">
     <p class="text-secondary" :class="{'mb-0': !form.ticket_categories.length}">
-        Les catégories sont un moyen supplémentaire de trier les tickets.
-        Vous pouvez créer autant de catégories que vous le souhaitez.
+        {{ trans('settings.tickets_cat.text') }}
     </p>
     <table class="mb-0 table table-bordered table-hover" v-if="form.ticket_categories.length">
         <draggable v-model="form.ticket_categories"
@@ -32,8 +31,10 @@
         <div class="row">
             <div class="col-auto">
                 <div class="input-group">
-                    <TextInput v-model.trim="newCategoryName" @keydown.enter.prevent="addCategory" />
-                    <PrimaryButton type="button" @click.prevent="addCategory" :disabled="newCategoryName===''" :outlined="true">Ajouter la catégorie</PrimaryButton>
+                    <TextInput v-model.trim="newCategoryName" :placeholder="trans('settings.tickets_cat.placeholder')" @keydown.enter.prevent="addCategory" />
+                    <PrimaryButton type="button" @click.prevent="addCategory" :disabled="newCategoryName===''" :outlined="true">
+                        {{trans('settings.tickets_cat.add_label')}}
+                    </PrimaryButton>
                 </div>
             </div>
         </div>
@@ -49,6 +50,7 @@ import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {ref} from "vue";
 import TicketCategoryEdit from "@/Pages/Settings/Projects/partials/form/TicketCategoryEdit.vue";
 import {map} from "lodash";
+import {trans} from "@/Helpers/translations.js";
 const newCategoryName = ref("");
 const indexCatEditing = ref(null);
 const props = defineProps({
