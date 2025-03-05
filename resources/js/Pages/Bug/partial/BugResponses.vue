@@ -41,7 +41,7 @@
                     <TransitionExpand>
                         <div v-if="show_change_bug_props_form">
                             <div class="row g-2">
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-xl-3">
                                     <FormField class="form-floating mt-4">
                                         <FormSelect id="new_bug_cat"
                                                     :display-select-label-option="false"
@@ -54,7 +54,7 @@
                                         <InputError :message="form.errors.ticket_category_id"/>
                                     </FormField>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-xl-3">
                                     <FormField class="form-floating mt-4">
                                         <FormSelect :select-label="trans('ticket.form.select_new_status')"
                                                     :options="bug_status_options"
@@ -65,7 +65,7 @@
                                         <InputError :message="form.errors.status"/>
                                     </FormField>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-xl-3">
                                     <FormField class="form-floating mt-4">
                                         <FormSelect :select-label="trans('ticket.form.select_new_priority')"
                                                     :options="bug_priorities_options"
@@ -75,7 +75,7 @@
                                         <InputError :message="form.errors.priority"/>
                                     </FormField>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-12 col-sm-6 col-xl-3">
                                     <UserAvatarVSelect id="assigned_user"
                                                        :label="trans('ticket.form.assign_user')"
                                                        v-model="form.assigned_user_id"

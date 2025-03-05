@@ -192,6 +192,7 @@ return [
     'ticket.form.desc_label'                       => 'Description',
     'ticket.form.status_label'                     => 'Ticket status',
     'ticket.form.priotity_label'                   => 'Ticket priotity',
+    'ticket.form.category_label'                   => 'Ticket category',
     'ticket.form.add_files_label'                  => 'Adding files',
     'ticket.form.add_files_placeholder'            => 'Attach files by dragging and dropping, selecting or pasting them.',
     'ticket.form.add_files_btn_choose_files'       => 'Choosing files',

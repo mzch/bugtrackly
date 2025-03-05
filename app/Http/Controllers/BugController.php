@@ -34,7 +34,8 @@ class BugController extends Controller
      */
     public function create(Project $project): Response
     {
-        $project->load('users');
+
+        $project->load('users', 'ticket_categories');
         $this->addBreadcrumb($project->name, route('projects.show', $project));
         $this->addBreadcrumb(__('bugtrackly.breadcrumb.create_ticket'), false);
         $data = [

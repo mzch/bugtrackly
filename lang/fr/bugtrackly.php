@@ -192,6 +192,7 @@ return [
     'ticket.form.desc_label'                       => 'Description',
     'ticket.form.status_label'                     => 'Statut du ticket',
     'ticket.form.priotity_label'                   => 'Priorité du ticket',
+    'ticket.form.category_label'                   => 'Catégorie du ticket',
     'ticket.form.add_files_label'                  => 'Ajouter des fichiers',
     'ticket.form.add_files_placeholder'            => 'Joignez les fichiers en les glissant-déposant, en les sélectionnant ou en les collant.',
     'ticket.form.add_files_btn_choose_files'       => 'Choisir des fichiers',
