@@ -12,6 +12,8 @@ use App\Repositories\Projects\ProjectRepository;
 use App\Repositories\Projects\ProjectRepositoryInterface;
 use App\Repositories\RolesPersmissions\RolesPermissionsRepository;
 use App\Repositories\RolesPersmissions\RolesPersmissionsRepositoryInterface;
+use App\Repositories\TicketCategory\TicketCategoriesRepository;
+use App\Repositories\TicketCategory\TicketCategoriesRepositoryInterface;
 use App\Repositories\Users\UserRepository;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Support\Facades\Vite;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(BugInfosRepositoryInterface::class, BugInfosRepository::class);
         $this->app->bind(BugRepositoryInterface::class, BugRepository::class);
         $this->app->bind(LocaleRepositoryInterface::class, LocaleRepository::class);
+        $this->app->bind(TicketCategoriesRepositoryInterface::class, TicketCategoriesRepository::class);
     }
 
     /**
