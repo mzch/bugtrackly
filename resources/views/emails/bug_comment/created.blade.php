@@ -16,6 +16,13 @@
 @if($dataMail['status'])
 - {{__('emails.bug.updated.change_status', ['old' => $dataMail['status']['old']['label'], 'new' => $dataMail['status']['new']['label']])}}
 @endif
+@if($dataMail['category'])
+@if($dataMail['category']['new'] !== null)
+- {{__('emails.bug.ticket_cat_to')}} **{{$dataMail['category']['new']->name}}**
+@else
+- {{__('emails.bug.ticket_cat_to')}} **{{__('emails.bug.updated.no_category')}}**
+@endif
+@endif
 @if($dataMail['priority'])
 - {{__('emails.bug.updated.change_priotity', ['old' => $dataMail['priority']['old']['label'], 'new' => $dataMail['priority']['new']['label']])}}
 @endif

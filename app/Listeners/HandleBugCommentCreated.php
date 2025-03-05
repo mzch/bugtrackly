@@ -88,7 +88,6 @@ class HandleBugCommentCreated
             ]);
         }
 
-        // todo :Has the category of the bug changed ?
         if (array_key_exists("ticket_category_id", $change)) {
             $old_cat = null;
             if ($original["ticket_category_id"]) {
