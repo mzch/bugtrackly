@@ -33,7 +33,7 @@ class HandleBugCreated
         $ticketCategory = $event->ticketCategory;
 
         $this->log_history($bug, $assigned_user, $ticketCategory);
-        $this->notify_users($project, $assigned_user, $bug, $bugComment, $files);
+        $this->notify_users($project, $assigned_user, $bug, $bugComment, $files, $ticketCategory);
     }
 
     /**
@@ -98,9 +98,10 @@ class HandleBugCreated
      * @param $bug
      * @param $bugComment
      * @param $files
+     * @param $ticketCategory
      * @return void
      */
-    private function notify_users($project, $assigned_user, $bug, $bugComment, $files)
+    private function notify_users($project, $assigned_user, $bug, $bugComment, $files, $ticketCategory): void
     {
         // Administrators other than the one who just wrote the bug
         $usersToNotify = $project
