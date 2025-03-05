@@ -2,6 +2,7 @@
 <Card :card-title="card_title" :card-icon="card_icon" card-icon-class="text-status-in_progress" class="mb-4">
     <template #cardHeaderAction>
         <div class="col-auto ms-auto">
+            <BadgeTicketCategory class="me-1" :bug="bug" v-if="projects_has_tickets_categories"/>
             <BagdeStatusBug class="me-1" :bug="bug"/>
             <BadgePriorityBug :extended-label="true" :bug="bug"/>
         </div>
@@ -128,6 +129,7 @@ import BugFollowers from "@/Components/ui/bug/BugFollowers.vue";
 import UserAvatar from "@/Pages/Settings/Users/partials/form/UserAvatar.vue";
 import BugAssignedUser from "@/Components/ui/bug/BugAssignedUser.vue";
 import {trans} from "../../../Helpers/translations.js";
+import BadgeTicketCategory from "@/Components/ui/bug/BadgeTicketCategory.vue";
 const store = useStore();
 const editing_bug_part = computed(()=> store.getters['bug/editingBug'])
 const props = defineProps({
@@ -144,7 +146,7 @@ const props = defineProps({
         required: true,
     }
 })
-
+const projects_has_tickets_categories = computed(() => props.project.ticket_categories.length > 0)
 const show_bug_submenu = ref(false);
 let timer = null;
 const showBugSubMenuHandler = () => {

@@ -95,10 +95,7 @@
                             </p>
                         </td>
                         <td class="text-center align-middle" v-if="projects_has_tickets_categories">
-                            <span class="badge text-bg-light" v-if="bug.ticket_category">
-                                <TagIcon class="size-sm"/>
-                                {{bug.ticket_category.name}}
-                            </span>
+                            <BadgeTicketCategory class="me-1" :bug="bug" v-if="bug.ticket_category"/>
                             <span v-else>-</span>
                         </td>
                         <td class="align-middle">
@@ -155,6 +152,7 @@ import {bug_priority_class, getPriorityObject, nb_notes, nb_notes_labels} from "
 import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
 import {trans, trans_choice} from "../../Helpers/translations.js";
+import BadgeTicketCategory from "@/Components/ui/bug/BadgeTicketCategory.vue";
 
 const props = defineProps({
     project: {
