@@ -9,6 +9,16 @@
         </template>
         <Card :card-title="trans('project.show.ticket_list_title')" :remove-body-padding="true">
             <template #cardHeaderAction>
+                <template v-if="projects_has_tickets_categories">
+                    <InputLabel for="category_filter" class="col-auto col-form-label col-form-label-sm">
+                        {{trans('tickets_list.filters.category') }}
+                    </InputLabel>
+                    <FormSelect id="category_filter"
+                                class="col-auto form-select-sm w-auto me-1"
+                                :options="tickets_categories_options"
+                                :display-select-label-option="false"
+                                v-model="params.category"/>
+                </template>
                 <InputLabel for="priority_filter" class="col-auto col-form-label col-form-label-sm">
                     {{ trans('tickets_list.filters.priority') }}
                 </InputLabel>
@@ -47,6 +57,10 @@
                         <th :class="sortingClass('title', params)" @click="sort('title')">
                             {{ trans('tickets_list.headings.title') }}
                         </th>
+                        <th v-if="projects_has_tickets_categories"
+                            :class="sortingClass('category', params)" @click="sort('category')">
+                            {{trans('tickets_list.headings.category')}}
+                        </th>
                         <th :class="sortingClass('status', params)" @click="sort('status')">
                             {{ trans('tickets_list.headings.status') }}
                         </th>
@@ -79,6 +93,10 @@
                                 </small>
 
                             </p>
+                        </td>
+                        <td class="text-center align-middle" v-if="projects_has_tickets_categories">
+                            <BadgeTicketCategory class="me-1" :bug="bug" v-if="bug.ticket_category"/>
+                            <span v-else>-</span>
                         </td>
                         <td class="align-middle">
                             <BagdeStatusBug :bug="bug"/>
@@ -116,7 +134,7 @@
 <script setup>
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
+import {PlusCircleIcon, TagIcon} from "@heroicons/vue/24/outline/index.js";
 import Card from "@/Components/ui/Card.vue";
 import {computed, onMounted, onUnmounted, ref, watch} from "vue";
 import {router, Link, usePage} from "@inertiajs/vue3";
@@ -126,7 +144,7 @@ import Pagination from "@/Components/ui/Pagination.vue";
 import InputLabel from "@/Components/ui/form/InputLabel.vue";
 import TextInput from "@/Components/ui/form/TextInput.vue";
 import {sortingClass} from "@/Helpers/datatable.js";
-import {pickBy, throttle} from "lodash";
+import {map, pickBy, throttle} from "lodash";
 import FormSelect from "@/Components/ui/form/FormSelect.vue";
 import Avatar from "@/Components/ui/user/avatar.vue";
 import {StarIcon} from "@heroicons/vue/24/solid/index.js";
@@ -134,6 +152,7 @@ import {bug_priority_class, getPriorityObject, nb_notes, nb_notes_labels} from "
 import {ChatBubbleLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import {disposeToolTips, enableToolTips} from "@/Helpers/bs_tooltips.js";
 import {trans, trans_choice} from "../../Helpers/translations.js";
+import BadgeTicketCategory from "@/Components/ui/bug/BadgeTicketCategory.vue";
 
 const props = defineProps({
     project: {
@@ -154,16 +173,22 @@ const props = defineProps({
     }
 })
 
+const projects_has_tickets_categories = computed(() => props.project.ticket_categories.length > 0)
+const tickets_categories_options = computed(() => {
+    const ticket_categories = map(props.project.ticket_categories, cat => ({id:cat.id, label:cat.name})) || [];
+    return [{id:null, label:trans('ticket_cat_all')}, ...ticket_categories, {id:'none', label: trans('ticket_cat_none')}];
+});
+
 const priorities_options = computed(() => {
     const priorities = props.bug_priorities || [];
     const priorities_opt = priorities.map(p => ({id: p.slug, label: p.label}));
-    return [...[{id: null, label: 'Toutes'}], ...priorities_opt];
+    return [...[{id: null, label: trans('ticket_priority_all')}], ...priorities_opt];
 });
 
 const status_options = computed(() => {
     const status = props.bug_status || [];
     const status_opt = status.map(s => ({id: s.slug, label: s.label}));
-    return [...[{id: 'all', label: 'Tous'}, {id: null, label: 'Ouvert'}], ...status_opt];
+    return [...[{id: 'all', label: trans('ticket_status_all')}, {id: null, label: trans('ticket_status_opened')}], ...status_opt];
 });
 
 /**
@@ -181,7 +206,8 @@ const params = ref({
     priority: filters.value.priority,
     status: filters.value.status,
     field: filters.value.field,
-    direction: filters.value.direction
+    direction: filters.value.direction,
+    category:filters.value.category,
 });
 
 const no_result = computed(() => filters.value.search !== null ? trans('tickets_list.none_found') : trans('tickets_list.none_saved'))
@@ -201,8 +227,9 @@ const sort = (field) => {
  */
 watch(params, throttle(function () {
     //clean empty params
+    console.log(params.value);
     const my_params = pickBy(params.value);
-
+    console.log(my_params);
     //request
     router.get(route('projects.show', props.project.slug), my_params, {replace: true, preserveState: true})
 }, 300), {deep: true})

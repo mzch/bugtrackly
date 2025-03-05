@@ -6,6 +6,7 @@ use App\Http\Requests\Settings\Projects\DeleteProjectRequest;
 use App\Http\Requests\Settings\Projects\StoreProjectRequest;
 use App\Http\Requests\Settings\Projects\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\TicketCategory;
 use App\Models\User;
 use App\Repositories\Projects\ProjectRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
@@ -69,7 +70,6 @@ class ProjectController extends SettingsController
      */
     public function store(StoreProjectRequest $request)
     {
-        //
         $validated = $request->validated();
         $project = Project::create([
             'name'       => $validated['name'],
@@ -80,7 +80,13 @@ class ProjectController extends SettingsController
         if ($photo = $request->validated("photo")) {
             $project->updateProjectPhoto($photo);
         }
+
+        // Associating users to the project
         $project->users()->sync($validated['users']);
+
+        // Associating ticket categories to the project
+        $project->ticket_categories()->createMany($validated['ticket_categories']);
+
         $flash_notification = [
             "title" => __('flash_bugtrackly.project_created_title'),
             "text" => __('flash_bugtrackly.project_created_desc', ['project_name' => $project->name]),
@@ -93,7 +99,8 @@ class ProjectController extends SettingsController
      */
     public function show(Project $project)
     {
-        $project->load('users');
+        $project->load(['users', 'ticket_categories']);
+        $project->ticket_categories->makeHidden(['created_at', 'updated_at', 'project_id']);
         $this->addBreadcrumb(__('bugtrackly.settings.projects.edit.breadcrumb'), route('settings.projects.create'));
         $data = [
             'project' => $project,
@@ -122,6 +129,27 @@ class ProjectController extends SettingsController
         }
         if ($request->validated("delete_old_photo")) {
             $project->deleteProjectPhoto();
+        }
+
+        // Categories de tickets
+        $sentCategoryIds = collect($validated['ticket_categories'])->pluck('id')->filter()->toArray();
+        // Supprimer les catégories qui ne sont plus dans la liste
+        $project->ticket_categories()->whereNotIn('id', $sentCategoryIds)->delete();
+
+        foreach ($validated['ticket_categories'] as $categoryData) {
+            if (isset($categoryData['id'])) {
+                // Mise à jour si l'ID existe
+                TicketCategory::where('id', $categoryData['id'])->update([
+                    'name' => $categoryData['name'],
+                    'order' => $categoryData['order'],
+                ]);
+            } else {
+                // Création d'une nouvelle catégorie
+                $project->ticket_categories()->create([
+                    'name' => $categoryData['name'],
+                    'order' => $categoryData['order'],
+                ]);
+            }
         }
 
         $flash_notification = [

@@ -28,8 +28,8 @@ class Bug extends Model
         'title',
         'priority',
         'status',
-        //  'user_id', //à delete et tester le seeder....
         'assigned_user_id',
+        'ticket_category_id',
     ];
 
     /**
@@ -46,7 +46,8 @@ class Bug extends Model
      */
     protected $with = [
         'user',
-        'assigned_user'
+        'assigned_user',
+        'ticket_category'
     ];
 
     /**
@@ -108,6 +109,11 @@ class Bug extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    public function ticket_category(): BelongsTo
+    {
+        return $this->belongsTo(TicketCategory::class, 'ticket_category_id');
     }
 
     public function user(): BelongsTo
@@ -229,6 +235,21 @@ class Bug extends Model
         return $query;
     }
 
+    public function scopeFilterByCategory(Builder $query, Request $request): Builder
+    {
+        if ($request->has(['category'])) {
+            $request_category = $request->get('category');
+            if($request_category === "none"){
+                return $query->whereNull('ticket_category_id');
+            }else{
+
+                $categoryId = (int) $request_category;
+                return $query->where('ticket_category_id', $categoryId);
+            }
+        }
+        return $query;
+    }
+
     /**
      * Scope pour ordonner les bugs
      * @param Builder $query
@@ -248,6 +269,14 @@ class Bug extends Model
                         Project::select('name')
                             ->whereColumn('projects.id', 'bugs.project_id') // Liaison
                             ->limit(1),
+                        $request->direction
+                    );
+                    return $query;
+                case "category" :
+                    $query->orderBy(
+                        TicketCategory::select('order')
+                        ->whereColumn('ticket_categories.id', 'bugs.ticket_category_id')
+                        ->limit(1),
                         $request->direction
                     );
                     return $query;

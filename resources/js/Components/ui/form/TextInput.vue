@@ -14,7 +14,7 @@ onMounted(() => {
     }
 });
 
-defineExpose({ focus: () => input.value.focus() });
+defineExpose({ focus: () => input.value.focus(), input });
 </script>
 
 <template>
