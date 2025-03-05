@@ -10,9 +10,11 @@ use App\Http\Requests\Bug\UpdateBugStatusRequest;
 use App\Models\Bug;
 use App\Models\BugComment;
 use App\Models\Project;
+use App\Models\TicketCategory;
 use App\Models\User;
 use App\Notifications\Bug\BugCreatedNotification;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
+use App\Repositories\TicketCategory\TicketCategoriesRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,6 +25,7 @@ class BugController extends Controller
 
     public function __construct(
         protected BugInfosRepositoryInterface $bug_infos_repository,
+        protected TicketCategoriesRepositoryInterface $ticket_categories_repository,
     )
     {
     }
@@ -76,8 +79,13 @@ class BugController extends Controller
         if ($request->validated('assigned_user_id')) {
             $assignedUser = User::where('id', $request->validated('assigned_user_id'))->first();
         }
+
+        $ticketCategory = null;
+        if($request->validated('ticket_category_id')) {
+            $ticketCategory = $this->ticket_categories_repository->getTicketCategoryById($request->validated('ticket_category_id'));
+        }
         // Trigger the BugCreated event
-        BugCreated::dispatch($project, $bug, $bugComment, $assignedUser, $files);
+        BugCreated::dispatch($project, $bug, $bugComment, $assignedUser, $files, $ticketCategory);
 
         $flash_notification = [
             "title" => __('flash_bugtrackly.ticket_created_title'),

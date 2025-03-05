@@ -30,8 +30,9 @@ class HandleBugCreated
         $assigned_user = $event->assigned_user;
         $project = $event->project;
         $files = $event->files;
+        $ticketCategory = $event->ticketCategory;
 
-        $this->log_history($bug, $assigned_user);
+        $this->log_history($bug, $assigned_user, $ticketCategory);
         $this->notify_users($project, $assigned_user, $bug, $bugComment, $files);
     }
 
@@ -41,7 +42,7 @@ class HandleBugCreated
      * @param $assigned_user
      * @return void
      */
-    private function log_history($bug, $assigned_user)
+    private function log_history($bug, $assigned_user, $ticketCategory)
     {
         // The message ‘Creation of a new bug’ is logged in the bug history.
         BugLog::create([
@@ -49,6 +50,15 @@ class HandleBugCreated
             'user_id' => $bug->user_id,
             'action'  => __('bugtrackly.log.new_ticket_action'), //"",
         ]);
+
+        if($ticketCategory){
+            BugLog::create([
+                'bug_id'  => $bug->id,
+                'user_id' => $bug->user_id,
+                'action'  => __('bugtrackly.tickets_list.headings.category'),
+                'details' => " => " . $ticketCategory->name,
+            ]);
+        }
 
         // We log the bug's priority in the bug history
         $new_priority = $this->bug_infos_repository->getBugPriorityById($bug->priority);
