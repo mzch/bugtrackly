@@ -21,6 +21,7 @@
             <div class="row gx-5">
                 <div class="col-12">
                     <ProjectIdentity :form="form" class="mb-4"/>
+                    <ProjectTicketCategories :form="form" class="mb-4"/>
                     <ProjectUsers :form="form"/>
                 </div>
             </div>
@@ -38,6 +39,7 @@ import {computed} from "vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import ProjectUsers from "@/Pages/Settings/Projects/partials/form/ProjectUsers.vue";
 import {trans} from "@/Helpers/translations.js";
+import ProjectTicketCategories from "@/Pages/Settings/Projects/partials/ProjectTicketCategories.vue";
 
 const props = defineProps({
     project: {
@@ -52,6 +54,7 @@ const form = useForm({
     short_desc: props.project.short_desc,
     photo: null,
     users:users_for_project.value,
+    ticket_categories:props.project.ticket_categories,
     delete_old_photo: false,
 });
 

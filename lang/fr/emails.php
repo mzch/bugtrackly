@@ -18,6 +18,7 @@ return [
     'bug.created.priority'        => 'Priorité :',
     'bug.created.status'          => 'Statut :',
     'bug.created.assigned_to'     => 'Assignée à :',
+    'bug.ticket_cat_to'           => 'Catégorie :',
     'bug.created.attachedFiles'   => 'fichiers joints :',
     'bug.created.attachedFile'    => 'fichier joint :',
     'bug.created.bug_title'       => 'Titre',
@@ -31,4 +32,5 @@ return [
     'bug.updated.change_status'   => 'Statut changé de **:old** à **:new**',
     'bug.updated.change_priotity' => 'Priorité changée de **:old** à **:new**',
     'bug.updated.no_assigned'     => 'Aucun',
+    'bug.updated.no_category'     => 'Aucune',
 ];

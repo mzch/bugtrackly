@@ -6,6 +6,7 @@ use App\Events\BugCommentCreated;
 use App\Models\BugLog;
 use App\Notifications\Bug\BugCommentCreatedNotification;
 use App\Repositories\BugInfos\BugInfosRepositoryInterface;
+use App\Repositories\TicketCategory\TicketCategoriesRepository;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,7 +19,8 @@ class HandleBugCommentCreated
      */
     public function __construct(
         protected BugInfosRepositoryInterface $bug_infos_repository,
-        protected UserRepositoryInterface     $user_repository
+        protected UserRepositoryInterface     $user_repository,
+        protected TicketCategoriesRepository $ticketCategoriesRepository
     )
     {
         //
@@ -42,6 +44,7 @@ class HandleBugCommentCreated
             'priority' => false,
             'status' => false,
             'assigned_user' => false,
+            'category' => false,
             'files' => $files,
         ];
 
@@ -82,6 +85,33 @@ class HandleBugCommentCreated
                 'user_id' => auth()->id(),
                 'action'  => __('bugtrackly.tickets_list.headings.status'),
                 'details' => $old_status['label'] . " => " . $new_status['label']
+            ]);
+        }
+
+        if (array_key_exists("ticket_category_id", $change)) {
+            $old_cat = null;
+            if ($original["ticket_category_id"]) {
+                $old_cat = $this->ticketCategoriesRepository->getTicketCategoryById($original["ticket_category_id"]);
+            }
+            $new_cat = null;
+            if ($change["ticket_category_id"]) {
+                $new_cat = $this->ticketCategoriesRepository->getTicketCategoryById($change["ticket_category_id"]);
+            }
+            $dataMail['category'] = ['old' => $old_cat, 'new' => $new_cat];
+
+            if ($old_cat && $new_cat) {
+                $str = $old_cat->name . " => " . $new_cat->name;
+            } elseif ($old_cat === null && $new_cat) {
+                $str = " => " . $new_cat->name;
+            } else {
+                $str = $old_cat->name . " => (" . __('bugtrackly.ticket_cat_none') . ")";
+            }
+            //
+            BugLog::create([
+                'bug_id'  => $bug->id,
+                'user_id' => auth()->id(),
+                'action'  => __('bugtrackly.tickets_list.headings.category'),
+                'details' => $str
             ]);
         }
 

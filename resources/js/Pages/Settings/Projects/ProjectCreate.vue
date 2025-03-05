@@ -23,6 +23,7 @@
             <div class="row gx-5">
                 <div class="col-12">
                     <ProjectIdentity :form="form" class="mb-4"/>
+                    <ProjectTicketCategories :form="form" class="mb-4"/>
                     <ProjectUsers :form="form"/>
                 </div>
             </div>
@@ -32,20 +33,22 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
-import {Link, useForm} from "@inertiajs/vue3";
+import {Link, useForm, usePage} from "@inertiajs/vue3";
 import FormCard from "@/Components/ui/FormCard.vue";
 import PrimaryButton from "@/Components/ui/form/PrimaryButton.vue";
 import {computed} from "vue";
 import ProjectIdentity from "@/Pages/Settings/Projects/partials/form/ProjectIdentity.vue";
 import {trans} from "@/Helpers/translations.js";
 import ProjectUsers from "@/Pages/Settings/Projects/partials/form/ProjectUsers.vue";
+import ProjectTicketCategories from "@/Pages/Settings/Projects/partials/ProjectTicketCategories.vue";
 
 const form = useForm({
     name: null,
     slug: null,
     short_desc: null,
     photo: null,
-    users:[],
+    users:[usePage().props.auth.user.id],
+    ticket_categories:[]
 });
 
 const submitButtonDisabled = computed(() => form.processing || !form.isDirty);

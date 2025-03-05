@@ -43,6 +43,18 @@
             </div>
 
             <div class="row">
+                <div :class="nb_col_infos_bug">
+                    <FormField class="form-floating mt-4">
+                        <FormSelect id="bug_cat"
+                                    :display-select-label-option="false"
+                                    :select-label="trans('ticket.form.category_label')"
+                                    :options="ticket_categories_options"
+                                    :class="{'is-invalid' :form.errors.ticket_category_id}"
+                                    v-model="form.ticket_category_id"/>
+                        <InputLabel for="new_bug_cat" :value="trans('ticket.form.category_label')"/>
+                        <InputError :message="form.errors.ticket_category_id"/>
+                    </FormField>
+                </div>
                 <div :class="nb_col_infos_bug" v-if="hasRole('admin')">
                     <FormField class="form-floating mt-4">
                         <FormSelect id="bug_status" :options="status_options" v-model.number="form.status"/>
@@ -88,6 +100,7 @@ import UserAvatarVSelect from "@/Components/ui/user/UserAvatarVSelect.vue";
 import {hasRole} from "@/Helpers/users.js";
 import BugUploadFiles from "@/Pages/Bug/partial/BugUploadFiles.vue";
 import {trans} from "../../Helpers/translations.js";
+import {map} from "lodash";
 
 const props = defineProps({
     project:{
@@ -109,6 +122,7 @@ const form = useForm({
     content:"",
     status:1,
     priority:3,
+    ticket_category_id:null,
     files:[],
 })
 
@@ -122,7 +136,12 @@ const status_options = computed(() => {
     return status.map(p => ({id: p.id, label: p.label}));
 });
 
-const nb_col_infos_bug = computed(() => hasRole('admin') ? "col-md-4" : "col-md-6");
+const ticket_categories_options = computed(() => {
+    const defaults = map(props.project.ticket_categories, cat => ({id:cat.id, label:cat.name})) || []
+    return [{id:null, label:trans('ticket_cat_none')}, ...defaults]
+})
+
+const nb_col_infos_bug = computed(() => hasRole('admin') ? "col-12 col-sm-6 col-xl-3" : "col-12 col-md-6 col-xl-4");
 
 const createBugHandler = () => {
     form.post(route('projects.bug.store', props.project.slug), {

@@ -4,6 +4,9 @@
 ---
 - {{__('emails.bug.created.reported_by')}} **{{$bug->user->full_name}}**
 - {{__('emails.bug.created.priority')}} **{{$priority['label']}}**
+@if($bug->ticket_category_id)
+- {{__('emails.bug.ticket_cat_to')}} **{{$bug->ticket_category->name}}**
+@endif
 - {{__('emails.bug.created.status')}} **{{$status['label']}}**
 @if($bug->assigned_user_id)
 - {{__('emails.bug.created.assigned_to')}} **{{$bug->assigned_user->full_name}}**

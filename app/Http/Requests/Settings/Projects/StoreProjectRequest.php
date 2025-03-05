@@ -28,6 +28,9 @@ class StoreProjectRequest extends FormRequest
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:1024'],
             'users' => ['array'],
             'users.*' => ['integer', 'exists:users,id'],
+            'ticket_categories' => ['array'],
+            'ticket_categories.*.order' => ['required', 'integer', 'min:0'],
+            'ticket_categories.*.name' => ['required', 'string', 'max:255'],
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Events;
 use App\Models\Bug;
 use App\Models\BugComment;
 use App\Models\Project;
+use App\Models\TicketCategory;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -26,7 +27,8 @@ class BugCreated
         public Bug $bug,
         public BugComment $bugComment,
         public ?User $assigned_user,
-        public array $files)
+        public array $files,
+        public ?TicketCategory $ticketCategory)
     {
     }
 
